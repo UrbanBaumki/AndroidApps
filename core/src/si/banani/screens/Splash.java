@@ -35,7 +35,7 @@ public class Splash implements Screen {
 
         batch.begin();
         img.draw(batch);
-        Tweener.fadeInFadeOut(img, delta, 2);
+        Tweener.fadeInFadeOut(img, delta, 0.5);
 
         batch.end();
     }
@@ -63,6 +63,6 @@ public class Splash implements Screen {
     @Override
     public void dispose() {
         this.batch.dispose();
-
+        this.img.getTexture().dispose();
     }
 }

@@ -1,3 +1,0 @@
-CHANGED,E:\Users\Urban\AndroidStudioProjects\Bts\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\si\banani\screens\Splash$override.class
-CHANGED,E:\Users\Urban\AndroidStudioProjects\Bts\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\si\banani\si\banani\screens\fades\Tweener$override.class
-CHANGED,E:\Users\Urban\AndroidStudioProjects\Bts\android\build\intermediates\transforms\instantRun\debug\folders\4000\5\enhanced\com\android\tools\fd\runtime\AppPatchesLoaderImpl.class
