@@ -23,7 +23,7 @@ public class Splash implements Screen {
         //First method called when screen opened
         this.batch = new SpriteBatch();
 
-        this.img = new Sprite(new Texture(Gdx.files.internal("badlogic.jpg")));
+        this.img = new Sprite(new Texture(Gdx.files.internal("splash.jpg")));
         this.img.setSize( Gdx.graphics.getWidth() , Gdx.graphics.getHeight() );
         this.img.setAlpha(0f);
     }

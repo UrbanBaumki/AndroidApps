@@ -7,17 +7,8 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="103c57259e1e718c855777680c604437bd97c5c2">
+        sha1="9046f1b5307e26dd81f28afcc7b684031911acd5">
         <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\instant-run_6b2a368663feaec71881bcd24696b2049999cf02.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="8e67b6bb6f5060ad694555ad3415332944b504a7">
-        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\instant-run-bootstrap_0bfaf888b8624f014d9d863aa806834d09b78db9.jar" />
     </item>
     <item
         is-multidex="false"
@@ -27,6 +18,15 @@
         revision="24.0.3"
         sha1="4b4b7962d1bc75af0438f5c81ec1010557bc9ee5">
         <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\gdx-1.9.4_2bafea79ac432ce42bee6142f8acbf2925f5b4a1.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="46495576347bdbeb40f6cbad554dab9f891aece7">
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\instant-run-bootstrap_0bfaf888b8624f014d9d863aa806834d09b78db9.jar" />
     </item>
     <item
         is-multidex="false"
