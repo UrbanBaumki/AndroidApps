@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
+import si.banani.si.banani.screens.fades.FadeEnums;
 import si.banani.si.banani.screens.fades.Tweener;
 
 /**
@@ -17,7 +19,6 @@ public class Splash implements Screen {
     private SpriteBatch batch;
     private Sprite img;
 
-
     @Override
     public void show() {
         //First method called when screen opened
@@ -25,7 +26,13 @@ public class Splash implements Screen {
 
         this.img = new Sprite(new Texture(Gdx.files.internal("splash.jpg")));
         this.img.setSize( Gdx.graphics.getWidth() , Gdx.graphics.getHeight() );
-        this.img.setAlpha(0f);
+
+        Tweener.setAnimForSprite(this.img);
+        Tweener.fifoEffect(FadeEnums.FADE_IN, 1500);
+        Tweener.fifoEffect(FadeEnums.SLEEP, 2000);
+        Tweener.fifoEffect(FadeEnums.FADE_OUT, 1500);
+        Tweener.setScreenChange(ScreenEnums.MAIN_MENU);
+        Tweener.start();
     }
 
     @Override
@@ -35,8 +42,7 @@ public class Splash implements Screen {
 
         batch.begin();
         img.draw(batch);
-        Tweener.fadeInFadeOut(img, delta, 0.5);
-
+        Tweener.update(System.currentTimeMillis());
         batch.end();
     }
 

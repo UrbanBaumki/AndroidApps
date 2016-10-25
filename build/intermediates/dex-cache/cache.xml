@@ -2,49 +2,49 @@
 <items version="2" >
 
     <item
-        is-multidex="false"
-        jar="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="9046f1b5307e26dd81f28afcc7b684031911acd5">
-        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\instant-run_6b2a368663feaec71881bcd24696b2049999cf02.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Urban\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.9.4\4b4b7962d1bc75af0438f5c81ec1010557bc9ee5\gdx-1.9.4.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.3"
-        sha1="4b4b7962d1bc75af0438f5c81ec1010557bc9ee5">
-        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\gdx-1.9.4_2bafea79ac432ce42bee6142f8acbf2925f5b4a1.jar" />
-    </item>
-    <item
-        is-multidex="false"
+        is-multidex="true"
         jar="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
-        sha1="46495576347bdbeb40f6cbad554dab9f891aece7">
-        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\instant-run-bootstrap_0bfaf888b8624f014d9d863aa806834d09b78db9.jar" />
+        sha1="0b68191e9893d03c6cecfadf3fabbb822ddd2c30">
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_0bfaf888b8624f014d9d863aa806834d09b78db9\classes.dex" />
     </item>
     <item
-        is-multidex="false"
+        is-multidex="true"
         jar="C:\Users\Urban\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-box2d\1.9.4\98a0d25c9f0637fecac6e4aacf7287aa635964f5\gdx-box2d-1.9.4.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="98a0d25c9f0637fecac6e4aacf7287aa635964f5">
-        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.9.4_4ffaf1f41a6cf4bfdcc3c0c2721ab8d718c48c18.jar" />
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\transforms\dex\debug\folders\1000\10\gdx-box2d-1.9.4_4ffaf1f41a6cf4bfdcc3c0c2721ab8d718c48c18\classes.dex" />
     </item>
     <item
-        is-multidex="false"
+        is-multidex="true"
         jar="C:\Users\Urban\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx-backend-android\1.9.4\194b33382d6d58fad031521ba3331d926c476c9b\gdx-backend-android-1.9.4.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.3"
         sha1="194b33382d6d58fad031521ba3331d926c476c9b">
-        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.9.4_385b8b99c5294c158db50ee7c4243eee2be43a67.jar" />
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\transforms\dex\debug\folders\1000\10\gdx-backend-android-1.9.4_385b8b99c5294c158db50ee7c4243eee2be43a67\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Urban\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.9.4\4b4b7962d1bc75af0438f5c81ec1010557bc9ee5\gdx-1.9.4.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="4b4b7962d1bc75af0438f5c81ec1010557bc9ee5">
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\transforms\dex\debug\folders\1000\10\gdx-1.9.4_2bafea79ac432ce42bee6142f8acbf2925f5b4a1\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.3"
+        sha1="976d250327c0d460bee244a52816d2520885d5ea">
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_6b2a368663feaec71881bcd24696b2049999cf02\classes.dex" />
     </item>
 
 </items>

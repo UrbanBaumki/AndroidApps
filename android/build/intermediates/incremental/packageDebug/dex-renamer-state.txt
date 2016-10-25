@@ -1,4 +1,7 @@
-#Wed Oct 19 11:58:06 CEST 2016
-base.0=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
-renamed.0=classes.dex
-file.0=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex
+#Wed Oct 26 01:40:05 CEST 2016
+base.0=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_6b2a368663feaec71881bcd24696b2049999cf02
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_0bfaf888b8624f014d9d863aa806834d09b78db9\\classes.dex
+base.1=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_0bfaf888b8624f014d9d863aa806834d09b78db9
+file.0=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_6b2a368663feaec71881bcd24696b2049999cf02\\classes.dex

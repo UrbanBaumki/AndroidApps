@@ -1,18 +1,21 @@
 #Internal package file, do not edit.
-#Wed Oct 19 11:57:54 CEST 2016
-1.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug
-4.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_\\AndroidManifest.xml
-1.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug\\badlogic.jpg
-4.set=ANDROID_RESOURCE
-2.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_
-3.set=ASSET
-2.set=ANDROID_RESOURCE
-2.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_\\resources.arsc
-count=5
-1.set=ASSET
-3.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug
-0.set=ANDROID_RESOURCE
-0.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_
-3.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug\\splash.jpg
+#Wed Oct 26 01:39:54 CEST 2016
+2.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug
+5.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_\\AndroidManifest.xml
+5.set=ANDROID_RESOURCE
+3.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_
+2.set=ASSET
+4.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug
+count=6
 0.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_\\res\\drawable-xxhdpi-v4\\ic_launcher.png
-4.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_
+5.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_
+4.set=ASSET
+1.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug\\badlogic.jpg
+1.set=ASSET
+2.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug\\left.png
+0.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_
+3.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\res\\resources-debug.ap_\\resources.arsc
+3.set=ANDROID_RESOURCE
+1.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug
+4.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\assets\\debug\\splash.jpg
+0.set=ANDROID_RESOURCE
