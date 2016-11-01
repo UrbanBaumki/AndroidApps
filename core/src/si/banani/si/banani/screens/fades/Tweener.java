@@ -62,6 +62,10 @@ public class Tweener {
         isRunning = false;
         start();
     }
+
+    /*
+        Sets the new Screen class to be displayed after effects queue is finished animating.
+     */
     public static void setScreenChange(ScreenEnums screen){
         commitScreenChange = true;
         change = screen;
@@ -91,7 +95,17 @@ public class Tweener {
         if(isFinished())
             ScreenManager.getInstance().changeScreens(screen);
     }
+    /*
+        Function resets the settings/clears effects queue.
+     */
+    public static void reset(){
+        effects = new ArrayList<Effect>();
+        isRunning = false;
+        finished = false;
+        currEffect = 0;
+    }
     public static boolean isFinished(){ return finished; }
+
 
 
 }

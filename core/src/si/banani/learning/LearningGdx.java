@@ -16,7 +16,7 @@ public class LearningGdx extends Game {
 	@Override
 	public void create () {
 		ScreenManager.getInstance().bindWithMainGameClass(this);
-		ScreenManager.getInstance().changeScreens(ScreenEnums.SPLASH);
+		ScreenManager.getInstance().changeScreens(ScreenEnums.MAIN_MENU);
 	}
 	@Override
 	public void render () {

@@ -27,7 +27,10 @@ public class ScreenManager {
         if(scmInstance == null) scmInstance = new ScreenManager();
         return scmInstance;
     }
-
+    /*
+        Initializer, to retrieve the main Game class for screen manipulation
+        @param  game    Main Game class on which to perform screen changes
+     */
     public void bindWithMainGameClass(Game game){
         this.game = game;
     }

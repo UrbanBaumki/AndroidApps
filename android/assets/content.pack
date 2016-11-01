@@ -1,0 +1,47 @@
+
+content.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+terrain
+  rotate: false
+  xy: 0, 64
+  size: 288, 192
+  orig: 288, 192
+  offset: 0, 0
+  index: -1
+playerMale
+  rotate: false
+  xy: 0, 0
+  size: 226, 64
+  orig: 226, 64
+  offset: 0, 0
+  index: -1
+ui
+  rotate: false
+  xy: 226, 0
+  size: 192, 64
+  orig: 192, 64
+  offset: 0, 0
+  index: -1
+playerFemale
+  rotate: false
+  xy: 288, 192
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+box
+  rotate: false
+  xy: 288, 160
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+switch
+  rotate: false
+  xy: 320, 240
+  size: 35, 16
+  orig: 35, 16
+  offset: 0, 0
+  index: -1
