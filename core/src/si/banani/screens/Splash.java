@@ -10,24 +10,30 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
+import si.banani.learning.LearningGdx;
 import si.banani.si.banani.screens.fades.FadeEnums;
 import si.banani.si.banani.screens.fades.Tweener;
 
 /**
  * Created by Urban on 16. 10. 2016.
  */
-public class Splash implements Screen {
+public class Splash extends BaseScreen {
 
-    private SpriteBatch batch;
     private Sprite img;
     BitmapFont font = new BitmapFont();
+
+    public Splash(){
+        super();
+    }
+
     @Override
     public void show() {
         //First method called when screen opened
-        this.batch = new SpriteBatch();
+
 
         this.img = new Sprite(new Texture(Gdx.files.internal("splash.jpg")));
-        this.img.setSize( Gdx.graphics.getWidth() , Gdx.graphics.getHeight() );
+        this.img.setSize(LearningGdx.V_WIDTH, LearningGdx.V_HEIGHT );
+        img.setPosition(-LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2);
 
         Tweener.reset();
         Tweener.setAnimForSprite(this.img);
@@ -45,6 +51,7 @@ public class Splash implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
         img.draw(batch);
         Tweener.update(System.currentTimeMillis());
@@ -52,29 +59,10 @@ public class Splash implements Screen {
         batch.end();
     }
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
 
     @Override
     public void dispose() {
-        this.batch.dispose();
+        super.dispose();
         this.img.getTexture().dispose();
     }
 }

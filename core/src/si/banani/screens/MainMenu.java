@@ -1,6 +1,7 @@
 package si.banani.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import si.banani.animation.Animation;
+import si.banani.scenes.Hud;
 import si.banani.si.banani.screens.fades.Tweener;
 import si.banani.textures.TextureManager;
 import si.banani.world.World;
@@ -17,19 +19,27 @@ import si.banani.world.World;
  * Created by Urban on 18.10.2016.
  */
 
-public class MainMenu implements Screen {
-    private SpriteBatch batch;
+public class MainMenu extends BaseScreen {
+
     private Sprite boxS, playerS, terrainS1, terrainS2, terrainS3,grassS, grassM;
     TextureRegion box, player, terrain;
     private Animation animation,animation2;
-    private float x = 200;
+    private float x = 0, y = 0, speed = 0;
+    int dir = 1;
+
+    private Hud hud;
+
+    public MainMenu() {
+        super();
+        this.hud = new Hud(this.batch);
+    }
+
     @Override
     public void show() {
+
+
+
         //First method called when screen opened
-        this.batch = new SpriteBatch();
-
-
-
 
         TextureManager.addAtlas("content.pack", "contentAtlas");
         TextureManager.splitAtlasIntoRegions();
@@ -53,19 +63,16 @@ public class MainMenu implements Screen {
         terrainS3.setPosition(900,100);
 
         grassM = new Sprite(terrainSplit[0][0]);
-        grassM.scale(5f);
+
         grassM.setPosition(300,482);
         playerS = new Sprite(player);
-        playerS.scale(5f);
+
         playerS.setPosition(400,482);
-        terrainS1.scale(5f);
-        terrainS2.scale(5f);
-        terrainS3.scale(5f);
-        grassS.scale(5f);
+
         grassS.setPosition(650,482);
 
         boxS = new Sprite(box);
-        boxS.scale(5f);
+
         boxS.setPosition(1000 , 400);
     }
 
@@ -74,53 +81,56 @@ public class MainMenu implements Screen {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
+        hud.stage.draw();
+
+        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(TextureManager.getRegionByName("playerMale"), 200, 640, 180 * 7, 320);
-        batch.draw(animation.getCurrentFrame(), x, 320, 180, 320);
-        x += 80 * delta;
+        if(dir == 1)
+            batch.draw( animation.getCurrentFrame() , x, y );
+        else
+            batch.draw( animation.getCurrentFrame() , x + player.getRegionWidth() , y, -player.getRegionWidth(), player.getRegionHeight() );
+
+        if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+        {
+             dir = 1;
+            if(Gdx.input.getX() <= Gdx.graphics.getWidth() /2){
+                dir = -1;
+            }
+            speed = 40;
+            x += 40 * delta * dir;
+
+            animation.update(delta);
+        }else
+        {
+            speed = speed - 5;
+            if(speed < 0)
+            {
+                speed = 0;
+                animation.setFrame(0);
+            }
+            x += speed * delta * dir;
+
+        }
+
         boxS.draw(batch);
+        boxS.setX(boxS.getX() + 90 * delta);
         terrainS1.draw(batch);
         terrainS2.draw(batch);
         terrainS3.draw(batch);
-        animation.update(delta);
+
         animation2.update(delta);
 
 
         batch.draw(animation2.getCurrentFrame(), 1200, 320, 50, 100);
 
         //batch.draw(TextureManager.getRegionByName("playerFemale"), 0 ,0);
-
-
-        grassS.draw(batch);
-        grassM.draw(batch);
-
         batch.end();
     }
 
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
     public void dispose() {
-        this.batch.dispose();
+        super.dispose();
         TextureManager.disposeAll();
-
     }
 }

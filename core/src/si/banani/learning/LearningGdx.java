@@ -13,6 +13,9 @@ import si.banani.screens.Splash;
 
 public class LearningGdx extends Game {
 
+	public static final int V_WIDTH = 640;
+	public static final int V_HEIGHT = 480;
+
 	@Override
 	public void create () {
 		ScreenManager.getInstance().bindWithMainGameClass(this);

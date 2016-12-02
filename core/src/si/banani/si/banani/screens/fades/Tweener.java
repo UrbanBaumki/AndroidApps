@@ -1,14 +1,12 @@
 package si.banani.si.banani.screens.fades;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.utils.TimeUtils;
+
 
 import java.util.ArrayList;
 
-import si.banani.screens.MainMenu;
+
 import si.banani.screens.ScreenEnums;
 import si.banani.screens.ScreenManager;
 
