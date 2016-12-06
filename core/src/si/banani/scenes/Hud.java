@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.learning.LearningGdx;
@@ -25,11 +26,12 @@ public class Hud {
     private Integer numLives;
     Label lifeLabel, livesLabel, bottomHud;
 
+
     public Hud(SpriteBatch batch){
-        this.viewport = new FitViewport(LearningGdx.V_WIDTH, LearningGdx.V_HEIGHT, new OrthographicCamera());
+        this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
         this.stage = new Stage(viewport, batch);
 
-        this.numLives = 5;
+        this.numLives = 3;
         //setting UPPER HUD
         topTable = new Table();
         topTable.top();
@@ -56,6 +58,21 @@ public class Hud {
         stage.addActor(topTable);
         stage.addActor(bottomTable);
 
+    }
+    public void update(){
+        Label l = (Label) topTable.getCells().get(1).getActor();
+        l.setText(String.format("Lives: %d", this.numLives));
+
+    }
+    public void showGameOver(){
+        Label l = (Label) topTable.getCells().get(1).getActor();
+        l.setText(String.format("GAME OVER!"));
+    }
+    public void decreaseLives(){
+        this.numLives-=1;
+    }
+    public Integer getNumLives(){
+        return numLives;
     }
 
 }

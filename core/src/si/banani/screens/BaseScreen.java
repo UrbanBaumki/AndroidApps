@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.learning.LearningGdx;
@@ -13,11 +14,12 @@ import si.banani.learning.LearningGdx;
  * Created by Urban on 1.12.2016.
  */
 
-public class BaseScreen implements Screen{
+public abstract class BaseScreen implements Screen{
 
     protected OrthographicCamera camera;
     protected Viewport viewport;
     protected SpriteBatch batch;
+    protected boolean running;
 
     /*
         Every custom screen class that extends my BaseScreen class, has to override the show and render methods in order to
@@ -26,8 +28,9 @@ public class BaseScreen implements Screen{
 
     public BaseScreen(){
         this.camera = new OrthographicCamera();
-        this.viewport = new FitViewport(LearningGdx.V_WIDTH, LearningGdx.V_HEIGHT, camera);
+        this.viewport = new FitViewport(LearningGdx.V_WIDTH / LearningGdx.PPM, LearningGdx.V_HEIGHT / LearningGdx.PPM, camera);
         this.batch = new SpriteBatch();
+        this.running = true;
     }
 
     @Override

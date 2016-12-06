@@ -45,6 +45,9 @@ public class Animation {
             currentFrame = startingFrame;
         timer -= frameSpeed;
     }
+    public void reset(){
+        currentFrame = startingFrame;
+    }
     public void changeDirection(){
         this.direction *= -1;
     }
