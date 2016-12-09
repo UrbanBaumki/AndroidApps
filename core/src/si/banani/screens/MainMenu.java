@@ -3,6 +3,7 @@ package si.banani.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 
 import com.badlogic.gdx.maps.MapObject;
@@ -23,9 +24,12 @@ import com.badlogic.gdx.physics.box2d.World;
 import si.banani.animation.Animation;
 import si.banani.entities.Player;
 import si.banani.learning.LearningGdx;
+import si.banani.scene.Scene;
 import si.banani.scenes.Hud;
 import si.banani.textures.TextureManager;
+import si.banani.tiles.Box;
 import si.banani.world.WorldContactListener;
+import si.banani.world.WorldCreator;
 
 
 /**
@@ -49,10 +53,12 @@ public class MainMenu extends BaseScreen {
     //box2d
     private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
-
+    //my fixture creator
+    private WorldCreator worldCreator;
     //for player
 
     Player male;
+
 
     public MainMenu() {
         super();
@@ -63,41 +69,21 @@ public class MainMenu extends BaseScreen {
         this.camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM, 0);
 
 
+        //the texture manager
+        TextureManager.addAtlas("content.pack", "contentAtlas");
+        TextureManager.splitAtlasIntoRegions();
         //box2d
         world = new World(new Vector2(0, -10), true);
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
+        worldCreator = new WorldCreator(world, map);
 
-        for(MapObject object: map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set( (rect.getX() + rect.getWidth()/2 ) / LearningGdx.PPM , (rect.getY() + rect.getHeight()/2 ) / LearningGdx.PPM);
+        world.setContactListener(new WorldContactListener());
+        //creating a test box
+        //first give a batch to scene
+        Scene.setSpriteBatch(this.batch);
+        Scene.setWorld(world);
 
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2 / LearningGdx.PPM, rect.getHeight()/2 / LearningGdx.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-        for(MapObject object: map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set( (rect.getX() + rect.getWidth()/2 ) / LearningGdx.PPM , (rect.getY() + rect.getHeight()/2 ) / LearningGdx.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rect.getWidth()/2 / LearningGdx.PPM, rect.getHeight()/2 / LearningGdx.PPM);
-            fdef.shape = shape;
-
-            body.setUserData("spikes");
-            body.createFixture(fdef);
-        }
-
-        world.setContactListener(new WorldContactListener(this));
     }
     public void resetPlayer(){
         hud.decreaseLives();
@@ -118,8 +104,7 @@ public class MainMenu extends BaseScreen {
 
         //First method called when screen opened
 
-        TextureManager.addAtlas("content.pack", "contentAtlas");
-        TextureManager.splitAtlasIntoRegions();
+
 
         this.male = new Player(world, 150, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerMale").split(32,64)[0], 1/6f);
         male.setFriction(0.5f);
@@ -161,6 +146,8 @@ public class MainMenu extends BaseScreen {
         world.step(1/60f, 6, 2);
 
         male.update(delta);
+        //update the scene with its objects
+        Scene.update(delta); //important that is AFTER THE WORLD.STEP !!!
 
         if(male.getX() >= LearningGdx.V_WIDTH / 2 / LearningGdx.PPM)
             this.camera.position.x = male.getX();
@@ -197,7 +184,8 @@ public class MainMenu extends BaseScreen {
         batch.begin();
 
         male.render(batch, delta);
-
+        //render the scene with objects
+        Scene.render(delta);
         //batch.draw(TextureManager.getRegionByName("playerFemale"), 0 ,0);
         batch.end();
         //render the map also

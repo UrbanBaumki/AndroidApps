@@ -4,10 +4,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
 import si.banani.animation.Animation;
 import si.banani.learning.LearningGdx;
+import si.banani.world.CollisionBits;
 
 
 /**
@@ -20,7 +22,10 @@ public class Player extends BasicPlayer {
     private int yOffset = 6;
     private float movementSpeed, maxMovSpeed, jumpSpeed;
 
-    private int dir = 1;
+    private PlayerState previousState, currentState;
+    private float timeInCurrentState;
+
+    private int dir;
     private int width, height;
 
     private Animation walkAnimation;
@@ -39,11 +44,27 @@ public class Player extends BasicPlayer {
 
     public Player(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed) {
         super(world, x, y, width, height, bodyType);
+        ((body.getFixtureList()).get(0)).setUserData(this);
+        Filter f = new Filter();
+        f.categoryBits = CollisionBits.PLAYER_BIT;
+        f.maskBits = CollisionBits.ENEMY_BIT |
+                CollisionBits.SPIKES_BIT |
+                CollisionBits.DEFAULT_BIT |
+                CollisionBits.OBJECT_BIT;
+        ((body.getFixtureList()).get(0)).setFilterData(f);
+
+        this.currentState = PlayerState.STANDING;
+        this.previousState = PlayerState.STANDING;
+        this.timeInCurrentState = 0;
+
         this.x = x;
         this.y = y;
+
         this.width = sprites[0].getRegionWidth();
         this.height = sprites[0].getRegionHeight();
         this.sprites = sprites;
+
+        this.dir = 1;
         this.movementSpeed = 0.2f;
         this.maxMovSpeed = 1.5f;
         this.jumpSpeed = 4f;
@@ -74,14 +95,27 @@ public class Player extends BasicPlayer {
     }
     public void render(SpriteBatch sb, float dt){
 
-        sb.draw(getCurrentFrame(), x  - dir * width /2/ LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
+        sb.draw(getCurrentFrame(dt), x  - dir * width /2/ LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
 
-        if(left || right)
-            walkAnimation.update(dt);
-        else
-            walkAnimation.reset();
     }
 
+    public TextureRegion getCurrentFrame(float dt){
+        currentState = getState();
+        TextureRegion region = null;
+        switch (currentState){
+            case STANDING:
+                region = this.walkAnimation.getCurrentFrame();
+                walkAnimation.reset();
+                break;
+            case WALKING:
+                region = this.walkAnimation.getCurrentFrame();
+                walkAnimation.update(dt);
+                break;
+        }
+        timeInCurrentState = currentState == previousState ? timeInCurrentState + dt : 0;
+        previousState = currentState;
+        return region;
+    }
     public void setXYvelocity(float x, float y){
         this.body.setLinearVelocity(x,y);
     }
@@ -97,9 +131,7 @@ public class Player extends BasicPlayer {
 
     public float getXvelocity(){return this.body.getLinearVelocity().x;}
     public float getYvelocity(){return this.body.getLinearVelocity().y;}
-    public TextureRegion getCurrentFrame(){
-        return this.walkAnimation.getCurrentFrame();
-    }
+
     public void goLeft(){this.left = true;}
     public void goRight(){this.right = true;}
     public void goUp(){this.up = true;}
@@ -112,4 +144,11 @@ public class Player extends BasicPlayer {
     }
     public float getX(){return this.x;}
     public float getY(){return this.y;}
+    public PlayerState getState(){
+
+        if(this.body.getLinearVelocity().x == 0)
+            return PlayerState.STANDING;
+        else
+            return PlayerState.WALKING;
+    }
 }

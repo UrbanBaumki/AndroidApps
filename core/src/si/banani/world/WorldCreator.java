@@ -1,0 +1,74 @@
+package si.banani.world;
+
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+
+import si.banani.learning.LearningGdx;
+import si.banani.scene.Scene;
+import si.banani.textures.TextureManager;
+import si.banani.tiles.Box;
+import si.banani.tiles.Spikes;
+import si.banani.tiles.Tiles;
+
+/**
+ * Created by Urban on 8.12.2016.
+ */
+
+public class WorldCreator {
+
+    private World world;
+    private TiledMap map;
+
+    public WorldCreator(World world, TiledMap map){
+        this.world = world;
+        this.map = map;
+        createTileFixtures(1, Tiles.FLOOR);
+        createTileFixtures(3, Tiles.SPIKES);
+        createTileFixtures(4, Tiles.BOX);
+    }
+
+    private void createTileFixtures(int index, Tiles type){
+        BodyDef bdef = new BodyDef();
+        PolygonShape shape = new PolygonShape();
+        FixtureDef fdef = new FixtureDef();
+        Body body;
+
+        for(MapObject object: map.getLayers().get(index).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+
+            switch (type){
+                case SPIKES:
+                    new Spikes(world, rect);
+                    break;
+                case BOX:
+                    Scene.addObjectToScene( new Box(world, rect, TextureManager.getRegionByName("box").split(32, 32)[0], 0) );
+                    break;
+                case FLOOR:
+                    bdef.type = BodyDef.BodyType.StaticBody;
+                    bdef.position.set( (rect.getX() + rect.getWidth()/2 ) / LearningGdx.PPM , (rect.getY() + rect.getHeight()/2 ) / LearningGdx.PPM);
+
+                    body = world.createBody(bdef);
+
+                    shape.setAsBox(rect.getWidth()/2 / LearningGdx.PPM, rect.getHeight()/2 / LearningGdx.PPM);
+                    fdef.shape = shape;
+                    fdef.friction = 0.3f;
+
+                    fdef.restitution = 0f;
+
+
+                    bdef.fixedRotation = false;
+                    body.createFixture(fdef);
+                    break;
+            }
+
+        }
+    }
+
+}

@@ -34,6 +34,9 @@ public class Animation {
         this.currentFrame = startingFrame;
     }
     public void update(float delta){
+        if(frameSpeed == 0)
+            return;
+
         timer += delta;
         if(timer >= frameSpeed){
             nextFrame();
