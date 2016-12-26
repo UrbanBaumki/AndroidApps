@@ -5,16 +5,19 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
+
 import com.badlogic.gdx.physics.box2d.Manifold;
 
-import java.awt.event.ContainerListener;
+
+
 
 import si.banani.entities.Player;
-import si.banani.screens.MainMenu;
+
 import si.banani.tiles.Box;
-import si.banani.tiles.InteractiveTile;
+
 import si.banani.tiles.Spikes;
+import si.banani.tiles.Switch;
+import si.banani.tiles.TileStates;
 
 /**
  * Created by Urban on 2.12.2016.
@@ -23,9 +26,6 @@ import si.banani.tiles.Spikes;
 public class WorldContactListener implements ContactListener {
 
 
-    public WorldContactListener(){
-
-    }
     @Override
     public void beginContact(Contact contact) {
         Fixture a = contact.getFixtureA();
@@ -40,10 +40,17 @@ public class WorldContactListener implements ContactListener {
             Spikes spike = (Spikes) a.getUserData();
             spike.onHit();
         }
-        if(a.getUserData() != null && a.getUserData() instanceof Spikes && b.getUserData() != null && b.getUserData() instanceof Box){
+        else if(a.getUserData() != null && a.getUserData() instanceof Spikes && b.getUserData() != null && b.getUserData() instanceof Box){
             //spikes and a box
             Box box = (Box) b.getUserData();
             box.onSpikeHit();
+        }else if(a.getUserData() != null && a.getUserData() instanceof Switch && b.getUserData() != null && b.getUserData() instanceof Player){
+            Switch s = (Switch) a.getUserData();
+            s.activate();
+        }else if(a.getUserData() != null && a.getUserData() instanceof Player && b.getUserData() != null && b.getUserData().equals("stairs")){
+            Player p = (Player)a.getUserData();
+
+            Gdx.app.log("Stairs", "Stairs");
         }
         if(reverse)
             collideChecker(b, a, false);

@@ -1,0 +1,213 @@
+
+forrest_tileset.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+forrest_tiles
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 6
+forrest_tiles
+  rotate: false
+  xy: 67, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 7
+forrest_tiles
+  rotate: false
+  xy: 133, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 8
+forrest_tiles
+  rotate: false
+  xy: 199, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 10
+forrest_tiles
+  rotate: false
+  xy: 265, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 11
+forrest_tiles
+  rotate: false
+  xy: 331, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 12
+forrest_tiles
+  rotate: false
+  xy: 397, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 13
+forrest_tiles
+  rotate: false
+  xy: 463, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 14
+forrest_tiles
+  rotate: false
+  xy: 529, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 16
+forrest_tiles
+  rotate: false
+  xy: 595, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 18
+forrest_tiles
+  rotate: false
+  xy: 661, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 19
+forrest_tiles
+  rotate: false
+  xy: 727, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 20
+forrest_tiles
+  rotate: false
+  xy: 793, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 21
+forrest_tiles
+  rotate: false
+  xy: 859, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 22
+
+forrest_tileset2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+images/terrain
+  rotate: false
+  xy: 1, 62
+  size: 384, 192
+  orig: 384, 192
+  offset: 0, 0
+  index: -1
+images/playerMale
+  rotate: false
+  xy: 387, 190
+  size: 226, 64
+  orig: 226, 64
+  offset: 0, 0
+  index: -1
+images/rockEnemy
+  rotate: false
+  xy: 1, 35
+  size: 96, 25
+  orig: 96, 25
+  offset: 0, 0
+  index: -1
+images/spiderAttacking
+  rotate: false
+  xy: 387, 127
+  size: 46, 61
+  orig: 46, 61
+  offset: 0, 0
+  index: -1
+images/down_arrow
+  rotate: false
+  xy: 615, 203
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+images/left_arrow
+  rotate: false
+  xy: 435, 137
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+images/right_arrow
+  rotate: false
+  xy: 668, 203
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+images/switch_player
+  rotate: false
+  xy: 488, 137
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+images/up_arrow
+  rotate: false
+  xy: 721, 203
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+images/playerFemale
+  rotate: false
+  xy: 387, 61
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
+images/spiderEnemy
+  rotate: false
+  xy: 541, 127
+  size: 28, 61
+  orig: 28, 61
+  offset: 0, 0
+  index: -1
+images/box
+  rotate: false
+  xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+images/switch
+  rotate: false
+  xy: 774, 238
+  size: 35, 16
+  orig: 35, 16
+  offset: 0, 0
+  index: -1
+images/empty_heart
+  rotate: false
+  xy: 615, 195
+  size: 7, 6
+  orig: 7, 6
+  offset: 0, 0
+  index: -1
+images/full_heart
+  rotate: false
+  xy: 99, 54
+  size: 7, 6
+  orig: 7, 6
+  offset: 0, 0
+  index: -1

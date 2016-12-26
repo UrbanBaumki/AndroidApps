@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.ArrayList;
 
 import si.banani.tiles.Box;
+import si.banani.tiles.Switch;
 
 /**
  * Created by Urban on 9.12.2016.
@@ -39,6 +40,10 @@ public class Scene {
                     b.setDestroyed(true);
                 }
             }
+            else if(object instanceof Switch){
+                Switch s = (Switch) object;
+                s.update(dt);
+            }
         }
     }
     public static void render(float dt){
@@ -50,6 +55,11 @@ public class Scene {
                 Box b = (Box) object;
                 b.render(batch, dt);
             }
+            else if(object instanceof Switch){
+                Switch s = (Switch) object;
+                s.render(batch, dt);
+            }
+
         }
     }
 

@@ -7,5 +7,6 @@ package si.banani.tiles;
 public enum Tiles {
     FLOOR,
     BOX,
-    SPIKES
+    SPIKES,
+    SWITCHES
 }

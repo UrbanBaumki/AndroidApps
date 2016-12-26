@@ -8,5 +8,9 @@ public enum PlayerState {
     WALKING,
     FALLING,
     JUMPING,
+    ATTACKING,
+    FOLLOWING,
+    SLEEPING,
+    HIDDING,
     STANDING;
 }

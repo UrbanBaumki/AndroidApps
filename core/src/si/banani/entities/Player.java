@@ -18,21 +18,12 @@ import si.banani.world.CollisionBits;
 
 public class Player extends BasicPlayer {
 
-    private float x, y;
     private int yOffset = 6;
-    private float movementSpeed, maxMovSpeed, jumpSpeed;
-
-    private PlayerState previousState, currentState;
-    private float timeInCurrentState;
-
-    private int dir;
-    private int width, height;
 
     private Animation walkAnimation;
     private TextureRegion[] sprites;
 
-    private boolean left, right, up, down;
-    private boolean isJumping, isFalling;
+
 
     public Player(World world, TextureRegion[] sprites, float frameSpeed) {
         this(world, 0, 0, sprites, frameSpeed);
@@ -50,48 +41,28 @@ public class Player extends BasicPlayer {
         f.maskBits = CollisionBits.ENEMY_BIT |
                 CollisionBits.SPIKES_BIT |
                 CollisionBits.DEFAULT_BIT |
-                CollisionBits.OBJECT_BIT;
+                CollisionBits.OBJECT_BIT |
+                CollisionBits.SWITCH_BIT;
         ((body.getFixtureList()).get(0)).setFilterData(f);
 
         this.currentState = PlayerState.STANDING;
         this.previousState = PlayerState.STANDING;
         this.timeInCurrentState = 0;
 
-        this.x = x;
-        this.y = y;
+
 
         this.width = sprites[0].getRegionWidth();
         this.height = sprites[0].getRegionHeight();
         this.sprites = sprites;
 
         this.dir = 1;
-        this.movementSpeed = 0.2f;
-        this.maxMovSpeed = 1.5f;
-        this.jumpSpeed = 4f;
+
         this.walkAnimation = new Animation(this.sprites, frameSpeed);
     }
 
     public void update(float dt){
-        this.x = this.body.getPosition().x;
-        this.y = this.body.getPosition().y;
+        super.update(dt);
 
-        //push the body according to the set direction of movement and also check speed constraints
-        if(left && getXvelocity() >= -maxMovSpeed)
-        {
-            this.body.applyLinearImpulse(new Vector2(-movementSpeed, 0), body.getWorldCenter(), true);
-            dir = -1;
-        }
-
-        if(right && getXvelocity() <= maxMovSpeed)
-        {
-            this.body.applyLinearImpulse(new Vector2(movementSpeed, 0), body.getWorldCenter(), true);
-            dir = 1;
-        }
-
-        if(up)
-            this.body.applyLinearImpulse(new Vector2(0, jumpSpeed), body.getWorldCenter(), true);
-
-        
     }
     public void render(SpriteBatch sb, float dt){
 
@@ -104,7 +75,7 @@ public class Player extends BasicPlayer {
         TextureRegion region = null;
         switch (currentState){
             case STANDING:
-                region = this.walkAnimation.getCurrentFrame();
+                region = this.walkAnimation.getFirstFrame();
                 walkAnimation.reset();
                 break;
             case WALKING:
@@ -116,34 +87,20 @@ public class Player extends BasicPlayer {
         previousState = currentState;
         return region;
     }
-    public void setXYvelocity(float x, float y){
-        this.body.setLinearVelocity(x,y);
+
+
+
+    public float getX(){return this.x;}
+    public float getY(){return this.y;}
+    public int getDir(){return this.dir; }
+    public void setFirstAnimationFrame(int i){
+        this.walkAnimation.setStartingFrame(1);
     }
-    public void setTransform(float x, float y, float z){
-        this.body.setTransform(x,y, z);
-    }
-    public void setFriction(float f){
-        this.body.getFixtureList().get(0).setFriction(f);
-    }
+    public Vector2 getPosition(){ return this.body.getPosition(); }
     public void setMovementSpeed(float speed){this.movementSpeed = speed; }
     public void setMaxMovSpeed(float cap){this.maxMovSpeed = cap;}
     public void setJumpSpeed(float jumpSpeed){this.jumpSpeed = jumpSpeed;}
 
-    public float getXvelocity(){return this.body.getLinearVelocity().x;}
-    public float getYvelocity(){return this.body.getLinearVelocity().y;}
-
-    public void goLeft(){this.left = true;}
-    public void goRight(){this.right = true;}
-    public void goUp(){this.up = true;}
-    public void goDown(){this.down = true;}
-    public void stopLeft(){this.left = false;}
-    public void stopRight(){this.right = false;}
-    public void stopUp(){this.up = false;}
-    public void stopDown(){
-        this.down = false;
-    }
-    public float getX(){return this.x;}
-    public float getY(){return this.y;}
     public PlayerState getState(){
 
         if(this.body.getLinearVelocity().x == 0)
@@ -151,4 +108,5 @@ public class Player extends BasicPlayer {
         else
             return PlayerState.WALKING;
     }
+
 }

@@ -32,8 +32,10 @@ public class Splash extends BaseScreen {
 
 
         this.img = new Sprite(new Texture(Gdx.files.internal("splash.jpg")));
-        this.img.setSize(LearningGdx.V_WIDTH, LearningGdx.V_HEIGHT );
-        img.setPosition(-LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2);
+        //this.img.setPosition(-img.getWidth()/2/LearningGdx.PPM, - img.getHeight()/2/LearningGdx.PPM);
+        this.img.setSize(LearningGdx.V_WIDTH/LearningGdx.PPM, LearningGdx.V_HEIGHT/LearningGdx.PPM);
+        this.camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 / LearningGdx.PPM + LearningGdx.V_HEIGHT/2/LearningGdx.PPM, 0);
+        //img.setPosition(-LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2);
 
         Tweener.reset();
         Tweener.setAnimForSprite(this.img);
@@ -53,9 +55,11 @@ public class Splash extends BaseScreen {
 
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
         img.draw(batch);
         Tweener.update(System.currentTimeMillis());
         font.draw(batch, String.format("Alpha: %f", img.getColor().a) , 10 ,50);
+
         batch.end();
     }
 

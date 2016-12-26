@@ -1,5 +1,6 @@
 package si.banani.tiles;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -25,8 +26,9 @@ public abstract class InteractiveTile {
     protected Rectangle rectangle;
     protected Body body;
     protected World world;
+    protected boolean destroyed, destroy;
 
-    InteractiveTile(World world, Rectangle rectangle){
+    public InteractiveTile(World world, Rectangle rectangle){
         this.world = world;
         this.rectangle = rectangle;
         bdef = new BodyDef();
@@ -53,4 +55,6 @@ public abstract class InteractiveTile {
         f.categoryBits = filter;
         fixture.setFilterData(f);
     }
+    public abstract void render(SpriteBatch batch, float dt);
+    public abstract void update(float dt);
 }

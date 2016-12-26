@@ -16,7 +16,10 @@ public class Animation {
     private float frameSpeed;
     private float timer;
     private int direction;
+    private boolean isLooping;
+    private boolean finished;
     private boolean yoyoEnabled;
+
     public Animation(TextureRegion[] sprites, float frameSpeed){
         this(sprites, frameSpeed, 0);
     }
@@ -27,6 +30,7 @@ public class Animation {
         this.currentFrame = startingFrame; //usually 0 :)
         this.direction = 1;
         this.yoyoEnabled = false;
+        this.isLooping = true;
 
     }
     public void setStartingFrame(int i ){
@@ -44,10 +48,46 @@ public class Animation {
     }
     public void nextFrame(){
         currentFrame += 1* direction;
-        if(currentFrame == sprites.length)
-            currentFrame = startingFrame;
+
+        if(direction == 1) {
+
+            if (currentFrame == sprites.length) {
+
+                if(isLooping){
+
+                    if (yoyoEnabled) {
+                        this.changeDirection();
+                        currentFrame += 1*direction;
+                    }
+                    else
+                        currentFrame = startingFrame;
+
+                }else{
+                    currentFrame = sprites.length - 1;
+                    finished = true;
+                    }
+                }
+            }
+        else
+        {
+            if (currentFrame == -1 )
+                if(isLooping)
+                {
+                    if(yoyoEnabled){
+                        this.changeDirection();
+                        currentFrame += 1*direction;
+                    }else
+                        currentFrame = sprites.length - 1;
+                }
+                else {
+                    currentFrame = 0;
+                    finished = true;
+                }
+        }
         timer -= frameSpeed;
     }
+    public TextureRegion getFirstFrame(){ return this.sprites[0]; }
+    public TextureRegion getLastFrame(){ return this.sprites[sprites.length-1]; }
     public void reset(){
         currentFrame = startingFrame;
     }
@@ -58,7 +98,9 @@ public class Animation {
     public void setFrame(int frameNum){
         this.currentFrame = frameNum;
     }
-
+    public void setLooping(boolean looping){ this.isLooping = looping; }
+    public boolean isFinished(){return this.finished; }
+    public void resetFinished(){ this.finished = false; }
     public TextureRegion getCurrentFrame(){
         return this.sprites[currentFrame];
     }

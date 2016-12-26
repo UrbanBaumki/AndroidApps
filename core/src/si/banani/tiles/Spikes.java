@@ -1,6 +1,7 @@
 package si.banani.tiles;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -17,6 +18,16 @@ public class Spikes extends InteractiveTile {
         super(world, rectangle);
         fixture.setUserData(this);
         setCategoryFilter(CollisionBits.SPIKES_BIT);
+    }
+
+    @Override
+    public void render(SpriteBatch batch, float dt) {
+
+    }
+
+    @Override
+    public void update(float dt) {
+
     }
 
 

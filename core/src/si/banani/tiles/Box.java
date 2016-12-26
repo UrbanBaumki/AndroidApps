@@ -19,13 +19,11 @@ import si.banani.world.CollisionBits;
 
 public class Box extends InteractiveTile {
 
-    boolean destroyed, destroy;
+
     private Animation box;
     private float x, y;
     private int width, height;
     private float yOffset;
-
-
 
     public Box(World world, Rectangle rectangle, TextureRegion[] sprites, float frameSpeed) {
         super(world, rectangle);
@@ -50,7 +48,7 @@ public class Box extends InteractiveTile {
         this.destroy = false;
         this.yOffset = 0.5f;
     }
-
+    @Override
     public void render(SpriteBatch batch, float dt){
         if(!destroyed) {
             float angle = (float)(body.getAngle() * 180 / Math.PI) + 90;

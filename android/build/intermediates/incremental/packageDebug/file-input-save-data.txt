@@ -1,5 +1,5 @@
 #Internal package file, do not edit.
-#Fri Dec 02 12:23:56 CET 2016
+#Thu Dec 15 22:30:58 CET 2016
 25.file=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\mergeJniLibs\\debug\\folders\\2000\\1f\\main\\lib\\armeabi\\libgdx.so
 25.base=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\mergeJniLibs\\debug\\folders\\2000\\1f\\main
 22.set=NATIVE_RESOURCE

@@ -10,4 +10,7 @@ public class CollisionBits {
     public static final short SPIKES_BIT = 4;
     public static final short ENEMY_BIT = 8;
     public static final short OBJECT_BIT = 16;
+    public static final short ROCK_ENEMY_BIT = 32;
+    public static final short SPIDER_ENEMY_BIT = 64;
+    public static final short SWITCH_BIT = 128;
 }

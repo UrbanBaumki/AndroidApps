@@ -1,13 +1,13 @@
 package si.banani.screens;
 
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import si.banani.controller.InputController;
 import si.banani.learning.LearningGdx;
 
 /**
@@ -19,6 +19,7 @@ public abstract class BaseScreen implements Screen{
     protected OrthographicCamera camera;
     protected Viewport viewport;
     protected SpriteBatch batch;
+    protected InputController inputController;
     protected boolean running;
 
     /*

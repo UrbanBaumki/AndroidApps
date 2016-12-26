@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" nextobjectid="20">
- <tileset firstgid="1" name="mockUp_Atlas" tilewidth="64" tileheight="64" tilecount="64" columns="8">
-  <image source="mockUp_Atlas.png" width="512" height="512"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" nextobjectid="33">
+ <tileset firstgid="1" name="forrest_tileset" tilewidth="64" tileheight="64" spacing="2" tilecount="15" columns="15">
+  <image source="forrest_tileset.png" width="1024" height="128"/>
  </tileset>
+ <layer name="Bg" width="30" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYWBgYBnFo3gU0wRzDgI3DCcMABHFBLY=
+  </data>
+ </layer>
  <layer name="Fg" width="30" height="10">
   <data encoding="base64" compression="zlib">
-   eJxTYmBgUBrFwxYPRsADxbQCwkAsBMSCUBrGF0FSA5ODyVMKpPBgaSBWgWJJLHLCULeJYJhKGFCSNvC5mRAeqPQMAGNNGig=
+   eJxjYBgF9ADcA4QHAnANInuZoRgEGKGYCcpnQpKj1F42IGbHgllxiCNjSuwFYXLTBiF34cOU2EsJBgDrMwQ+
   </data>
  </layer>
  <objectgroup name="Floor">
-  <object id="1" x="0" y="448" width="512" height="64"/>
-  <object id="2" x="448" y="512" width="64" height="128"/>
-  <object id="5" x="640" y="448" width="320" height="64"/>
+  <object id="1" x="0" y="448" width="959" height="64"/>
   <object id="6" x="896" y="512" width="1024" height="64"/>
+  <object id="24" x="1856" y="257" width="255" height="255"/>
  </objectgroup>
  <objectgroup name="Ceil">
   <object id="8" x="0" y="192" width="1920" height="64"/>
  </objectgroup>
- <objectgroup name="Spikes">
-  <object id="11" x="513" y="491" width="127" height="20"/>
- </objectgroup>
+ <objectgroup name="Spikes"/>
  <objectgroup name="Boxes">
-  <object id="13" x="451.97" y="409.667" width="33.3333" height="27.6667"/>
-  <object id="17" x="458.333" y="364.167" width="33.3333" height="27.6667"/>
-  <object id="18" x="455.333" y="332.167" width="33.3333" height="27.6667"/>
-  <object id="19" x="454.333" y="297.167" width="33.3333" height="27.6667"/>
+  <object id="19" x="969" y="359.834" width="30.6666" height="27.6667"/>
+  <object id="25" x="966.333" y="400.833" width="30.6666" height="27.6667"/>
+  <object id="26" x="969" y="434.167" width="30.6666" height="27.6667"/>
+  <object id="27" x="966.667" y="478.833" width="30.6666" height="27.6667"/>
+ </objectgroup>
+ <objectgroup name="Stairs"/>
+ <objectgroup name="Switches">
+  <object id="28" x="274.333" y="395.333" width="12.8333" height="23.5"/>
  </objectgroup>
 </map>

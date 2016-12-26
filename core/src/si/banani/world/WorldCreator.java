@@ -1,11 +1,14 @@
 package si.banani.world;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -15,6 +18,7 @@ import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
 import si.banani.tiles.Spikes;
+import si.banani.tiles.Switch;
 import si.banani.tiles.Tiles;
 
 /**
@@ -29,9 +33,11 @@ public class WorldCreator {
     public WorldCreator(World world, TiledMap map){
         this.world = world;
         this.map = map;
-        createTileFixtures(1, Tiles.FLOOR);
-        createTileFixtures(3, Tiles.SPIKES);
-        createTileFixtures(4, Tiles.BOX);
+        createTileFixtures(2, Tiles.FLOOR);
+        createTileFixtures(4, Tiles.SPIKES);
+        createTileFixtures(5, Tiles.BOX);
+        createTileFixtures(6, Tiles.FLOOR);
+        createTileFixtures(7, Tiles.SWITCHES);
     }
 
     private void createTileFixtures(int index, Tiles type){
@@ -62,9 +68,42 @@ public class WorldCreator {
 
                     fdef.restitution = 0f;
 
-
-                    bdef.fixedRotation = false;
                     body.createFixture(fdef);
+                    break;
+                case SWITCHES:
+                    Scene.addObjectToScene( new Switch(world, rect, TextureManager.getRegionByName("switch").split(7, 16)[0], 1/8f) );
+                    break;
+            }
+
+        }
+        //for polygons
+        for(MapObject object: map.getLayers().get(index).getObjects().getByType(PolygonMapObject.class)){
+            Polygon rect = ((PolygonMapObject) object).getPolygon();
+
+            switch (type){
+                case FLOOR:
+                    bdef.type = BodyDef.BodyType.StaticBody;
+                    bdef.position.set( (rect.getX()  ) / LearningGdx.PPM , (rect.getY()  ) / LearningGdx.PPM);
+
+                    body = world.createBody(bdef);
+                    PolygonShape polyShape = new PolygonShape();
+
+                    float [] verticies = rect.getVertices();
+                    for( int i = 0;i < verticies.length; i++){
+                        verticies[i]= verticies[i] / LearningGdx.PPM;
+                    }
+                    polyShape.set(verticies);
+
+                    fdef.shape = polyShape;
+                    fdef.friction = 0.3f;
+                    fdef.density = 1f;
+
+
+
+                    fdef.restitution = 0f;
+
+                    Fixture f = body.createFixture(fdef);
+                    f.setUserData("stairs");
                     break;
             }
 
