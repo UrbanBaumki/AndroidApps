@@ -23,9 +23,11 @@ public class Switch extends InteractiveTile {
     private float width, height;
     private float yOffset;
     private int dir = 1;
-    private boolean isOn, hasBeenActivated;
+    private boolean isOn, hasBeenActivated, canBeSwitched ;
     private TileStates currentState, previousState;
     private float timeInCurrentState;
+    private Door door;
+
 
     public Switch(World world, Rectangle rectangle, TextureRegion[] sprites, float frameSpeed){
         super(world, rectangle);
@@ -44,6 +46,8 @@ public class Switch extends InteractiveTile {
         switchAnimation.changeDirection();
 
         this.yOffset = 0.5f;
+
+        canBeSwitched = true;
 
         currentState = previousState = TileStates.OFF;
         timeInCurrentState = 0;
@@ -84,21 +88,32 @@ public class Switch extends InteractiveTile {
 
         if(switchAnimation.isFinished() ) {
             switchAnimation.resetFinished();
-
+            canBeSwitched = true;
             if (!isOn) {
                 isOn = true;
+                //switch the doors
+                if(door != null)
+                    this.door.setOpen(true);
                 return TileStates.ON;
             } else {
                 isOn = false;
+                //close the doors
+                if(door != null)
+                    this.door.setOpen(false);
                 return TileStates.OFF;
             }
-
         }
-        if(hasBeenActivated){
+
+        if(hasBeenActivated && canBeSwitched){
             hasBeenActivated = false;
+            canBeSwitched = false;
             switchAnimation.changeDirection();
             return TileStates.SWITCHING;
         }
         return currentState;
     }
+    public void addDoor(Door door){
+        this.door = door;
+    }
+
 }

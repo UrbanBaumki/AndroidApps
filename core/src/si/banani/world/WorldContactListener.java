@@ -46,7 +46,8 @@ public class WorldContactListener implements ContactListener {
             box.onSpikeHit();
         }else if(a.getUserData() != null && a.getUserData() instanceof Switch && b.getUserData() != null && b.getUserData() instanceof Player){
             Switch s = (Switch) a.getUserData();
-            s.activate();
+            Player p = (Player) b.getUserData();
+            p.giveSwitch(s);
         }else if(a.getUserData() != null && a.getUserData() instanceof Player && b.getUserData() != null && b.getUserData().equals("stairs")){
             Player p = (Player)a.getUserData();
 
@@ -55,14 +56,24 @@ public class WorldContactListener implements ContactListener {
         if(reverse)
             collideChecker(b, a, false);
     }
+    private void decollideChecker(Fixture a, Fixture b, boolean reverse){
+
+        if(a.getUserData() != null && a.getUserData() instanceof Switch && b.getUserData() != null && b.getUserData() instanceof Player){
+            ((Player) b.getUserData()).removeSwitch();
+        }
+
+        if(reverse)
+            decollideChecker(b, a, false);
+    }
     @Override
     public void endContact(Contact contact) {
-
+        Fixture a = contact.getFixtureA();
+        Fixture b = contact.getFixtureB();
+        decollideChecker(a, b, true);
     }
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-
     }
 
     @Override

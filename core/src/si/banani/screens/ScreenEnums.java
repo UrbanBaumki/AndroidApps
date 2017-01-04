@@ -19,6 +19,11 @@ public enum ScreenEnums {
         public Screen getScreen(Object... params){
             return new MainMenu();
         }
+    },
+    DIALOG{
+        public Screen getScreen(Object... params){
+            return new DialogScreen();
+        }
     };
 
     public abstract Screen getScreen(Object... params);

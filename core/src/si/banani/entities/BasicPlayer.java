@@ -42,8 +42,8 @@ public abstract class BasicPlayer {
         this.world = world;
         this.timeInCurrentState = 0;
 
-        this.movementSpeed = 0.2f;
-        this.maxMovSpeed = 1.5f;
+        this.movementSpeed = 10f;
+        this.maxMovSpeed = 1.65f;
         this.jumpSpeed = 4f;
 
         this.x = x;
@@ -58,6 +58,7 @@ public abstract class BasicPlayer {
     }
     public void defineBody(int x, int y, BodyDef.BodyType bodyType){
         this.bdef = new BodyDef();
+
         bdef.position.set(x / LearningGdx.PPM, y / LearningGdx.PPM);
         bdef.type = bodyType;
 
@@ -70,15 +71,18 @@ public abstract class BasicPlayer {
     public void defineFixture(){
         this.fdef = new FixtureDef();
         fdef.shape = this.shape;
-        //fdef.density = 1f;
 
+
+        fdef.restitution = 0f;
         this.body.createFixture(fdef);
         this.body.setFixedRotation(true);
+
 
     }
     public void update(float dt){
         this.x = this.body.getPosition().x;
         this.y = this.body.getPosition().y;
+
 
         if(getYvelocity() < 0)
         {
@@ -92,13 +96,15 @@ public abstract class BasicPlayer {
         if(left && getXvelocity() >= -maxMovSpeed)
         {
 
-            this.body.applyLinearImpulse(new Vector2(-movementSpeed, 0), body.getWorldCenter(), true);
+            //this.body.applyLinearImpulse(new Vector2(-movementSpeed, 0), body.getWorldCenter(), true);
+            this.body.applyForceToCenter(new Vector2(-movementSpeed, 0), true );
             dir = -1;
         }
 
         if(right && getXvelocity() <= maxMovSpeed)
         {
-            this.body.applyLinearImpulse(new Vector2(movementSpeed, 0), body.getWorldCenter(), true);
+            //this.body.applyLinearImpulse(new Vector2(movementSpeed, 0), body.getWorldCenter(), true);
+            this.body.applyForceToCenter(new Vector2(movementSpeed, 0), true );
             dir = 1;
         }
 
@@ -122,7 +128,7 @@ public abstract class BasicPlayer {
         this.down = false;
     }
 
-    abstract  void render(SpriteBatch sb, float dt);
+    public abstract  void render(SpriteBatch sb, float dt);
     abstract PlayerState getState();
 
 
@@ -139,5 +145,7 @@ public abstract class BasicPlayer {
 
     public float getXvelocity(){return this.body.getLinearVelocity().x;}
     public float getYvelocity(){return this.body.getLinearVelocity().y;}
+    public Vector2 getPosition(){ return this.body.getPosition(); }
+    public int getDir(){return this.dir;}
 
 }

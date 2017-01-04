@@ -7,5 +7,7 @@ package si.banani.tiles;
 public enum TileStates {
     ON,
     OFF,
-    SWITCHING
+    SWITCHING,
+    CLOSED,
+    OPENED
 }

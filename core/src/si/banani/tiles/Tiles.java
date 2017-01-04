@@ -8,5 +8,6 @@ public enum Tiles {
     FLOOR,
     BOX,
     SPIKES,
-    SWITCHES
+    SWITCHES,
+    DOORS
 }

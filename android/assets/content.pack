@@ -5,105 +5,119 @@ filter: Nearest,Nearest
 repeat: none
 terrain
   rotate: false
-  xy: 0, 64
+  xy: 1, 58
   size: 384, 192
   orig: 384, 192
   offset: 0, 0
   index: -1
 playerMale
   rotate: false
-  xy: 0, 0
+  xy: 387, 186
   size: 226, 64
   orig: 226, 64
   offset: 0, 0
   index: -1
-playerFemale
-  rotate: false
-  xy: 226, 0
-  size: 32, 64
-  orig: 32, 64
-  offset: 0, 0
-  index: -1
 rockEnemy
   rotate: false
-  xy: 384, 231
-  size: 96, 25
-  orig: 96, 25
+  xy: 1, 19
+  size: 132, 37
+  orig: 132, 37
+  offset: 0, 0
+  index: -1
+doors
+  rotate: false
+  xy: 387, 120
+  size: 64, 64
+  orig: 64, 64
   offset: 0, 0
   index: -1
 spiderAttacking
   rotate: false
-  xy: 258, 3
+  xy: 615, 189
   size: 46, 61
   orig: 46, 61
   offset: 0, 0
   index: -1
 down_arrow
   rotate: false
-  xy: 384, 180
+  xy: 387, 67
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 left_arrow
   rotate: false
-  xy: 304, 13
+  xy: 453, 133
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 right_arrow
   rotate: false
-  xy: 384, 129
+  xy: 663, 199
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 switch_player
   rotate: false
-  xy: 384, 78
+  xy: 506, 133
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 up_arrow
   rotate: false
-  xy: 435, 180
+  xy: 716, 199
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
+use
+  rotate: false
+  xy: 559, 133
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+playerFemale
+  rotate: false
+  xy: 769, 186
+  size: 32, 64
+  orig: 32, 64
+  offset: 0, 0
+  index: -1
 spiderEnemy
   rotate: false
-  xy: 435, 119
+  xy: 803, 189
   size: 28, 61
   orig: 28, 61
   offset: 0, 0
   index: -1
 box
   rotate: false
-  xy: 355, 32
+  xy: 135, 24
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 switch
   rotate: false
-  xy: 355, 16
+  xy: 1, 1
   size: 35, 16
   orig: 35, 16
   offset: 0, 0
   index: -1
 empty_heart
   rotate: false
-  xy: 304, 7
+  xy: 387, 59
   size: 7, 6
   orig: 7, 6
   offset: 0, 0
   index: -1
 full_heart
   rotate: false
-  xy: 480, 250
+  xy: 440, 112
   size: 7, 6
   orig: 7, 6
   offset: 0, 0

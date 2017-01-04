@@ -20,7 +20,7 @@ import si.banani.si.banani.screens.fades.Tweener;
 public class Splash extends BaseScreen {
 
     private Sprite img;
-    BitmapFont font = new BitmapFont();
+
 
     public Splash(){
         super();
@@ -44,8 +44,7 @@ public class Splash extends BaseScreen {
         Tweener.fifoEffect(FadeEnums.FADE_OUT, 1500);
         Tweener.setScreenChange(ScreenEnums.MAIN_MENU);
         Tweener.start();
-        font.setColor(Color.WHITE);
-        font.getData().setScale(4f);
+
     }
 
     @Override
@@ -58,9 +57,23 @@ public class Splash extends BaseScreen {
 
         img.draw(batch);
         Tweener.update(System.currentTimeMillis());
-        font.draw(batch, String.format("Alpha: %f", img.getColor().a) , 10 ,50);
 
         batch.end();
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
 

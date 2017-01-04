@@ -20,7 +20,7 @@ public class RockEnemy extends BasicPlayer {
     private TextureRegion[] sprites;
     private Player target;
     private Animation walk;
-    private float yOffset = 0.5f;
+    private float yOffset = 5f;
 
 
     public RockEnemy(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Player player) {

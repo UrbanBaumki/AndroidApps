@@ -12,11 +12,13 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
+import si.banani.tiles.Door;
 import si.banani.tiles.Spikes;
 import si.banani.tiles.Switch;
 import si.banani.tiles.Tiles;
@@ -29,15 +31,20 @@ public class WorldCreator {
 
     private World world;
     private TiledMap map;
-
+    private int currSwitch;
+    private Array<Switch> switches;
     public WorldCreator(World world, TiledMap map){
         this.world = world;
         this.map = map;
+        this.currSwitch = 0;
+        this.switches = new Array<Switch>();
+
         createTileFixtures(2, Tiles.FLOOR);
         createTileFixtures(4, Tiles.SPIKES);
         createTileFixtures(5, Tiles.BOX);
         createTileFixtures(6, Tiles.FLOOR);
         createTileFixtures(7, Tiles.SWITCHES);
+        createTileFixtures(8, Tiles.DOORS);
     }
 
     private void createTileFixtures(int index, Tiles type){
@@ -65,13 +72,20 @@ public class WorldCreator {
                     shape.setAsBox(rect.getWidth()/2 / LearningGdx.PPM, rect.getHeight()/2 / LearningGdx.PPM);
                     fdef.shape = shape;
                     fdef.friction = 0.3f;
-
+                    fdef.density = 1f;
                     fdef.restitution = 0f;
 
                     body.createFixture(fdef);
                     break;
                 case SWITCHES:
-                    Scene.addObjectToScene( new Switch(world, rect, TextureManager.getRegionByName("switch").split(7, 16)[0], 1/8f) );
+                    Switch s = new Switch(world, rect, TextureManager.getRegionByName("switch").split(7, 16)[0], 1/8f);
+                    Scene.addObjectToScene( s );
+                    this.switches.add(s);
+                    break;
+                case DOORS:
+                    Door door = new Door(world, rect, TextureManager.getRegionByName("doors").split(32, 64)[0], 0f);
+                    Scene.addObjectToScene( door );
+                    addDoorToSwitchWithIndex(currSwitch, door);
                     break;
             }
 
@@ -95,10 +109,8 @@ public class WorldCreator {
                     polyShape.set(verticies);
 
                     fdef.shape = polyShape;
-                    fdef.friction = 0.3f;
+                    fdef.friction = 0f;
                     fdef.density = 1f;
-
-
 
                     fdef.restitution = 0f;
 
@@ -108,6 +120,17 @@ public class WorldCreator {
             }
 
         }
+
+    }
+
+    private void addDoorToSwitchWithIndex(int index, Door door){
+        if(currSwitch >= switches.size){
+            switches.clear();
+            return;
+        }
+
+        switches.get(index).addDoor(door);
+        currSwitch++;
     }
 
 }

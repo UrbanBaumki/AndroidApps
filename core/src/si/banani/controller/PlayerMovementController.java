@@ -1,10 +1,11 @@
 package si.banani.controller;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.Array;
+import si.banani.camera.CameraEffects;
 import si.banani.entities.BasicPlayer;
 import si.banani.entities.Player;
+
 
 /**
  * Created by Urban on 25.12.2016.
@@ -26,8 +27,17 @@ public class PlayerMovementController {
             players = new Array<BasicPlayer>();
         players.add(player);
     }
+    public void doSwitch(){
+        ((Player)(players.get(0))).doSwitch();
+    }
     public void switchPlayer(){
+        movePlayerDown(false);
+        movePlayerRigth(false);
+        movePlayerUp(false);
+        movePlayerLeft(false);
         current_player = 1 - current_player;
+        //also switch the camera focus
+        CameraEffects.setTarget(players.get(current_player));
     }
     public void setPlayer(int i){
         current_player = i;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import java.util.ArrayList;
 
 import si.banani.tiles.Box;
+import si.banani.tiles.Door;
 import si.banani.tiles.Switch;
 
 /**
@@ -43,6 +44,9 @@ public class Scene {
             else if(object instanceof Switch){
                 Switch s = (Switch) object;
                 s.update(dt);
+            }else if(object instanceof Door){
+                Door s = (Door) object;
+                s.update(dt);
             }
         }
     }
@@ -57,6 +61,9 @@ public class Scene {
             }
             else if(object instanceof Switch){
                 Switch s = (Switch) object;
+                s.render(batch, dt);
+            }else if(object instanceof Door){
+                Door s = (Door) object;
                 s.render(batch, dt);
             }
 

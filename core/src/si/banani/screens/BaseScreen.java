@@ -20,7 +20,7 @@ public abstract class BaseScreen implements Screen{
     protected Viewport viewport;
     protected SpriteBatch batch;
     protected InputController inputController;
-    protected boolean running;
+    protected static boolean running;
 
     /*
         Every custom screen class that extends my BaseScreen class, has to override the show and render methods in order to
@@ -35,14 +35,10 @@ public abstract class BaseScreen implements Screen{
     }
 
     @Override
-    public void show() {
-
-    }
+    public abstract void show() ;
 
     @Override
-    public void render(float delta) {
-
-    }
+    public abstract void render(float delta) ;
 
     @Override
     public void resize(int width, int height) {
@@ -50,19 +46,13 @@ public abstract class BaseScreen implements Screen{
     }
 
     @Override
-    public void pause() {
-
-    }
+    public abstract void pause();
 
     @Override
-    public void resume() {
-
-    }
+    public abstract void resume() ;
 
     @Override
-    public void hide() {
-
-    }
+    public abstract void hide() ;
 
     @Override
     public void dispose() {

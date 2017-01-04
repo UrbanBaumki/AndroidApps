@@ -13,4 +13,7 @@ public class CollisionBits {
     public static final short ROCK_ENEMY_BIT = 32;
     public static final short SPIDER_ENEMY_BIT = 64;
     public static final short SWITCH_BIT = 128;
+    public static final short GHOST_BIT = 256;
+    public static final short DOORS_BIT = 512;
+    public static final short NONCOLLISION_BIT = 1024;
 }

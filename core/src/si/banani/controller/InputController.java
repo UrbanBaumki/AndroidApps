@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -28,6 +27,7 @@ public class InputController {
     private final int arrow_size = 35;
     private final int change_size = 40;
 
+
     public InputController(SpriteBatch batch){
         this.batch = batch;
         this.camera = new OrthographicCamera();
@@ -42,17 +42,18 @@ public class InputController {
         this.movementTable = new Table();
         usageTable = new Table();
 
-
         //right bottom
         Image up = new Image( TextureManager.getRegionByName("up_arrow").split(51 , 51)[0][0] );
         up.setSize(arrow_size ,arrow_size);
+        Image use = new Image( TextureManager.getRegionByName("use").split(51 , 51)[0][0] );
+        use.setSize(change_size ,change_size);
         Image change = new Image( TextureManager.getRegionByName("switch_player").split(51,51)[0][0]);
         change.setSize(change_size, change_size);
 
         //left bottom side
         movementTable.left().bottom();
 
-        Image left = new Image( TextureManager.getRegionByName("left_arrow").split(51 , 51)[0][0] );
+        final Image left = new Image( TextureManager.getRegionByName("left_arrow").split(51 , 51)[0][0] );
         left.setSize(arrow_size , arrow_size);
 
         Image right = new Image( TextureManager.getRegionByName("right_arrow").split(51 , 51)[0][0] );
@@ -62,75 +63,98 @@ public class InputController {
 
         //setting the listeners
 
-        left.addListener(new InputListener(){
+        left.addListener(new ImageInputListener(left){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().movePlayerLeft(true);
+                image.setScale(scale, scale);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().movePlayerLeft(false);
+                image.setScale(1f,1f);
             }
         });
-        right.addListener(new InputListener(){
+        right.addListener(new ImageInputListener(right){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().movePlayerRigth(true);
+                image.setScale(scale,scale);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().movePlayerRigth(false);
+                image.setScale(1f,1f);
             }
         });
-        up.addListener(new InputListener(){
+        up.addListener(new ImageInputListener(up){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().movePlayerUp( true);
+                image.setScale(scale,scale);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().movePlayerUp(false);
+                image.setScale(1f,1f);
             }
         });
 
-        down.addListener(new InputListener(){
+        down.addListener(new ImageInputListener(down){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().movePlayerDown(true);
+                image.setScale(scale,scale);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().movePlayerDown(false);
+                image.setScale(1f,1f);
             }
         });
-        change.addListener(new InputListener(){
+        change.addListener(new ImageInputListener(change){
 
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
+                image.setScale(scaleSmall,scaleSmall);
                 return true;
             }
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().switchPlayer();
+                image.setScale(1f,1f);
+            }
+        });
+        use.addListener(new ImageInputListener(use){
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                image.setScale(scaleSmall,scaleSmall);
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                PlayerMovementController.getInstance().doSwitch();
+                image.setScale(1f,1f);
             }
         });
         movementTable.setFillParent(true);
         movementTable.row().pad(6);
-        movementTable.add(left).size(left.getWidth(), left.getHeight());
+        movementTable.add(left).size(left.getWidth(), left.getHeight()).padLeft(8);
         movementTable.add();
         movementTable.add(right).size(right.getWidth(), right.getHeight());
 
@@ -140,8 +164,9 @@ public class InputController {
         usageTable.row().pad(4);
         usageTable.add().expandX();
         usageTable.add(change).size(change.getWidth(), change.getHeight());
+        usageTable.add(use).size(use.getWidth(), use.getHeight());
         usageTable.add(up).size(up.getWidth(), up.getHeight());
-        usageTable.add(down).size(down.getWidth(), down.getHeight());
+        usageTable.add(down).size(down.getWidth(), down.getHeight()).padRight(8);
 
 
         this.stage.addActor(movementTable);

@@ -36,8 +36,8 @@ public class Box extends InteractiveTile {
         setCategoryFilter(CollisionBits.OBJECT_BIT);
 
         body.setType(BodyDef.BodyType.DynamicBody);
-
-        fixture.setDensity(1f);
+        fixture.setRestitution(0f);
+        fixture.setDensity(7f);
         body.resetMassData();
 
         box = new Animation(sprites, frameSpeed);
