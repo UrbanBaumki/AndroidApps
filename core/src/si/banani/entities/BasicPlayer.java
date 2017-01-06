@@ -35,7 +35,7 @@ public abstract class BasicPlayer {
 
     //movement booleans
     public boolean left, right, up, down;
-    private boolean isJumping, isFalling;
+    protected boolean isJumping, isFalling;
 
 
     public BasicPlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType){
@@ -89,8 +89,14 @@ public abstract class BasicPlayer {
             isFalling = true;
             isJumping = false;
         }
-        else
+        else if(getYvelocity() > 0){
             isFalling = false;
+            isJumping = true;
+        }else {
+            isFalling = false;
+            isJumping = false;
+        }
+
 
         //push the body according to the set direction of movement and also check speed constraints
         if(left && getXvelocity() >= -maxMovSpeed)

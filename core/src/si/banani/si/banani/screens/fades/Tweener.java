@@ -91,7 +91,7 @@ public class Tweener {
     }
     public static void changeScreen(ScreenEnums screen){
         if(isFinished())
-            ScreenManager.getInstance().changeScreens(screen);
+            ScreenManager.getInstance().changeScreensAndDispose(screen);
     }
     /*
         Function resets the settings/clears effects queue.

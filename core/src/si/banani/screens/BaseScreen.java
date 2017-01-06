@@ -27,10 +27,10 @@ public abstract class BaseScreen implements Screen{
         really customize the behaviour, since these implementations in this class are blank.
      */
 
-    public BaseScreen(){
+    public BaseScreen(SpriteBatch batch){
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(LearningGdx.V_WIDTH / LearningGdx.PPM, LearningGdx.V_HEIGHT / LearningGdx.PPM, camera);
-        this.batch = new SpriteBatch();
+        this.batch = batch;
         this.running = true;
     }
 

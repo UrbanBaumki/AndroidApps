@@ -53,7 +53,7 @@ public class InputController {
         //left bottom side
         movementTable.left().bottom();
 
-        final Image left = new Image( TextureManager.getRegionByName("left_arrow").split(51 , 51)[0][0] );
+        Image left = new Image( TextureManager.getRegionByName("left_arrow").split(51 , 51)[0][0] );
         left.setSize(arrow_size , arrow_size);
 
         Image right = new Image( TextureManager.getRegionByName("right_arrow").split(51 , 51)[0][0] );

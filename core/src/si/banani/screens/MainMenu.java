@@ -1,254 +1,179 @@
 package si.banani.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-
-import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g3d.Renderable;
-import com.badlogic.gdx.graphics.g3d.Shader;
-import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
-import com.badlogic.gdx.maps.MapProperties;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
-import si.banani.camera.CameraEffects;
-import si.banani.camera.ParallaxCamera;
-import si.banani.controller.InputController;
-import si.banani.controller.PlayerMovementController;
-import si.banani.entities.FemalePlayer;
-import si.banani.entities.Player;
-import si.banani.entities.RockEnemy;
-import si.banani.entities.SpiderEnemy;
+import aurelienribon.tweenengine.Timeline;
+import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenManager;
+import si.banani.controller.ButtonInputListener;
 import si.banani.learning.LearningGdx;
-import si.banani.scene.Scene;
-import si.banani.scenes.Hud;
-import si.banani.textures.TextureManager;
-import si.banani.world.WorldContactListener;
-import si.banani.world.WorldCreator;
-
+import si.banani.si.banani.screens.fades.Tweener;
+import si.banani.tween.ActorAccessor;
 
 /**
- * Created by Urban on 18.10.2016.
+ * Created by Urban on 5.1.2017.
  */
 
 public class MainMenu extends BaseScreen {
 
+    private Table layoutTable;
+    private TextButton play, settings, exit;
+    private Label header;
+    private Skin skin;
+    private BitmapFont font;
+    private Stage stage;
+    private TextButton.TextButtonStyle buttonStyle;
+    private TweenManager tweenManager;
 
-    public static boolean reset = false;
-    private Hud hud;
-
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
-
-    //box2d
-    private World world;
-    private Box2DDebugRenderer box2DDebugRenderer;
-    private int levelW, levelH;
-
-    //my fixture creator
-    private WorldCreator worldCreator;
-
-    //for player
-
-    Player male;
-    FemalePlayer female;
-    RockEnemy e;
-    SpiderEnemy s;
-    //int [] bg = {0};
-    int [] fg = {1,2,3,4,5,6};
-
-    BitmapFont font;
-
-    //Parallax
-    ParallaxCamera parallaxCameraFG, parallaxCameraBG;
-    Texture bg, foreground;
-
-    public MainMenu() {
-        super();
-
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map.tmx");
-        mapRenderer = new OrthogonalTiledMapRenderer(map, 1/ LearningGdx.PPM);
-        this.camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM, 0);
-        MapProperties properties = map.getProperties();
-        levelW = properties.get("width", Integer.class);
-        levelH = properties.get("height", Integer.class);
+    public MainMenu(SpriteBatch spriteBatch){
+        super(spriteBatch);
 
 
-        parallaxCameraBG = new ParallaxCamera(LearningGdx.V_WIDTH * 1.2f, LearningGdx.V_HEIGHT * 1.2f, camera);
-        parallaxCameraFG = new ParallaxCamera(LearningGdx.V_WIDTH/2, LearningGdx.V_HEIGHT/2, camera);
-        //the texture manager
-        TextureManager.addAtlas("content.pack", "contentAtlas");
-        TextureManager.splitAtlasIntoRegions();
+        this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
+        this.stage = new Stage(viewport, batch);
 
-        this.hud = new Hud(this.batch);
+        Gdx.input.setInputProcessor(stage);
 
-        //box2d
-        world = new World(new Vector2(0, -10), true);
-        box2DDebugRenderer = new Box2DDebugRenderer();
+        layoutTable = new Table();
 
-        worldCreator = new WorldCreator(world, map);
-
-        world.setContactListener(new WorldContactListener());
-        //creating a test box
-        //first give a batch to scene
-        Scene.setSpriteBatch(this.batch);
-        Scene.setWorld(world);
         font = new BitmapFont(Gdx.files.internal("allura.fnt"));
+        font.getData().setScale(0.5f);
+        header = new Label(LearningGdx.TITLE, new Label.LabelStyle(font, Color.WHITE));
+        header.setFontScale(1.5f);
 
-        bg = new Texture(Gdx.files.internal("wood_bg.png"));
-        foreground = new Texture(Gdx.files.internal("wood_fg.png"));
+        buttonStyle = new TextButton.TextButtonStyle(null, null, null, font );
+
+        play = new TextButton("Play",buttonStyle );
+
+        settings = new TextButton("Settings", buttonStyle);
+        exit = new TextButton("Exit", buttonStyle);
+
+        //adding listeners
+        play.addListener( new ButtonInputListener(play){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                setBgColor();
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                resetBgColor();
+
+                Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.LEVELS);
+
+                if(s != null)
+                    ScreenManager.getInstance().set(s);
+                else
+                    ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.LEVELS, batch);
+            }
+        });
+
+
+
+        settings.addListener( new ButtonInputListener(settings){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                setBgColor();
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                resetBgColor();
+
+                Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.SETTINGS);
+
+                if(s != null)
+                    ScreenManager.getInstance().set(s);
+                else
+                    ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.SETTINGS, batch);
+            }
+        });
+
+        exit.addListener( new ButtonInputListener(exit){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                setBgColor();
+                return true;
+            }
+
+            @Override
+            public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                resetBgColor();
+                Gdx.app.exit();
+            }
+        });
+
+        layoutTable.setFillParent(true);
+        layoutTable.center();
+
+        layoutTable.row().pad(2f);
+        layoutTable.add(header).expandX();
+
+        layoutTable.row().align(8).padLeft(25f);
+        layoutTable.add(play).expandX();
+
+        layoutTable.row().align(8).padLeft(25f);
+        layoutTable.add(settings).expandX();
+
+        layoutTable.row().align(8).padLeft(25f);
+        layoutTable.add(exit).expandX();
+        //layoutTable.pack();
+
+        stage.addActor(layoutTable);
+
+
+        //animations
+        tweenManager = new TweenManager();
+        Tween.registerAccessor(Actor.class, new ActorAccessor());
+
+
     }
-
-
 
     @Override
     public void show() {
+        Timeline.createSequence().beginSequence()
+                .push(Tween.set(play, ActorAccessor.ALPHA).target(0))
+                .push(Tween.set(settings, ActorAccessor.ALPHA).target(0))
+                .push(Tween.set(exit, ActorAccessor.ALPHA).target(0))
+                .push(Tween.from(header, ActorAccessor.ALPHA, .5f).target(0))
+                .push(Tween.to(play, ActorAccessor.ALPHA, .3f).target(1))
+                .push(Tween.to(settings, ActorAccessor.ALPHA, .3f).target(1))
+                .push(Tween.to(exit, ActorAccessor.ALPHA, .3f).target(1))
+                .end().start(tweenManager);
 
-        //First method called when screen opened
-        this.male = new Player(world, 150, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerMale").split(32,64)[0], 1/7f, hud);
-        male.setFirstAnimationFrame(1);
-
-        this.female = new FemalePlayer(world, 110, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(32,64)[0], 1/7f);
-
-        e = new RockEnemy(world, 500, 250, 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f, male);
-        //s = new SpiderEnemy(world, 355, 150, 10, 28, BodyDef.BodyType.KinematicBody, TextureManager.getRegionByName("spiderEnemy").split(14,61)[0],  TextureManager.getRegionByName("spiderAttacking").split(23,61)[0] , 1/6f,1/3f, male);
-
-        CameraEffects.setCamera(camera);
-        CameraEffects.setTarget(male);
-        CameraEffects.setZooming(true);
-
-        this.inputController = new InputController(this.batch);
-
-        PlayerMovementController.getInstance().addPlayer(this.male);
-        PlayerMovementController.getInstance().addPlayer(this.female);
-    }
-
-    public void update(float delta){
-        if(!running) return;
-
-        world.step(1/60f, 6, 2);
-
-        male.update(delta);
-        female.update(delta);
-
-        //update the scene with its objects
-        Scene.update(delta); //important that is AFTER THE WORLD.STEP !!!
-        e.update(delta);
-        //s.update(delta);
-
-       //camera update
-        CameraEffects.updateCamera(delta);
-
-        float sX = camera.viewportWidth/2;
-        float sY = camera.viewportHeight/2;
-
-        CameraEffects.boundCamera(sX, sY, levelW * 64 - sX *2, levelH * 64 - sY * 2);
-        // ---- end camera update
-
-        //for the map renderer
-        mapRenderer.setView(this.camera);
-
-        if(male.getY() < 0){
-            male.resetPlayer();
-        }else if(reset){
-            male.resetPlayer();
-            reset = false;
-        }
-
+        //table anim
+        Tween.from(layoutTable, ActorAccessor.X, .4f).target(LearningGdx.V_WIDTH / 8).start(tweenManager);
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
-
-
-        update(delta);
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        tweenManager.update(delta);
 
-        //bg
-        batch.setProjectionMatrix(parallaxCameraBG.calculateParallaxMatrix(0.025f, 0.6f));
-        batch.begin();
-        batch.enableBlending();
-        batch.draw(bg, -LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2);
+        stage.act(delta);
 
-        batch.end();
-
-
-
-
-        batch.setProjectionMatrix(camera.combined);
-        //render the map also
-        //mapRenderer.render(bg);
-        batch.begin();
-
-
-
-        male.render(batch, delta);
-        female.render(batch,delta);
-
-        //render the scene with objects
-        Scene.render(delta);
-
-        e.render(batch, delta);
-        //s.render(batch, delta);
-
-        batch.end();
-
-        mapRenderer.render(fg);
-
-        //fg
-        batch.setProjectionMatrix(parallaxCameraFG.calculateParallaxMatrix(1.2f, 0.5f));
-        batch.begin();
-        batch.enableBlending();
-
-
-        float par = parallaxCameraFG.position.x + parallaxCameraFG.getViewportWidth();
-        int ind = (int) (par / foreground.getWidth()) + 1;
-        if(ind-1 == 0){
-            batch.draw(foreground,(ind-1) * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-            batch.draw(foreground,ind * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-        }else{
-            batch.draw(foreground,(ind-2) * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-            batch.draw(foreground,(ind-1) * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-            batch.draw(foreground,ind * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-        }
-
-        batch.end();
-        /////
-
-        batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
-        hud.stage.draw();
-
-        this.inputController.draw();
-
-        //debuger
-        box2DDebugRenderer.render(world, camera.combined);
-
-    }
-    public static void setRunning(boolean b){ running = b; }
-
-    @Override
-    public void dispose() {
-        super.dispose();
-        TextureManager.disposeAll();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
-        inputController.resize(width,height);
+        stage.draw();
+        //layoutTable.debug();
     }
 
     @Override
@@ -265,4 +190,13 @@ public class MainMenu extends BaseScreen {
     public void hide() {
 
     }
+    @Override
+    public void dispose(){
+        super.dispose();
+        stage.dispose();
+    }
+    public void resize (int width, int height){
+        viewport.update(width, height);
+    }
+
 }

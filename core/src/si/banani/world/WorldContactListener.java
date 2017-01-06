@@ -42,8 +42,7 @@ public class WorldContactListener implements ContactListener {
         }
         else if(a.getUserData() != null && a.getUserData() instanceof Spikes && b.getUserData() != null && b.getUserData() instanceof Box){
             //spikes and a box
-            Box box = (Box) b.getUserData();
-            box.onSpikeHit();
+
         }else if(a.getUserData() != null && a.getUserData() instanceof Switch && b.getUserData() != null && b.getUserData() instanceof Player){
             Switch s = (Switch) a.getUserData();
             Player p = (Player) b.getUserData();

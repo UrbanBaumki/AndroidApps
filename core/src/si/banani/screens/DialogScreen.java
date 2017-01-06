@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -30,8 +31,8 @@ public class DialogScreen extends BaseScreen {
     private Label displayLabel;
     private GlyphLayout layout;
 
-    public DialogScreen(){
-        super();
+    public DialogScreen(SpriteBatch spriteBatch){
+        super(spriteBatch);
         layout = new GlyphLayout();
 
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
@@ -51,7 +52,7 @@ public class DialogScreen extends BaseScreen {
                 "Nikdar ga ni nehala ljubiti, cetudi je zdaj peljal proti nevarnemu ovinku z mocno preveliko hitrostjo.");
 
         timeDisplayed = 0f;
-        timeToAnimate = 12f;
+        timeToAnimate = 8f;
         endPauseTime = 3.5f;
 
         displayLabel = new Label("", new Label.LabelStyle(font, Color.WHITE));
@@ -80,7 +81,7 @@ public class DialogScreen extends BaseScreen {
     }
     @Override
     public void show() {
-
+        Gdx.app.log("Dialog zaslon", "show");
     }
     private String getCurrentString(float dt){
 
@@ -102,11 +103,14 @@ public class DialogScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         if(finished){
-            ScreenManager.getInstance().changeScreens(ScreenEnums.MAIN_MENU);
+            finished = false;
+            timeDisplayed = 0;
+            ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch);
         }
 
         updateLabelString( getCurrentString(delta) );
         stage.draw();
+        Gdx.app.log("Dialog zaslon", "render");
 
     }
     private void updateLabelString(String string){
@@ -116,16 +120,17 @@ public class DialogScreen extends BaseScreen {
     @Override
     public void pause() {
 
+        Gdx.app.log("Dialog zaslon", "pavza");
     }
 
     @Override
     public void resume() {
-
+        Gdx.app.log("Dialog zaslon", "resume");
     }
 
     @Override
     public void hide() {
-
+        Gdx.app.log("Dialog zaslon", "skrivamse");
     }
 
     @Override

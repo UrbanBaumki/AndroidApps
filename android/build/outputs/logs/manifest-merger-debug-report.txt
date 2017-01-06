@@ -38,7 +38,7 @@ ADDED from C:\Users\Urban\Desktop\BtsProjectTest\android\AndroidManifest.xml:9:5
 activity#si.banani.learning.AndroidLauncher
 ADDED from C:\Users\Urban\Desktop\BtsProjectTest\android\AndroidManifest.xml:14:9-23:20
 	android:screenOrientation
-		ADDED from C:\Users\Urban\Desktop\BtsProjectTest\android\AndroidManifest.xml:17:13-50
+		ADDED from C:\Users\Urban\Desktop\BtsProjectTest\android\AndroidManifest.xml:17:13-56
 	android:label
 		ADDED from C:\Users\Urban\Desktop\BtsProjectTest\android\AndroidManifest.xml:16:13-45
 	android:configChanges

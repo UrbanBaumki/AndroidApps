@@ -7,7 +7,7 @@
         jumboMode="false"
         optimize="true"
         revision="24.0.3"
-        sha1="a56fe81fda4bf804caa93668da2d3123f043277d">
+        sha1="fd6164b8cf05b4df9f8cb8548cca6dcabda555fc">
         <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\core-1.0_af9a91b2f5bc77f5217d8d5409038e5817e1a3bf.jar" />
     </item>
     <item
@@ -18,6 +18,15 @@
         revision="24.0.3"
         sha1="98a0d25c9f0637fecac6e4aacf7287aa635964f5">
         <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\gdx-box2d-1.9.4_4ffaf1f41a6cf4bfdcc3c0c2721ab8d718c48c18.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Urban\Desktop\BtsProjectTest\libs\tween-engine-api.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="8be8beb70b7ccae059d523e56670f6e44fb1821f">
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\tween-engine-api_3439c10fbe8135edba003ade8477ba829becd12a.jar" />
     </item>
     <item
         is-multidex="false"

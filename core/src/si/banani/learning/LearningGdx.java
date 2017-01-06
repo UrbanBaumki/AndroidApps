@@ -16,11 +16,16 @@ public class LearningGdx extends Game {
 	public static final int V_WIDTH = 480;
 	public static final int V_HEIGHT = 240;
 	public static final float PPM = 100;
+	public static final String TITLE = "Beneath the Surface";
+
+	private SpriteBatch batch;
 
 	@Override
 	public void create () {
+
+		batch = new SpriteBatch();
 		ScreenManager.getInstance().bindWithMainGameClass(this);
-		ScreenManager.getInstance().changeScreens(ScreenEnums.MAIN_MENU);
+		ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.MAIN_MENU, batch);
 	}
 	@Override
 	public void render () {

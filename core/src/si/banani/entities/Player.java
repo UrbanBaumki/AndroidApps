@@ -1,6 +1,5 @@
 package si.banani.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import si.banani.animation.Animation;
 import si.banani.learning.LearningGdx;
 import si.banani.scenes.Hud;
-import si.banani.screens.MainMenu;
+import si.banani.screens.Play;
 import si.banani.tiles.Switch;
 import si.banani.world.CollisionBits;
 
@@ -27,7 +26,7 @@ public class Player extends BasicPlayer {
     private Animation walkAnimation;
     private TextureRegion[] sprites;
     private Switch aSwitch;
-
+    private boolean fixedFriction;
 
     private Hud hud;
 
@@ -103,7 +102,7 @@ public class Player extends BasicPlayer {
 
         if(hud.getNumLives() == 0){
 
-            MainMenu.setRunning(false);
+            Play.setRunning(false);
 
             hud.showGameOver();
         }
