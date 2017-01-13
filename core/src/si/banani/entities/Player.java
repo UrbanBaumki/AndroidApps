@@ -1,5 +1,6 @@
 package si.banani.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -21,12 +22,11 @@ import si.banani.world.CollisionBits;
 
 public class Player extends BasicPlayer {
 
-    private int yOffset = 6;
+    private int yOffset = 1;
 
     private Animation walkAnimation;
     private TextureRegion[] sprites;
-    private Switch aSwitch;
-    private boolean fixedFriction;
+    private boolean fixedFriction, switching;
 
     private Hud hud;
 
@@ -45,11 +45,14 @@ public class Player extends BasicPlayer {
         ((body.getFixtureList()).get(0)).setFilterData(f);
         ((body.getFixtureList()).get(0)).setDensity(6f);
         ((body.getFixtureList()).get(0)).setFriction(1f);
+        ((circleBody.getFixtureList()).get(0)).setFilterData(f);
         body.resetMassData();
 
         this.currentState = PlayerState.STANDING;
         this.previousState = PlayerState.STANDING;
         this.timeInCurrentState = 0;
+
+
 
 
         this.width = sprites[0].getRegionWidth();
@@ -65,6 +68,8 @@ public class Player extends BasicPlayer {
     }
 
     public void update(float dt){
+
+        this.switching = false;
         super.update(dt);
 
     }
@@ -118,19 +123,14 @@ public class Player extends BasicPlayer {
     public void setMovementSpeed(float speed){this.movementSpeed = speed; }
     public void setMaxMovSpeed(float cap){this.maxMovSpeed = cap;}
     public void setJumpSpeed(float jumpSpeed){this.jumpSpeed = jumpSpeed;}
-    public void giveSwitch(Switch aSwitch){ this.aSwitch = aSwitch; }
-    public void removeSwitch(){ this.aSwitch = null; }
+
     public void doSwitch(){
-
-        if(aSwitch !=null)
-            aSwitch.activate();
-
-
+        this.switching = true;
     }
-
+    public boolean isSwitching(){ return this.switching; }
     public PlayerState getState(){
 
-        if(this.body.getLinearVelocity().x <= 0.2f && this.body.getLinearVelocity().x >= -0.2f )
+        if(this.body.getLinearVelocity().x <= 0.09f && this.body.getLinearVelocity().x >= -0.09f )
             return PlayerState.STANDING;
         else
             return PlayerState.WALKING;

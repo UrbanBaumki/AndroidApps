@@ -43,10 +43,6 @@ public class WorldContactListener implements ContactListener {
         else if(a.getUserData() != null && a.getUserData() instanceof Spikes && b.getUserData() != null && b.getUserData() instanceof Box){
             //spikes and a box
 
-        }else if(a.getUserData() != null && a.getUserData() instanceof Switch && b.getUserData() != null && b.getUserData() instanceof Player){
-            Switch s = (Switch) a.getUserData();
-            Player p = (Player) b.getUserData();
-            p.giveSwitch(s);
         }else if(a.getUserData() != null && a.getUserData() instanceof Player && b.getUserData() != null && b.getUserData().equals("stairs")){
             Player p = (Player)a.getUserData();
 
@@ -56,10 +52,6 @@ public class WorldContactListener implements ContactListener {
             collideChecker(b, a, false);
     }
     private void decollideChecker(Fixture a, Fixture b, boolean reverse){
-
-        if(a.getUserData() != null && a.getUserData() instanceof Switch && b.getUserData() != null && b.getUserData() instanceof Player){
-            ((Player) b.getUserData()).removeSwitch();
-        }
 
         if(reverse)
             decollideChecker(b, a, false);

@@ -7,8 +7,26 @@
         jumboMode="false"
         optimize="true"
         revision="24.0.3"
-        sha1="fd6164b8cf05b4df9f8cb8548cca6dcabda555fc">
+        sha1="b3a31209cdcfcd30b2c2c2a3b78d611a0426853f">
         <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\core-1.0_af9a91b2f5bc77f5217d8d5409038e5817e1a3bf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Urban\Desktop\BtsProjectTest\libs\box2dlights-1.5-SNAPSHOT.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="0964e0cb30414a6bd48dea6ec34a3591e20f7e0c">
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\box2dlights-1.5-SNAPSHOT_1172772497d4edb6fedb8c87b9ff46813ecd1589.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\Urban\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.9.4\4b4b7962d1bc75af0438f5c81ec1010557bc9ee5\gdx-1.9.4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.3"
+        sha1="4b4b7962d1bc75af0438f5c81ec1010557bc9ee5">
+        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\gdx-1.9.4_2bafea79ac432ce42bee6142f8acbf2925f5b4a1.jar" />
     </item>
     <item
         is-multidex="false"
@@ -36,15 +54,6 @@
         revision="24.0.3"
         sha1="194b33382d6d58fad031521ba3331d926c476c9b">
         <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\gdx-backend-android-1.9.4_385b8b99c5294c158db50ee7c4243eee2be43a67.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="C:\Users\Urban\.gradle\caches\modules-2\files-2.1\com.badlogicgames.gdx\gdx\1.9.4\4b4b7962d1bc75af0438f5c81ec1010557bc9ee5\gdx-1.9.4.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="24.0.3"
-        sha1="4b4b7962d1bc75af0438f5c81ec1010557bc9ee5">
-        <dex dex="C:\Users\Urban\Desktop\BtsProjectTest\android\build\intermediates\pre-dexed\debug\gdx-1.9.4_2bafea79ac432ce42bee6142f8acbf2925f5b4a1.jar" />
     </item>
 
 </items>

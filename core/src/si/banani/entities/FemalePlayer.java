@@ -2,6 +2,7 @@ package si.banani.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
@@ -34,6 +35,10 @@ public class FemalePlayer extends BasicPlayer {
                 CollisionBits.SWITCH_BIT;
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
+        ((body.getFixtureList()).get(0)).setDensity(6f);
+        ((body.getFixtureList()).get(0)).setFriction(1f);
+        ((circleBody.getFixtureList()).get(0)).setFilterData(f);
+        body.resetMassData();
 
         this.currentState = PlayerState.STANDING;
         this.previousState = PlayerState.STANDING;
@@ -64,6 +69,9 @@ public class FemalePlayer extends BasicPlayer {
                 break;
         }
         return region;
+    }
+    public Body getBody(){
+        return this.body;
     }
 
     @Override

@@ -1,13 +1,16 @@
 package si.banani.entities;
 
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 import si.banani.learning.LearningGdx;
 
@@ -17,11 +20,13 @@ import si.banani.learning.LearningGdx;
 
 public abstract class BasicPlayer {
 
-    protected Body body;
+    protected Body body, circleBody;
     protected BodyDef bdef;
     protected FixtureDef fdef;
     protected World world;
     protected PolygonShape shape;
+    protected RevoluteJoint revoluteJoint;
+    protected RevoluteJointDef revoluteJointDef;
 
     protected float x, y;
 
@@ -46,6 +51,9 @@ public abstract class BasicPlayer {
         this.maxMovSpeed = 1.65f;
         this.jumpSpeed = 4f;
 
+        this.width = width;
+        this.height = height;
+
         this.x = x;
         this.y = y;
 
@@ -63,6 +71,12 @@ public abstract class BasicPlayer {
         bdef.type = bodyType;
 
         this.body = this.world.createBody(bdef);
+
+        //defining the circle body
+        bdef = new BodyDef();
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.position.set(x / LearningGdx.PPM, y / LearningGdx.PPM - 100/LearningGdx.PPM);
+        circleBody = world.createBody(bdef);
     }
     public void defineShape(int width, int height){
         this.shape = new PolygonShape();
@@ -71,12 +85,40 @@ public abstract class BasicPlayer {
     public void defineFixture(){
         this.fdef = new FixtureDef();
         fdef.shape = this.shape;
-
-
         fdef.restitution = 0f;
+        fdef.density = 1f;
+
+
+        //fixture definition for the circle fixture
+        FixtureDef fdef2 = new FixtureDef();
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(10f/LearningGdx.PPM);
+        fdef2.shape = circleShape;
+        fdef2.density = 2f;
+        fdef2.restitution = 0f;
+        fdef2.friction = 2f;
+
+
+
+
         this.body.createFixture(fdef);
         this.body.setFixedRotation(true);
 
+
+        this.circleBody.createFixture(fdef2);
+        circleBody.setFixedRotation(false);
+        //the revolute joint def
+        revoluteJointDef = new RevoluteJointDef();
+        revoluteJointDef.bodyA = body;
+        revoluteJointDef.bodyB = circleBody;
+        revoluteJointDef.localAnchorA.set(0, -20/LearningGdx.PPM);
+
+        revoluteJointDef.collideConnected = false;
+        revoluteJointDef.enableMotor = true;
+        revoluteJointDef.maxMotorTorque = 200;
+        revoluteJointDef.motorSpeed = 0;
+
+        revoluteJoint = (RevoluteJoint) world.createJoint(revoluteJointDef);
 
     }
     public void update(float dt){
@@ -103,21 +145,27 @@ public abstract class BasicPlayer {
         {
 
             //this.body.applyLinearImpulse(new Vector2(-movementSpeed, 0), body.getWorldCenter(), true);
-            this.body.applyForceToCenter(new Vector2(-movementSpeed, 0), true );
+            this.body.applyForceToCenter(new Vector2(-movementSpeed/2, 0), true );
+            revoluteJoint.setMotorSpeed(movementSpeed);
             dir = -1;
+        }else if(!right){
+            revoluteJoint.setMotorSpeed(0);
         }
 
         if(right && getXvelocity() <= maxMovSpeed)
         {
             //this.body.applyLinearImpulse(new Vector2(movementSpeed, 0), body.getWorldCenter(), true);
-            this.body.applyForceToCenter(new Vector2(movementSpeed, 0), true );
+            this.body.applyForceToCenter(new Vector2(movementSpeed/2, 0), true );
+            revoluteJoint.setMotorSpeed(-movementSpeed);
             dir = 1;
+        }else if(!left){
+            revoluteJoint.setMotorSpeed(0);
         }
 
         if(up && !isJumping && !isFalling && getYvelocity() <= jumpSpeed)
         {
             isJumping = true;
-            this.body.applyLinearImpulse(new Vector2(0, jumpSpeed), body.getWorldCenter(), true);
+            this.body.applyLinearImpulse(new Vector2(0, jumpSpeed*2), body.getWorldCenter(), true);
         }
     }
 

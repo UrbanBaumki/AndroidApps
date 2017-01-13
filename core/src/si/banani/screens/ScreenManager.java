@@ -1,10 +1,12 @@
 package si.banani.screens;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
 import java.util.Stack;
 
+import si.banani.learning.LearningGdx;
 import si.banani.si.banani.screens.fades.Tweener;
 
 /**
@@ -16,7 +18,6 @@ public class ScreenManager {
     private static ScreenManager scmInstance;
     private Game game;
     private static Stack<Screen> screens;
-    private boolean commitScreenChange = false;
 
     private ScreenManager(){
         super();
@@ -67,6 +68,16 @@ public class ScreenManager {
         game.setScreen(screen);
         push(screen);
     }
+    public void disposeAll(){
+        for(Screen s : screens)
+            s.dispose();
+        for(int i = 0; i < screens.size(); i++)
+            screens.pop();
+    }
+    public void quitApplication(){
+        disposeAll();
+        Gdx.app.exit();
+    }
 
     public Screen doesExist(ScreenEnums enums){
         Screen scr = null;
@@ -77,6 +88,14 @@ public class ScreenManager {
                 return s;
             }
             if(enums == ScreenEnums.SETTINGS && s instanceof Settings)
+            {
+                return s;
+            }
+            if(enums == ScreenEnums.MAIN_MENU && s instanceof MainMenu)
+            {
+                return s;
+            }
+            if(enums == ScreenEnums.PLAY && s instanceof Play)
             {
                 return s;
             }

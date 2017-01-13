@@ -1,6 +1,7 @@
 package si.banani.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
+import box2dLight.RayHandler;
 import si.banani.learning.LearningGdx;
 import si.banani.tween.ActorAccessor;
 
@@ -66,7 +68,11 @@ public class Levels extends BaseScreen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch);
+                Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.PLAY);
+                if(s != null)
+                    ScreenManager.getInstance().set(s);
+                else
+                    ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch);
             }
         });
 
@@ -140,6 +146,15 @@ public class Levels extends BaseScreen {
 
     @Override
     public void hide() {
+
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        font.dispose();
+        layout = null;
+        stage.dispose();
 
     }
 }

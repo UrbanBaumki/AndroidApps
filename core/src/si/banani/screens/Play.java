@@ -1,26 +1,35 @@
 package si.banani.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 
-import com.badlogic.gdx.graphics.Camera;
+
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 
+import com.badlogic.gdx.graphics.Mesh;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.VertexAttributes;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.Renderable;
-import com.badlogic.gdx.graphics.g3d.Shader;
-import com.badlogic.gdx.graphics.g3d.utils.RenderContext;
+
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 import si.banani.camera.CameraEffects;
 import si.banani.camera.ParallaxCamera;
 import si.banani.controller.InputController;
@@ -33,6 +42,7 @@ import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.scenes.Hud;
 import si.banani.textures.TextureManager;
+import si.banani.world.WorldCollideListener;
 import si.banani.world.WorldContactListener;
 import si.banani.world.WorldCreator;
 
@@ -74,16 +84,28 @@ public class Play extends BaseScreen {
     ParallaxCamera parallaxCameraFG, parallaxCameraBG;
     Texture bg, foreground;
 
+    //Testing lights
+    RayHandler handler;
+    PointLight pointLight;
+
+    //overlaping
+    WorldCollideListener overlaper;
+
+    //shader test
+    ShaderProgram shader, defaulShader;
+
+
     public Play(SpriteBatch spriteBatch) {
         super(spriteBatch);
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("map.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1/ LearningGdx.PPM);
-        this.camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM, 0);
+        //this.camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM, 0);
         MapProperties properties = map.getProperties();
         levelW = properties.get("width", Integer.class);
         levelH = properties.get("height", Integer.class);
+
 
 
         parallaxCameraBG = new ParallaxCamera(LearningGdx.V_WIDTH * 1.2f, LearningGdx.V_HEIGHT * 1.2f, camera);
@@ -126,6 +148,29 @@ public class Play extends BaseScreen {
 
         PlayerMovementController.getInstance().addPlayer(this.male);
         PlayerMovementController.getInstance().addPlayer(this.female);
+
+
+        //RayHandler.useDiffuseLight(true);
+        handler = new RayHandler(world);
+
+        handler.setAmbientLight(1f);
+        pointLight = new PointLight(handler, 100, Color.WHITE, 128/LearningGdx.PPM, 0,0);
+        pointLight.attachToBody(female.getBody());
+        pointLight.setIgnoreAttachedBody(true);
+
+        overlaper = new WorldCollideListener(world);
+
+        //shader
+        ShaderProgram.pedantic = false;
+        shader = new ShaderProgram(Gdx.files.internal("bin/shaders/bw.vsh"),Gdx.files.internal("bin/shaders/bw.fsh") );
+        System.out.println(shader.isCompiled() ? "Compiled" : shader.getLog());
+
+
+        defaulShader = batch.createDefaultShader();
+
+
+
+
     }
 
 
@@ -134,14 +179,16 @@ public class Play extends BaseScreen {
     public void show() {
 
         //First method called when screen opened
+        inputController.resetInputProcessor();
 
     }
 
     public void update(float delta){
         if(!running) return;
 
-        world.step(1/60f, 6, 2);
 
+        world.step(1/60f, 6, 2);
+        overlaper.update();
         male.update(delta);
         female.update(delta);
 
@@ -168,6 +215,9 @@ public class Play extends BaseScreen {
             male.resetPlayer();
             reset = false;
         }
+        //
+
+        handler.setCombinedMatrix(camera);
 
     }
 
@@ -180,6 +230,10 @@ public class Play extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
+        //apply shader
+        batch.setShader(shader);
+        mapRenderer.getBatch().setShader(shader);
+
         //bg
         batch.setProjectionMatrix(parallaxCameraBG.calculateParallaxMatrix(0.025f, 0.6f));
         batch.begin();
@@ -187,8 +241,6 @@ public class Play extends BaseScreen {
         batch.draw(bg, -LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2);
 
         batch.end();
-
-
 
 
         batch.setProjectionMatrix(camera.combined);
@@ -199,7 +251,9 @@ public class Play extends BaseScreen {
 
 
         male.render(batch, delta);
-        female.render(batch,delta);
+
+
+
 
         //render the scene with objects
         Scene.render(delta);
@@ -212,6 +266,7 @@ public class Play extends BaseScreen {
         mapRenderer.render(fg);
 
         //fg
+
         batch.setProjectionMatrix(parallaxCameraFG.calculateParallaxMatrix(1.2f, 0.5f));
         batch.begin();
         batch.enableBlending();
@@ -229,9 +284,21 @@ public class Play extends BaseScreen {
         }
 
         batch.end();
+        handler.updateAndRender();
+
+        batch.begin();
+        batch.setProjectionMatrix(camera.combined);
+        female.render(batch,delta);
+
+
+
+        batch.end();
         /////
 
+
+        batch.setShader(defaulShader);
         batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
+
         hud.stage.draw();
 
         this.inputController.draw();
@@ -246,12 +313,20 @@ public class Play extends BaseScreen {
     public void dispose() {
         super.dispose();
         TextureManager.disposeAll();
+        world.dispose();
+        handler.dispose();
     }
 
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
         inputController.resize(width,height);
+        int gutterW = viewport.getLeftGutterWidth();
+        int gutterH = viewport.getTopGutterHeight();
+        int rhWidth = width - (2 * gutterW);
+        int rhHeight = height - (2 * gutterH);
+        handler.useCustomViewport(gutterW, gutterH, rhWidth , rhHeight);
+
     }
 
     @Override
@@ -268,4 +343,9 @@ public class Play extends BaseScreen {
     public void hide() {
 
     }
+
+
+
+
+
 }

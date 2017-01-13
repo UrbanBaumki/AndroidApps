@@ -47,16 +47,18 @@ public class DialogScreen extends BaseScreen {
 
 
         font = new BitmapFont(Gdx.files.internal("allura.fnt"));
-        full = addLinesToText("Ljubila ga je kljub storjenim napakam, kljub temu, da je zopet opit sedel za volan in ju jezno odpeljal proti domu." +
+        full = "Ljubila ga je kljub storjenim napakam, kljub temu, da je zopet opit sedel za volan in ju jezno odpeljal proti domu." +
                 "Ljubila ga je z vsem srcem, ceprav je postal agresiven in zacel glasen prepir." +
-                "Nikdar ga ni nehala ljubiti, cetudi je zdaj peljal proti nevarnemu ovinku z mocno preveliko hitrostjo.");
+                "Nikdar ga ni nehala ljubiti, cetudi je zdaj peljal proti nevarnemu ovinku z mocno preveliko hitrostjo.";
 
         timeDisplayed = 0f;
         timeToAnimate = 8f;
         endPauseTime = 3.5f;
 
         displayLabel = new Label("", new Label.LabelStyle(font, Color.WHITE));
+        displayLabel.setWrap(true);
         displayTable.add(displayLabel).fillX().align(Align.top).expandX();
+        //displayTable.add(displayLabel).width(50f).align(Align.top).align(Align.left);
 
         //displayLabel.setWrap(true);
         stage.addActor(displayTable);
@@ -105,7 +107,7 @@ public class DialogScreen extends BaseScreen {
         if(finished){
             finished = false;
             timeDisplayed = 0;
-            ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch);
+            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.MAIN_MENU, batch);
         }
 
         updateLabelString( getCurrentString(delta) );
@@ -120,12 +122,11 @@ public class DialogScreen extends BaseScreen {
     @Override
     public void pause() {
 
-        Gdx.app.log("Dialog zaslon", "pavza");
     }
 
     @Override
     public void resume() {
-        Gdx.app.log("Dialog zaslon", "resume");
+
     }
 
     @Override

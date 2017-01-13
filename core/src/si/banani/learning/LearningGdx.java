@@ -18,21 +18,24 @@ public class LearningGdx extends Game {
 	public static final float PPM = 100;
 	public static final String TITLE = "Beneath the Surface";
 
-	private SpriteBatch batch;
+	private static SpriteBatch batch;
 
 	@Override
 	public void create () {
 
 		batch = new SpriteBatch();
 		ScreenManager.getInstance().bindWithMainGameClass(this);
-		ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.MAIN_MENU, batch);
+		ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch);
 	}
+
 	@Override
 	public void render () {
 		super.render();
 	}
 	@Override
 	public void dispose () {
+
+		batch.dispose();
 		super.dispose();
 	}
 	@Override

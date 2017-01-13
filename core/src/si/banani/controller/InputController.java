@@ -1,9 +1,13 @@
 package si.banani.controller;
 
 import com.badlogic.gdx.Gdx;
+
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,6 +15,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.learning.LearningGdx;
+import si.banani.screens.ScreenEnums;
+import si.banani.screens.ScreenManager;
 import si.banani.textures.TextureManager;
 
 /**
@@ -36,6 +42,7 @@ public class InputController {
         this.stage = new Stage(viewport, batch );
 
         Gdx.input.setInputProcessor(stage);
+        Gdx.input.setCatchBackKey(true);
         createTableLayout();
     }
     private void createTableLayout(){
@@ -152,6 +159,26 @@ public class InputController {
                 image.setScale(1f,1f);
             }
         });
+
+        stage.addListener(new InputListener(){
+
+
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if(keycode == Input.Keys.BACK) {
+                    Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.MAIN_MENU);
+                    if (s != null)
+                        ScreenManager.getInstance().set(s);
+                }
+                return false;
+            }
+
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                return false;
+            }
+        });
+
         movementTable.setFillParent(true);
         movementTable.row().pad(6);
         movementTable.add(left).size(left.getWidth(), left.getHeight()).padLeft(8);
@@ -174,10 +201,17 @@ public class InputController {
 
     }
 
+    public void resetInputProcessor(){
+        Gdx.input.setInputProcessor(stage);
+    }
+
     public void draw(){
+
         this.stage.draw();
     }
     public void resize(int width, int height){
         this.viewport.update(width,height);
     }
+
+
 }

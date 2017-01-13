@@ -109,7 +109,7 @@ public class WorldCreator {
                     polyShape.set(verticies);
 
                     fdef.shape = polyShape;
-                    fdef.friction = 0f;
+                    fdef.friction = 1f;
                     fdef.density = 1f;
 
                     fdef.restitution = 0f;

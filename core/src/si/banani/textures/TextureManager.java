@@ -17,14 +17,13 @@ public class TextureManager {
 
     private static TextureManager txm;
     private static HashMap<String, TextureAtlas> atlasFiles;
-    private static HashMap<String, TextureRegion> regions;
+    private static HashMap<String, TextureRegion> regions = new HashMap<String, TextureRegion>();
 
     public static TextureManager getInstance(){
         if(txm == null) txm = new TextureManager();
         return txm;
     }
     public static void splitAtlasIntoRegions(){
-        if(regions == null) regions = new HashMap<String, TextureRegion>();
 
         //loop the atlases
         Iterator it = atlasFiles.entrySet().iterator();
@@ -50,6 +49,9 @@ public class TextureManager {
             atlasFiles = new HashMap<String, TextureAtlas>();
 
         atlasFiles.put(name, new TextureAtlas(Gdx.files.internal(path)));
+    }
+    public boolean doesRegionExist(String region){
+        return regions.containsKey(region);
     }
     /*
         @param atlasName    Name of the atlas file specified in the addAtlas() function

@@ -22,6 +22,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import si.banani.controller.ButtonInputListener;
 import si.banani.learning.LearningGdx;
+import si.banani.serialization.Serializer;
 import si.banani.si.banani.screens.fades.Tweener;
 import si.banani.tween.ActorAccessor;
 
@@ -116,7 +117,7 @@ public class MainMenu extends BaseScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 resetBgColor();
-                Gdx.app.exit();
+                ScreenManager.getInstance().quitApplication();
             }
         });
 
@@ -161,6 +162,7 @@ public class MainMenu extends BaseScreen {
         //table anim
         Tween.from(layoutTable, ActorAccessor.X, .4f).target(LearningGdx.V_WIDTH / 8).start(tweenManager);
         Gdx.input.setInputProcessor(stage);
+
     }
 
     @Override
@@ -194,6 +196,8 @@ public class MainMenu extends BaseScreen {
     public void dispose(){
         super.dispose();
         stage.dispose();
+        font.dispose();
+
     }
     public void resize (int width, int height){
         viewport.update(width, height);
