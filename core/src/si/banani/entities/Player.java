@@ -43,10 +43,13 @@ public class Player extends BasicPlayer {
                 CollisionBits.SWITCH_BIT |
                 CollisionBits.DOORS_BIT;
         ((body.getFixtureList()).get(0)).setFilterData(f);
+        ((body.getFixtureList()).get(1)).setFilterData(f);
         ((body.getFixtureList()).get(0)).setDensity(6f);
         ((body.getFixtureList()).get(0)).setFriction(1f);
         ((circleBody.getFixtureList()).get(0)).setFilterData(f);
         body.resetMassData();
+
+        footFixture.setUserData(this);
 
         this.currentState = PlayerState.STANDING;
         this.previousState = PlayerState.STANDING;

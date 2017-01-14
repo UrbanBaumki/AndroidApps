@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 import si.banani.entities.Player;
 
+import si.banani.screens.Play;
 import si.banani.tiles.Box;
 
 import si.banani.tiles.Spikes;
@@ -39,6 +40,9 @@ public class WorldContactListener implements ContactListener {
             //player has collided with the spikes
             Spikes spike = (Spikes) a.getUserData();
             spike.onHit();
+        }else if(a.getUserData() instanceof Player && a.isSensor()){
+            Player p = (Player) a.getUserData();
+            p.setHasFloor(true);
         }
         else if(a.getUserData() != null && a.getUserData() instanceof Spikes && b.getUserData() != null && b.getUserData() instanceof Box){
             //spikes and a box
@@ -52,7 +56,11 @@ public class WorldContactListener implements ContactListener {
             collideChecker(b, a, false);
     }
     private void decollideChecker(Fixture a, Fixture b, boolean reverse){
+        if(a.getUserData() != null && a.getUserData() instanceof Player && a.isSensor() ){
+            Player p = (Player) a.getUserData();
+            p.setHasFloor(false);
 
+        }
         if(reverse)
             decollideChecker(b, a, false);
     }

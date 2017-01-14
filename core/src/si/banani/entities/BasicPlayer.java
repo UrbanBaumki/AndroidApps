@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -27,6 +28,8 @@ public abstract class BasicPlayer {
     protected PolygonShape shape;
     protected RevoluteJoint revoluteJoint;
     protected RevoluteJointDef revoluteJointDef;
+    protected Fixture footFixture;
+    protected boolean hasFloor = true;
 
     protected float x, y;
 
@@ -93,6 +96,7 @@ public abstract class BasicPlayer {
         FixtureDef fdef2 = new FixtureDef();
         CircleShape circleShape = new CircleShape();
         circleShape.setRadius(10f/LearningGdx.PPM);
+
         fdef2.shape = circleShape;
         fdef2.density = 2f;
         fdef2.restitution = 0f;
@@ -103,6 +107,20 @@ public abstract class BasicPlayer {
 
         this.body.createFixture(fdef);
         this.body.setFixedRotation(true);
+
+        shape = new PolygonShape();
+        //shape.setAsBox(6f/LearningGdx.PPM, 4f /LearningGdx.PPM);
+        float [] verticies = {-3,-34,3,-34,3,-29,-3,-29 };
+        for(int i = 0; i < verticies.length; i++)
+            verticies[i] = verticies[i] /LearningGdx.PPM;
+        shape.set(verticies);
+
+        FixtureDef footSensor = new FixtureDef();
+        footSensor.shape = shape;
+        footSensor.isSensor = true;
+
+
+        footFixture = body.createFixture(footSensor);
 
 
         this.circleBody.createFixture(fdef2);
@@ -134,8 +152,10 @@ public abstract class BasicPlayer {
         else if(getYvelocity() > 0){
             isFalling = false;
             isJumping = true;
-        }else {
-            isFalling = false;
+        }
+        if(hasFloor)
+        {
+            isFalling= false;
             isJumping = false;
         }
 
@@ -191,6 +211,7 @@ public abstract class BasicPlayer {
     }
     public void setTransform(float x, float y, float z){
         this.body.setTransform(x,y, z);
+        this.circleBody.setTransform(x,y,z);
     }
     public void setFriction(float f){
         this.body.getFixtureList().get(0).setFriction(f);
@@ -201,5 +222,5 @@ public abstract class BasicPlayer {
     public float getYvelocity(){return this.body.getLinearVelocity().y;}
     public Vector2 getPosition(){ return this.body.getPosition(); }
     public int getDir(){return this.dir;}
-
+    public void setHasFloor(boolean b){this.hasFloor = b;}
 }
