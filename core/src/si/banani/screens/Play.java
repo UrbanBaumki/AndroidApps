@@ -23,6 +23,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 
 import box2dLight.PointLight;
@@ -38,7 +39,11 @@ import si.banani.entities.SpiderEnemy;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.scenes.Hud;
+import si.banani.sound.AudioManager;
+import si.banani.sound.AudioObserver;
+import si.banani.sound.AudioSubject;
 import si.banani.textures.TextureManager;
+import si.banani.world.MapManager;
 import si.banani.world.WorldCollideListener;
 import si.banani.world.WorldContactListener;
 import si.banani.world.WorldCreator;
@@ -48,13 +53,13 @@ import si.banani.world.WorldCreator;
  * Created by Urban on 18.10.2016.
  */
 
-public class Play extends BaseScreen {
+public class Play extends BaseScreen implements AudioSubject{
 
+    private Array<AudioObserver> _observers = new Array<AudioObserver>();
 
     public static boolean reset = false;
     private Hud hud;
 
-    private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer mapRenderer;
 
@@ -74,6 +79,7 @@ public class Play extends BaseScreen {
     SpiderEnemy s;
     //int [] bg = {0};
     int [] fg = {1,2,3,4,5,6};
+    int [] paths = {10};
 
     BitmapFont font;
 
@@ -92,33 +98,44 @@ public class Play extends BaseScreen {
     ShaderProgram bwShader, defaulShader, wS;
     Texture water, perlin;
     float time = 1f;
-    Mesh waterMesh;
+
+
+
     public Play(SpriteBatch spriteBatch) {
         super(spriteBatch);
 
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load("map.tmx");
+
+        this.addObserver(AudioManager.getInstance());
+        loadMusic();
+
+        //MAP LOADING
+        //the texture manager
+        TextureManager.addAtlas("content.pack", "contentAtlas");
+        TextureManager.splitAtlasIntoRegions();
+
+        world = new World(new Vector2(0, -10), true);
+
+        worldCreator = new WorldCreator(world, MapManager.CH1);
+
+        map = worldCreator.getCurrentMap();
         mapRenderer = new OrthogonalTiledMapRenderer(map, 1/ LearningGdx.PPM);
+
+
         //this.camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM, 0);
         MapProperties properties = map.getProperties();
         levelW = properties.get("width", Integer.class);
         levelH = properties.get("height", Integer.class);
 
-
-
         parallaxCameraBG = new ParallaxCamera(LearningGdx.V_WIDTH * 1.2f, LearningGdx.V_HEIGHT * 1.2f, camera);
         parallaxCameraFG = new ParallaxCamera(LearningGdx.V_WIDTH/2, LearningGdx.V_HEIGHT/2, camera);
-        //the texture manager
-        TextureManager.addAtlas("content.pack", "contentAtlas");
-        TextureManager.splitAtlasIntoRegions();
+
 
         this.hud = new Hud(this.batch);
 
-        //box2d
-        world = new World(new Vector2(0, -10), true);
+
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-        worldCreator = new WorldCreator(world, map);
+
 
         world.setContactListener(new WorldContactListener());
         //creating a test box
@@ -178,7 +195,10 @@ public class Play extends BaseScreen {
 
     }
 
-
+    void loadMusic(){
+        this.notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_CHAPTER_ONE);
+        this.notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_CHAPTER_ONE);
+    }
 
     @Override
     public void show() {
@@ -234,10 +254,6 @@ public class Play extends BaseScreen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
-
-
-
         //bg
         batch.setProjectionMatrix(parallaxCameraBG.calculateParallaxMatrix(0.025f, 0.6f));
         batch.begin();
@@ -252,12 +268,7 @@ public class Play extends BaseScreen {
         //mapRenderer.render(bg);
         batch.begin();
 
-
-
         male.render(batch, delta);
-
-
-
 
 
         //render the scene with objects
@@ -269,11 +280,11 @@ public class Play extends BaseScreen {
 
         batch.end();
 
-        mapRenderer.render(fg);
 
 
         //working water shader
         time += delta;
+        time = time % 10f;
         float angle = time * (2 * MathUtils.PI);
         if (angle > (2 * MathUtils.PI))
             angle -= (2 * MathUtils.PI);
@@ -283,7 +294,8 @@ public class Play extends BaseScreen {
         wS.setUniformMatrix("u_projTrans", camera.combined, false);
         wS.setUniformf("u_deltatime", angle);
         wS.setUniformi("u_texture_perlin", 1);
-        wS.setUniformf("u_playerposition", male.getPosition().x);
+        wS.setUniformf("u_playerposition", camera.position.x);
+        //wS.setUniformf("u_speed", 0.1f);
         wS.end();
 
         //Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE1);
@@ -293,12 +305,20 @@ public class Play extends BaseScreen {
         batch.begin();
         water.bind(0);
         //Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
-        batch.draw(water, 0, 80/LearningGdx.PPM, water.getWidth()/LearningGdx.PPM, water.getHeight()/LearningGdx.PPM);
+        batch.draw(water, 200/LearningGdx.PPM, 80/LearningGdx.PPM, water.getWidth()/LearningGdx.PPM, water.getHeight()/LearningGdx.PPM);
         batch.end();
 
 
-        //fg
 
+
+
+
+
+
+
+
+        //fg
+        mapRenderer.render(fg);
 
         batch.setShader(defaulShader);
         batch.setProjectionMatrix(parallaxCameraFG.calculateParallaxMatrix(1.2f, 0.5f));
@@ -318,8 +338,13 @@ public class Play extends BaseScreen {
         }
 
         batch.end();
-        handler.updateAndRender();
 
+
+        if(PlayerMovementController.getInstance().getCurrent_player() == 1)
+            mapRenderer.render(paths);
+
+
+        handler.updateAndRender();
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
         female.render(batch,delta);
@@ -330,12 +355,14 @@ public class Play extends BaseScreen {
         /////
 
 
+
         //batch.setShader(defaulShader);
         batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
 
         hud.stage.draw();
 
         this.inputController.draw();
+
 
         //debuger
         box2DDebugRenderer.render(world, camera.combined);
@@ -379,5 +406,25 @@ public class Play extends BaseScreen {
     }
 
 
+    @Override
+    public void addObserver(AudioObserver observer) {
+        _observers.add(observer);
+    }
 
+    @Override
+    public void removeObserver(AudioObserver observer) {
+        _observers.removeValue(observer, true);
+    }
+
+    @Override
+    public void removeAllObservers() {
+        _observers.removeAll(_observers, true);
+    }
+
+    @Override
+    public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
+        for(AudioObserver observer: _observers){
+            observer.onNotify(command, event);
+        }
+    }
 }

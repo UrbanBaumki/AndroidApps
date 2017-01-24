@@ -7,11 +7,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.Random;
 
 import si.banani.animation.Animation;
 import si.banani.learning.LearningGdx;
 import si.banani.scenes.Hud;
 import si.banani.screens.Play;
+import si.banani.sound.AudioManager;
+import si.banani.sound.AudioObserver;
+import si.banani.sound.AudioSubject;
 import si.banani.tiles.Switch;
 import si.banani.world.CollisionBits;
 
@@ -20,7 +26,7 @@ import si.banani.world.CollisionBits;
  * Created by Urban on 6.12.2016.
  */
 
-public class Player extends BasicPlayer {
+public class Player extends BasicPlayer implements AudioSubject {
 
     private int yOffset = 1;
 
@@ -28,7 +34,15 @@ public class Player extends BasicPlayer {
     private TextureRegion[] sprites;
     private boolean fixedFriction, switching;
 
+
     private Hud hud;
+
+    //audio observers
+    Array<AudioObserver> _observers = new Array<AudioObserver>();
+    private float stepTime = 0f;
+    private float stepTimer = 0f;
+    private AudioObserver.AudioTypeEvent steps[] = {AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_1, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_2, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_3, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_4};
+    Random r = new Random();
 
     public Player(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud) {
         super(world, x, y, width, height, bodyType);
@@ -41,7 +55,9 @@ public class Player extends BasicPlayer {
                 CollisionBits.DEFAULT_BIT |
                 CollisionBits.OBJECT_BIT |
                 CollisionBits.SWITCH_BIT |
-                CollisionBits.DOORS_BIT;
+                CollisionBits.DOORS_BIT  |
+                CollisionBits.GHOST_PATH_BIT;
+
         ((body.getFixtureList()).get(0)).setFilterData(f);
         ((body.getFixtureList()).get(1)).setFilterData(f);
         ((body.getFixtureList()).get(0)).setDensity(6f);
@@ -56,8 +72,6 @@ public class Player extends BasicPlayer {
         this.timeInCurrentState = 0;
 
 
-
-
         this.width = sprites[0].getRegionWidth();
         this.height = sprites[0].getRegionHeight();
         this.sprites = sprites;
@@ -68,12 +82,32 @@ public class Player extends BasicPlayer {
         this.walkAnimation = new Animation(this.sprites, frameSpeed);
 
         jumpSpeed = 1.6f;
+
+        //sound init
+        this.addObserver(AudioManager.getInstance());
+        loadSounds();
+        stepTime = frameSpeed* 3.3f;
+
     }
 
     public void update(float dt){
 
         this.switching = false;
         super.update(dt);
+
+        //play steps
+        if(currentState == PlayerState.WALKING  ){
+            //we've made a step
+            if(stepTimer >= stepTime){
+                stepTimer -= stepTime;
+
+                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, steps[r.nextInt(steps.length)]);
+            }else{
+                stepTimer += dt;
+            }
+
+        }else
+            stepTimer = stepTime;
 
     }
     public void render(SpriteBatch sb, float dt){
@@ -139,4 +173,30 @@ public class Player extends BasicPlayer {
             return PlayerState.WALKING;
     }
 
+    public void loadSounds(){
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_1);
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_2);
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_3);
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_4);
+    }
+    @Override
+    public void addObserver(AudioObserver observer) {
+        _observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(AudioObserver observer) {
+        _observers.removeValue(observer, true);
+    }
+
+    @Override
+    public void removeAllObservers() {
+        _observers.removeAll(_observers, true);
+    }
+
+    @Override
+    public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
+        for(AudioObserver observer : _observers)
+            observer.onNotify(command, event);
+    }
 }

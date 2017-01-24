@@ -9,5 +9,6 @@ public enum Tiles {
     BOX,
     SPIKES,
     SWITCHES,
-    DOORS
+    DOORS,
+    GHOST_PATH
 }

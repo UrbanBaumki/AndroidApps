@@ -1,5 +1,6 @@
 package si.banani.world;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -8,6 +9,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -33,27 +35,33 @@ public class WorldCreator {
     private TiledMap map;
     private int currSwitch;
     private Array<Switch> switches;
-    public WorldCreator(World world, TiledMap map){
+    private MapManager mapManager;
+    public WorldCreator(World world, String mapName){
         this.world = world;
-        this.map = map;
+
         this.currSwitch = 0;
         this.switches = new Array<Switch>();
+        mapManager = new MapManager();
+        mapManager.loadMap(mapName);
 
-        createTileFixtures(2, Tiles.FLOOR);
-        createTileFixtures(4, Tiles.SPIKES);
-        createTileFixtures(5, Tiles.BOX);
-        createTileFixtures(6, Tiles.FLOOR);
-        createTileFixtures(7, Tiles.SWITCHES);
-        createTileFixtures(8, Tiles.DOORS);
+        createTileFixtures("Floor", Tiles.FLOOR);
+        createTileFixtures("Spikes", Tiles.SPIKES);
+        createTileFixtures("Boxes", Tiles.BOX);
+        createTileFixtures("Ceil", Tiles.FLOOR);
+        createTileFixtures("Switches", Tiles.SWITCHES);
+        createTileFixtures("Doors", Tiles.DOORS);
+        createTileFixtures("GhostPath", Tiles.GHOST_PATH);
     }
 
-    private void createTileFixtures(int index, Tiles type){
+    private void createTileFixtures(String layerName, Tiles type){
         BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
+
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        for(MapObject object: map.getLayers().get(index).getObjects().getByType(RectangleMapObject.class)){
+        MapLayer mapLayer = mapManager.getMapLayer(layerName);
+
+        for(MapObject object: mapLayer.getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             switch (type){
@@ -68,7 +76,7 @@ public class WorldCreator {
                     bdef.position.set( (rect.getX() + rect.getWidth()/2 ) / LearningGdx.PPM , (rect.getY() + rect.getHeight()/2 ) / LearningGdx.PPM);
 
                     body = world.createBody(bdef);
-
+                    PolygonShape shape = new PolygonShape();
                     shape.setAsBox(rect.getWidth()/2 / LearningGdx.PPM, rect.getHeight()/2 / LearningGdx.PPM);
                     fdef.shape = shape;
                     fdef.friction = 0.3f;
@@ -78,7 +86,7 @@ public class WorldCreator {
                     body.createFixture(fdef);
                     break;
                 case SWITCHES:
-                    Switch s = new Switch(world, rect, TextureManager.getRegionByName("switch").split(7, 16)[0], 1/8f);
+                    Switch s = new Switch(world, rect, TextureManager.getRegionByName("switch").split(7, 16)[0], 1/10f);
                     Scene.addObjectToScene( s );
                     this.switches.add(s);
                     break;
@@ -87,11 +95,29 @@ public class WorldCreator {
                     Scene.addObjectToScene( door );
                     addDoorToSwitchWithIndex(currSwitch, door);
                     break;
+                case GHOST_PATH:
+                    bdef.type = BodyDef.BodyType.StaticBody;
+                    bdef.position.set( (rect.getX() + rect.getWidth()/2 ) / LearningGdx.PPM , (rect.getY() + rect.getHeight()/2 ) / LearningGdx.PPM);
+
+                    body = world.createBody(bdef);
+                    PolygonShape path = new PolygonShape();
+                    path.setAsBox(rect.getWidth()/2 / LearningGdx.PPM, rect.getHeight()/2 / LearningGdx.PPM);
+                    fdef.shape = path;
+                    fdef.friction = 0.3f;
+                    fdef.density = 1f;
+                    fdef.restitution = 0f;
+
+                    Fixture fix = body.createFixture(fdef);
+                    Filter f = new Filter();
+                    f.categoryBits = CollisionBits.GHOST_PATH_BIT;
+                    fix.setFilterData(f);
+
+                    break;
             }
 
         }
         //for polygons
-        for(MapObject object: map.getLayers().get(index).getObjects().getByType(PolygonMapObject.class)){
+        for(MapObject object: mapLayer.getObjects().getByType(PolygonMapObject.class)){
             Polygon rect = ((PolygonMapObject) object).getPolygon();
 
             switch (type){
@@ -132,5 +158,7 @@ public class WorldCreator {
         switches.get(index).addDoor(door);
         currSwitch++;
     }
-
+    public TiledMap getCurrentMap(){
+        return mapManager.getCurrentMap();
+    }
 }

@@ -7,16 +7,21 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
+import com.badlogic.gdx.utils.Array;
+
 
 import si.banani.animation.Animation;
 import si.banani.learning.LearningGdx;
+import si.banani.sound.AudioManager;
+import si.banani.sound.AudioObserver;
+import si.banani.sound.AudioSubject;
 import si.banani.world.CollisionBits;
 
 /**
  * Created by Urban on 26.12.2016.
  */
 
-public class Switch extends InteractiveTile {
+public class Switch extends InteractiveTile implements AudioSubject {
 
     private Animation switchAnimation;
     private float x, y;
@@ -27,6 +32,8 @@ public class Switch extends InteractiveTile {
     private TileStates currentState, previousState;
     private float timeInCurrentState;
     private Door door;
+
+    private Array<AudioObserver> _observers = new Array<AudioObserver>();
 
 
     public Switch(World world, Rectangle rectangle, TextureRegion[] sprites, float frameSpeed){
@@ -51,6 +58,9 @@ public class Switch extends InteractiveTile {
 
         currentState = previousState = TileStates.OFF;
         timeInCurrentState = 0;
+
+        this.addObserver(AudioManager.getInstance());
+        loadSounds();
     }
     @Override
     public void render(SpriteBatch batch, float dt) {
@@ -108,6 +118,11 @@ public class Switch extends InteractiveTile {
             hasBeenActivated = false;
             canBeSwitched = false;
             switchAnimation.changeDirection();
+            //play sound once
+            if(isOn)
+                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_SWITCH_OFF);
+            else
+                notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_SWITCH_ON);
             return TileStates.SWITCHING;
         }
         return currentState;
@@ -116,4 +131,29 @@ public class Switch extends InteractiveTile {
         this.door = door;
     }
 
+    public void loadSounds(){
+       notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_SWITCH_ON);
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_SWITCH_OFF);
+
+    }
+    @Override
+    public void addObserver(AudioObserver observer) {
+        _observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(AudioObserver observer) {
+        _observers.removeValue(observer, true);
+    }
+
+    @Override
+    public void removeAllObservers() {
+        _observers.removeAll(_observers, true);
+    }
+
+    @Override
+    public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
+        for(AudioObserver observer : _observers)
+            observer.onNotify(command, event);
+    }
 }

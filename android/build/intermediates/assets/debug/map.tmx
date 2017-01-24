@@ -20,9 +20,6 @@
   <object id="42" x="702.792" y="192.667" width="257.208" height="190"/>
   <object id="44" x="960.667" y="257.333" width="254" height="61.3333"/>
   <object id="52" x="576" y="447.5" width="382.5" height="64"/>
-  <object id="59" x="275" y="449">
-   <polygon points="0,0 52,-37 54,1"/>
-  </object>
  </objectgroup>
  <objectgroup name="Ceil"/>
  <objectgroup name="Spikes">

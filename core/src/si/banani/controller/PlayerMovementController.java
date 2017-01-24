@@ -69,5 +69,6 @@ public class PlayerMovementController {
             players.get(current_player).stopDown();
     }
 
+    public int getCurrent_player(){ return current_player;}
 
 }
