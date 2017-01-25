@@ -9,10 +9,11 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 
 
-
-
+import si.banani.entities.BasicPlayer;
 import si.banani.entities.Player;
 
+import si.banani.entities.RockEnemy;
+import si.banani.entities.SpiderEnemy;
 import si.banani.screens.Play;
 import si.banani.tiles.Box;
 
@@ -40,9 +41,6 @@ public class WorldContactListener implements ContactListener {
             //player has collided with the spikes
             Spikes spike = (Spikes) a.getUserData();
             spike.onHit();
-        }else if(a.getUserData() instanceof Player && a.isSensor()){
-            Player p = (Player) a.getUserData();
-            p.setHasFloor(true);
         }
         else if(a.getUserData() != null && a.getUserData() instanceof Spikes && b.getUserData() != null && b.getUserData() instanceof Box){
             //spikes and a box
@@ -51,6 +49,19 @@ public class WorldContactListener implements ContactListener {
             Player p = (Player)a.getUserData();
 
             Gdx.app.log("Stairs", "Stairs");
+        }else if(a.getUserData() instanceof Player &&  b.getUserData() instanceof RockEnemy ){
+            RockEnemy p = (RockEnemy) b.getUserData();
+            p.dealDamageToTarget();
+            Gdx.app.log("Dotik", "");
+
+        }else if(a.getUserData() instanceof BasicPlayer && a.isSensor() && reverse){
+            BasicPlayer p = (BasicPlayer) a.getUserData();
+            p.increaseFootContacts(1);
+
+        }else if(b.getUserData() instanceof BasicPlayer && b.isSensor() && reverse){
+            BasicPlayer p = (BasicPlayer) b.getUserData();
+            p.increaseFootContacts(1);
+
         }
         if(reverse)
             collideChecker(b, a, false);
@@ -58,7 +69,14 @@ public class WorldContactListener implements ContactListener {
     private void decollideChecker(Fixture a, Fixture b, boolean reverse){
         if(a.getUserData() != null && a.getUserData() instanceof Player && a.isSensor() ){
             Player p = (Player) a.getUserData();
-            p.setHasFloor(false);
+            //p.setHasFloor(false);
+        }else if(a.getUserData() instanceof BasicPlayer && a.isSensor() && reverse){
+            BasicPlayer p = (BasicPlayer) a.getUserData();
+            p.increaseFootContacts(-1);
+
+        }else if(b.getUserData() instanceof BasicPlayer && b.isSensor() && reverse){
+            BasicPlayer p = (BasicPlayer) b.getUserData();
+            p.increaseFootContacts(-1);
 
         }
         if(reverse)

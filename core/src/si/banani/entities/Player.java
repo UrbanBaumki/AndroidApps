@@ -88,10 +88,12 @@ public class Player extends BasicPlayer implements AudioSubject {
         loadSounds();
         stepTime = frameSpeed* 3.3f;
 
+        health = 100f;
+
     }
 
     public void update(float dt){
-
+        //Gdx.app.log("H", String.format("%f", health));
         this.switching = false;
         super.update(dt);
 
@@ -111,7 +113,8 @@ public class Player extends BasicPlayer implements AudioSubject {
 
     }
     public void render(SpriteBatch sb, float dt){
-
+       //Gdx.app.log("Jumping", String.format("%b", isJumping));
+        //Gdx.app.log("Falling", String.format("%b", isFalling));
         sb.draw(getCurrentFrame(dt), x  - dir * width /2/ LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
 
     }
@@ -150,6 +153,11 @@ public class Player extends BasicPlayer implements AudioSubject {
         }
     }
 
+    public void recieveDamage(float dmg, int dir){
+        this.health -= dmg;
+        float force = dir * dmg * 15;
+        body.applyForceToCenter(force, Math.abs(force/3), true);
+    }
     public float getX(){return this.x;}
     public float getY(){return this.y;}
     public int getDir(){return this.dir; }
@@ -172,6 +180,7 @@ public class Player extends BasicPlayer implements AudioSubject {
         else
             return PlayerState.WALKING;
     }
+
 
     public void loadSounds(){
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_1);

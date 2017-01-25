@@ -10,5 +10,7 @@ public enum Tiles {
     SPIKES,
     SWITCHES,
     DOORS,
-    GHOST_PATH
+    GHOST_PATH,
+    PROPS,
+    SWINGS
 }

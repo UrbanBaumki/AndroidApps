@@ -1,11 +1,13 @@
 package si.banani.entities;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 
 import si.banani.learning.LearningGdx;
+import si.banani.world.CollisionBits;
 
 /**
  * Created by Urban on 6.12.2016.
@@ -45,6 +48,13 @@ public abstract class BasicPlayer {
     public boolean left, right, up, down;
     protected boolean isJumping, isFalling;
 
+    protected BasicPlayer target = null;
+    protected float damage = 1f;
+
+    protected float health = 100f;
+
+    protected int numFootContants = 0;
+    protected  int jumpTimeout = 0;
 
     public BasicPlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType){
         this.world = world;
@@ -120,10 +130,22 @@ public abstract class BasicPlayer {
         footSensor.isSensor = true;
 
 
+
+        Filter f = new Filter();
+        f.categoryBits = CollisionBits.SENSOR_BIT;
+        f.maskBits = CollisionBits.ENEMY_BIT |
+                CollisionBits.SPIKES_BIT |
+                CollisionBits.DEFAULT_BIT |
+                CollisionBits.OBJECT_BIT |
+                CollisionBits.GHOST_PATH_BIT;
+
         footFixture = body.createFixture(footSensor);
+        footFixture.setFilterData(f);
+
+        f.categoryBits = CollisionBits.PLAYER_BIT;
 
 
-        this.circleBody.createFixture(fdef2);
+        this.circleBody.createFixture(fdef2).setFilterData(f);
         circleBody.setFixedRotation(false);
         //the revolute joint def
         revoluteJointDef = new RevoluteJointDef();
@@ -143,19 +165,17 @@ public abstract class BasicPlayer {
         this.x = this.body.getPosition().x;
         this.y = this.body.getPosition().y;
 
+        jumpTimeout --;
 
-        if(getYvelocity() < 0)
-        {
-            isFalling = true;
-            isJumping = false;
-        }
-        else if(getYvelocity() > 0){
-            isFalling = false;
-            isJumping = true;
-        }
-        if(hasFloor)
+        if(numFootContants > 0)
         {
             isFalling= false;
+            isJumping = false;
+        }else if(getYvelocity() > 0){
+            isJumping = true;
+            isFalling = false;
+        }else {
+            isFalling = true;
             isJumping = false;
         }
 
@@ -182,13 +202,13 @@ public abstract class BasicPlayer {
             revoluteJoint.setMotorSpeed(0);
         }
 
-        if(up && !isJumping && !isFalling && getYvelocity() <= jumpSpeed)
+        if(up && !isFalling && !isJumping && jumpTimeout <= 0 && getYvelocity() <= jumpSpeed)
         {
-            isJumping = true;
-            this.body.applyLinearImpulse(new Vector2(0, jumpSpeed*2), body.getWorldCenter(), true);
+            jumpTimeout = 15;
+            this.body.applyLinearImpulse(new Vector2(0, jumpSpeed*1.3f), body.getWorldCenter(), true);
+
         }
     }
-
 
 
     public void goLeft(){this.left = true;}
@@ -222,5 +242,5 @@ public abstract class BasicPlayer {
     public float getYvelocity(){return this.body.getLinearVelocity().y;}
     public Vector2 getPosition(){ return this.body.getPosition(); }
     public int getDir(){return this.dir;}
-    public void setHasFloor(boolean b){this.hasFloor = b;}
+    public void increaseFootContacts(int num){ this.numFootContants += num;}
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import si.banani.tiles.Box;
 import si.banani.tiles.Door;
+import si.banani.tiles.Prop;
 import si.banani.tiles.Switch;
 
 /**
@@ -47,6 +48,9 @@ public class Scene {
             }else if(object instanceof Door){
                 Door s = (Door) object;
                 s.update(dt);
+            }else if(object instanceof Prop){
+                Prop p = (Prop) object;
+                p.update(dt);
             }
         }
     }
@@ -65,6 +69,9 @@ public class Scene {
             }else if(object instanceof Door){
                 Door s = (Door) object;
                 s.render(batch, dt);
+            }else if(object instanceof Prop){
+                Prop p = (Prop) object;
+                p.render(batch, dt);
             }
 
         }

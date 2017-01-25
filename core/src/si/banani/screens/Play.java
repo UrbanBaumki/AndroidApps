@@ -152,7 +152,7 @@ public class Play extends BaseScreen implements AudioSubject{
 
         this.female = new FemalePlayer(world, 110, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(32,64)[0], 1/7f);
 
-        //e = new RockEnemy(world, 500, 250, 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f, male);
+        //e = new RockEnemy(world, 300, 300, 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f, male);
         //s = new SpiderEnemy(world, 355, 150, 10, 28, BodyDef.BodyType.KinematicBody, TextureManager.getRegionByName("spiderEnemy").split(14,61)[0],  TextureManager.getRegionByName("spiderAttacking").split(23,61)[0] , 1/6f,1/3f, male);
 
         CameraEffects.setCamera(camera);
@@ -214,6 +214,7 @@ public class Play extends BaseScreen implements AudioSubject{
 
         world.step(1/60f, 6, 2);
         overlaper.update();
+
         male.update(delta);
         female.update(delta);
 
@@ -282,7 +283,7 @@ public class Play extends BaseScreen implements AudioSubject{
 
 
 
-        //working water shader
+        //water shader
         time += delta;
         time = time % 10f;
         float angle = time * (2 * MathUtils.PI);

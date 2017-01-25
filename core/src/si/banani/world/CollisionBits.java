@@ -17,4 +17,5 @@ public class CollisionBits {
     public static final short DOORS_BIT = 512;
     public static final short NONCOLLISION_BIT = 1024;
     public static final short GHOST_PATH_BIT = 2048;
+    public static final short SENSOR_BIT = 4096;
 }

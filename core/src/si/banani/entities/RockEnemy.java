@@ -21,7 +21,7 @@ public class RockEnemy extends BasicPlayer {
     private Player target;
     private Animation walk;
     private float yOffset = 5f;
-
+    private float damage = 10f;
 
     public RockEnemy(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Player player) {
         super(world, x, y, width, height, bodyType);
@@ -49,13 +49,20 @@ public class RockEnemy extends BasicPlayer {
 
 
         Filter f = new Filter();
-        f.categoryBits = CollisionBits.ROCK_ENEMY_BIT;
+        f.categoryBits = CollisionBits.ENEMY_BIT;
         f.maskBits = CollisionBits.SPIKES_BIT |
-                CollisionBits.DEFAULT_BIT ;
+                CollisionBits.DEFAULT_BIT |
+                CollisionBits.GHOST_PATH_BIT |
+        CollisionBits.PLAYER_BIT;
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
 
+        ((body.getFixtureList()).get(0)).setUserData(this);
+        ((body.getFixtureList()).get(1)).setUserData(this);
 
+    }
+    public void dealDamageToTarget(){
+        target.recieveDamage(damage, dir);
     }
 
     @Override
@@ -120,4 +127,5 @@ public class RockEnemy extends BasicPlayer {
 
         return state;
     }
+
 }

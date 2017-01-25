@@ -14,12 +14,15 @@ import si.banani.tiles.Switch;
 
 public class WorldCollideListener {
     private World world;
+    private boolean sensorSwitched = false;
+
     public WorldCollideListener(World world){
         this.world = world;
     }
 
     public void update(){
         for(Contact contact: world.getContactList()){
+            sensorSwitched = false;
             overlaper(contact.getFixtureA(), contact.getFixtureB(), true);
         }
     }
@@ -36,6 +39,8 @@ public class WorldCollideListener {
             }
 
         }
+
+
 
         if(reverse)
             overlaper(b, a, false);

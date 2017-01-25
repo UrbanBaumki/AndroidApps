@@ -9,11 +9,14 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
+import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.utils.Array;
 
 import si.banani.learning.LearningGdx;
@@ -21,6 +24,7 @@ import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
 import si.banani.tiles.Door;
+import si.banani.tiles.Prop;
 import si.banani.tiles.Spikes;
 import si.banani.tiles.Switch;
 import si.banani.tiles.Tiles;
@@ -51,6 +55,8 @@ public class WorldCreator {
         createTileFixtures("Switches", Tiles.SWITCHES);
         createTileFixtures("Doors", Tiles.DOORS);
         createTileFixtures("GhostPath", Tiles.GHOST_PATH);
+        createTileFixtures("Props", Tiles.PROPS);
+        createTileFixtures("Swings", Tiles.SWINGS);
     }
 
     private void createTileFixtures(String layerName, Tiles type){
@@ -111,7 +117,11 @@ public class WorldCreator {
                     Filter f = new Filter();
                     f.categoryBits = CollisionBits.GHOST_PATH_BIT;
                     fix.setFilterData(f);
+                    break;
 
+                case PROPS:
+
+                    Scene.addObjectToScene( new Prop(world, rect) );
                     break;
             }
 
@@ -142,6 +152,69 @@ public class WorldCreator {
 
                     Fixture f = body.createFixture(fdef);
                     f.setUserData("stairs");
+                    break;
+                case SWINGS:
+
+                    bdef.type = BodyDef.BodyType.DynamicBody;
+                    bdef.position.set( (rect.getX()  ) / LearningGdx.PPM , (rect.getY()  ) / LearningGdx.PPM);
+
+                    body = world.createBody(bdef);
+
+
+                    //swing fixture
+                    PolygonShape pS = new PolygonShape();
+
+                    float [] v2 = rect.getVertices();
+                    for( int i = 0;i < v2.length; i++){
+                        v2[i]= v2[i] / LearningGdx.PPM;
+                    }
+                    pS.set(v2);
+
+                    fdef.shape = pS;
+                    fdef.friction = 1f;
+                    fdef.density = 1f;
+
+                    fdef.restitution = 0f;
+
+
+                    body.createFixture(fdef);
+
+
+                    //the circle
+                    bdef = new BodyDef();
+                    bdef.type = BodyDef.BodyType.DynamicBody;
+                    bdef.position.set((rect.getX()  ) / LearningGdx.PPM, (rect.getY()  ) / LearningGdx.PPM - 100/LearningGdx.PPM);
+
+                    Body circleBody = world.createBody(bdef);
+
+
+                    //fixture definition for the circle fixture
+                    FixtureDef fdef2 = new FixtureDef();
+                    CircleShape circleShape = new CircleShape();
+                    circleShape.setRadius(8f/LearningGdx.PPM);
+
+                    fdef2.shape = circleShape;
+                    fdef2.density = 200f;
+                    fdef2.restitution = 0f;
+                    fdef2.friction = 2f;
+
+                    circleBody.createFixture(fdef2);
+                    circleBody.setFixedRotation(true);
+
+
+                    //the revolute joint def
+                    RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
+                    revoluteJointDef.bodyA = body;
+                    revoluteJointDef.bodyB = circleBody;
+                    revoluteJointDef.localAnchorA.set(76/LearningGdx.PPM, -10/LearningGdx.PPM);
+
+                    revoluteJointDef.collideConnected = false;
+                    revoluteJointDef.enableMotor = false;
+                    revoluteJointDef.maxMotorTorque = 0;
+                    revoluteJointDef.motorSpeed = 0;
+
+                    world.createJoint(revoluteJointDef);
+
                     break;
             }
 
