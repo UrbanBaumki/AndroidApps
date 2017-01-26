@@ -9,7 +9,9 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
 import si.banani.animation.Animation;
+import si.banani.controller.PlayerMovementController;
 import si.banani.learning.LearningGdx;
+import si.banani.scenes.Hud;
 import si.banani.world.CollisionBits;
 
 /**
@@ -21,10 +23,14 @@ public class FemalePlayer extends BasicPlayer {
     private float yOffset = 6f;
     private float offDir = 1f;
     private Animation floatAnimation;
+    private float energyLevel = 100f;
+    private float energyDrainSpeed = 1f;
+    private Hud hud;
 
-    public FemalePlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed) {
+
+    public FemalePlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud) {
         super(world, x, y, width, height, bodyType);
-
+        this.hud = hud;
         ((body.getFixtureList()).get(0)).setUserData(this);
 
         Filter f = new Filter();
@@ -58,16 +64,24 @@ public class FemalePlayer extends BasicPlayer {
     @Override
     public void update(float dt){
         super.update(dt);
+
+        if(isControlled){
+            this.energyLevel -= energyDrainSpeed * dt;
+            if(energyLevel < 0){
+                PlayerMovementController.getInstance().switchPlayer();
+            }else
+                hud.setEnergyLevel(energyLevel);
+        }
+
         //Gdx.app.log("Falling", String.format("%d", numFootContants));
     }
 
     @Override
     public void render(SpriteBatch sb, float dt) {
 
+        //just a hardcoded float offset animation, to save cpu time from calculating sin function :)
         if(yOffset > 6f)
-        {
             offDir = -1f;
-        }
         else if(yOffset < 1f)
             offDir = 1f;
 

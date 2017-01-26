@@ -35,9 +35,13 @@ public class PlayerMovementController {
         movePlayerRigth(false);
         movePlayerUp(false);
         movePlayerLeft(false);
+
+        players.get(current_player).setActive(false);
         current_player = 1 - current_player;
+        players.get(current_player).setActive(true);
         //also switch the camera focus
         CameraEffects.setTarget(players.get(current_player));
+
     }
     public void setPlayer(int i){
         current_player = i;

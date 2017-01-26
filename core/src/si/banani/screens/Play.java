@@ -30,6 +30,7 @@ import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import si.banani.camera.CameraEffects;
 import si.banani.camera.ParallaxCamera;
+import si.banani.camera.Parallaxer;
 import si.banani.controller.InputController;
 import si.banani.controller.PlayerMovementController;
 import si.banani.entities.FemalePlayer;
@@ -85,7 +86,10 @@ public class Play extends BaseScreen implements AudioSubject{
 
     //Parallax
     ParallaxCamera parallaxCameraFG, parallaxCameraBG;
-    Texture bg, foreground;
+    Texture  foreground;
+    Parallaxer parallaxer;
+    int [] parallaxBgIndex = {0};
+    int [] parallaxFgIndex = {1};
 
     //Testing lights
     RayHandler handler;
@@ -126,8 +130,12 @@ public class Play extends BaseScreen implements AudioSubject{
         levelW = properties.get("width", Integer.class);
         levelH = properties.get("height", Integer.class);
 
-        parallaxCameraBG = new ParallaxCamera(LearningGdx.V_WIDTH * 1.2f, LearningGdx.V_HEIGHT * 1.2f, camera);
+       // parallaxCameraBG = new ParallaxCamera(LearningGdx.V_WIDTH * 1.2f, LearningGdx.V_HEIGHT * 1.2f, camera);
         parallaxCameraFG = new ParallaxCamera(LearningGdx.V_WIDTH/2, LearningGdx.V_HEIGHT/2, camera);
+
+        parallaxer = new Parallaxer( camera);
+        parallaxer.addTexture("wood_bg.png", -LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2, LearningGdx.V_WIDTH * 1.2f, LearningGdx.V_HEIGHT * 1.2f, 0.0025f, 0.6f);
+
 
 
         this.hud = new Hud(this.batch);
@@ -144,13 +152,13 @@ public class Play extends BaseScreen implements AudioSubject{
         Scene.setWorld(world);
         font = new BitmapFont(Gdx.files.internal("allura.fnt"));
 
-        bg = new Texture(Gdx.files.internal("wood_bg.png"));
+        //bg = new Texture(Gdx.files.internal("wood_bg.png"));
         foreground = new Texture(Gdx.files.internal("wood_fg.png"));
 
         this.male = new Player(world, 150, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerMale").split(32,64)[0], 1/7f, hud);
         male.setFirstAnimationFrame(1);
 
-        this.female = new FemalePlayer(world, 110, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(32,64)[0], 1/7f);
+        this.female = new FemalePlayer(world, 110, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(32,64)[0], 1/7f, hud);
 
         //e = new RockEnemy(world, 300, 300, 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f, male);
         //s = new SpiderEnemy(world, 355, 150, 10, 28, BodyDef.BodyType.KinematicBody, TextureManager.getRegionByName("spiderEnemy").split(14,61)[0],  TextureManager.getRegionByName("spiderAttacking").split(23,61)[0] , 1/6f,1/3f, male);
@@ -256,12 +264,7 @@ public class Play extends BaseScreen implements AudioSubject{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //bg
-        batch.setProjectionMatrix(parallaxCameraBG.calculateParallaxMatrix(0.025f, 0.6f));
-        batch.begin();
-        batch.enableBlending();
-        batch.draw(bg, -LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2);
-
-        batch.end();
+        parallaxer.render(batch, parallaxBgIndex);
 
 
         batch.setProjectionMatrix(camera.combined);

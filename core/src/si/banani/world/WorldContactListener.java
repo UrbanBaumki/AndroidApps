@@ -54,12 +54,8 @@ public class WorldContactListener implements ContactListener {
             p.dealDamageToTarget();
             Gdx.app.log("Dotik", "");
 
-        }else if(a.getUserData() instanceof BasicPlayer && a.isSensor() && reverse){
+        }else if(a.getUserData() instanceof BasicPlayer && a.isSensor() ){
             BasicPlayer p = (BasicPlayer) a.getUserData();
-            p.increaseFootContacts(1);
-
-        }else if(b.getUserData() instanceof BasicPlayer && b.isSensor() && reverse){
-            BasicPlayer p = (BasicPlayer) b.getUserData();
             p.increaseFootContacts(1);
 
         }
@@ -67,15 +63,8 @@ public class WorldContactListener implements ContactListener {
             collideChecker(b, a, false);
     }
     private void decollideChecker(Fixture a, Fixture b, boolean reverse){
-        if(a.getUserData() != null && a.getUserData() instanceof Player && a.isSensor() ){
-            Player p = (Player) a.getUserData();
-            //p.setHasFloor(false);
-        }else if(a.getUserData() instanceof BasicPlayer && a.isSensor() && reverse){
+       if(a.getUserData() instanceof BasicPlayer && a.isSensor() ){
             BasicPlayer p = (BasicPlayer) a.getUserData();
-            p.increaseFootContacts(-1);
-
-        }else if(b.getUserData() instanceof BasicPlayer && b.isSensor() && reverse){
-            BasicPlayer p = (BasicPlayer) b.getUserData();
             p.increaseFootContacts(-1);
 
         }

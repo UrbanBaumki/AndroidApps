@@ -1,5 +1,6 @@
 package si.banani.world;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -66,6 +67,7 @@ public class WorldCreator {
         Body body;
 
         MapLayer mapLayer = mapManager.getMapLayer(layerName);
+        if(mapLayer == null) return;
 
         for(MapObject object: mapLayer.getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -155,6 +157,8 @@ public class WorldCreator {
                     break;
                 case SWINGS:
 
+
+
                     bdef.type = BodyDef.BodyType.DynamicBody;
                     bdef.position.set( (rect.getX()  ) / LearningGdx.PPM , (rect.getY()  ) / LearningGdx.PPM);
 
@@ -166,7 +170,9 @@ public class WorldCreator {
 
                     float [] v2 = rect.getVertices();
                     for( int i = 0;i < v2.length; i++){
+
                         v2[i]= v2[i] / LearningGdx.PPM;
+
                     }
                     pS.set(v2);
 
@@ -183,7 +189,7 @@ public class WorldCreator {
                     //the circle
                     bdef = new BodyDef();
                     bdef.type = BodyDef.BodyType.DynamicBody;
-                    bdef.position.set((rect.getX()  ) / LearningGdx.PPM, (rect.getY()  ) / LearningGdx.PPM - 100/LearningGdx.PPM);
+                    bdef.position.set((rect.getX()  ) / LearningGdx.PPM, (rect.getY()  ) / LearningGdx.PPM - 20/LearningGdx.PPM);
 
                     Body circleBody = world.createBody(bdef);
 
@@ -206,11 +212,11 @@ public class WorldCreator {
                     RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
                     revoluteJointDef.bodyA = body;
                     revoluteJointDef.bodyB = circleBody;
-                    revoluteJointDef.localAnchorA.set(76/LearningGdx.PPM, -10/LearningGdx.PPM);
+                    revoluteJointDef.localAnchorA.set(rect.getBoundingRectangle().getWidth()/2, -10/LearningGdx.PPM);
 
                     revoluteJointDef.collideConnected = false;
-                    revoluteJointDef.enableMotor = false;
-                    revoluteJointDef.maxMotorTorque = 0;
+                    revoluteJointDef.enableMotor = true;
+                    revoluteJointDef.maxMotorTorque = 1;
                     revoluteJointDef.motorSpeed = 0;
 
                     world.createJoint(revoluteJointDef);

@@ -1,7 +1,9 @@
 package si.banani.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -33,6 +36,12 @@ public class Hud {
     private Image heartFull, heartEmpty;
     private Array<Image> fullHearts;
     private Array<Image> emptyHearts;
+
+    private Image energyBar;
+    private Image energyBarBg;
+
+    private float ghostEnergy = 100f;
+    private float energyBarWidth;
 
     public Hud(SpriteBatch batch){
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
@@ -58,6 +67,18 @@ public class Hud {
             emptyHearts.add(heartEmpty);
         }
 
+
+        energyBar = new Image(new Texture(Gdx.files.internal("skins/energyBar.png")));
+        energyBarBg = new Image(new Texture(Gdx.files.internal("skins/energyBarBg.png")));
+
+        energyBarWidth = energyBar.getWidth();
+
+        energyBar.setSize(ghostEnergy/100 * energyBarWidth, energyBar.getHeight());
+
+        WidgetGroup group = new WidgetGroup();
+        group.addActor(energyBarBg);
+        group.addActor(energyBar);
+
         //setting UPPER HUD
         topTable = new Table();
         topTable.top();
@@ -65,6 +86,7 @@ public class Hud {
 
 
         topTable.row().padTop(10f);
+        topTable.add(group).size(energyBarBg.getWidth(), energyBarBg.getHeight()).padTop(10f).expandX();
         topTable.add().expandX();
         topTable.add().expandX();
         topTable.add().expandX();
@@ -82,7 +104,7 @@ public class Hud {
     public void update(){
         //clearing hearts
         for(int i = maxLives; i > numLives; i--)
-            topTable.getCells().get(3+i).clearActor().setActor(emptyHearts.get(i-1));
+            topTable.getCells().get(4+i).clearActor().setActor(emptyHearts.get(i-1));
 
 
     }
@@ -90,6 +112,13 @@ public class Hud {
         topTable.clear();
         topTable.add(new Label("GAME OVER!", new Label.LabelStyle(new BitmapFont(), Color.BLACK))).expandX();
 
+    }
+    public void setEnergyLevel(float level) {
+        ghostEnergy = level;
+        updateEnergy();
+    }
+    private void updateEnergy(){
+        energyBar.setSize(ghostEnergy/100 * energyBarWidth, energyBar.getHeight());
     }
     public void decreaseLives(){
         this.numLives-=1;

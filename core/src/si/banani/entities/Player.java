@@ -90,6 +90,8 @@ public class Player extends BasicPlayer implements AudioSubject {
 
         health = 100f;
 
+        isControlled = true;
+
     }
 
     public void update(float dt){

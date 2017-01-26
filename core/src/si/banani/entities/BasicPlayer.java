@@ -56,6 +56,8 @@ public abstract class BasicPlayer {
     protected int numFootContants = 0;
     protected  int jumpTimeout = 0;
 
+    protected boolean isControlled = false;
+
     public BasicPlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType){
         this.world = world;
         this.timeInCurrentState = 0;
@@ -242,5 +244,10 @@ public abstract class BasicPlayer {
     public float getYvelocity(){return this.body.getLinearVelocity().y;}
     public Vector2 getPosition(){ return this.body.getPosition(); }
     public int getDir(){return this.dir;}
-    public void increaseFootContacts(int num){ this.numFootContants += num;}
+    public void increaseFootContacts(int num){
+
+        this.numFootContants += num;}
+    public void setActive(boolean b ){
+        this.isControlled = b;
+    }
 }
