@@ -29,11 +29,11 @@ public class DialogScreen extends BaseScreen {
     private Table displayTable;
     private Stage stage;
     private Label displayLabel;
-    private GlyphLayout layout;
+
 
     public DialogScreen(SpriteBatch spriteBatch){
         super(spriteBatch);
-        layout = new GlyphLayout();
+
 
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
 
@@ -64,23 +64,7 @@ public class DialogScreen extends BaseScreen {
         stage.addActor(displayTable);
 
     }
-    private String addLinesToText(String text){
-        String [] words = text.split(" ");
-        String fixed = "";
 
-        int accWidth = 0;
-        for(String word : words){
-            layout.setText(font, word);
-            accWidth += layout.width;
-
-            if(accWidth >= LearningGdx.V_WIDTH * 5/9){
-                accWidth = 0;
-                fixed+= "\n";
-            }
-            fixed += word+" ";
-        }
-        return fixed;
-    }
     @Override
     public void show() {
         Gdx.app.log("Dialog zaslon", "show");

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import si.banani.tiles.Box;
 import si.banani.tiles.Door;
+import si.banani.tiles.Ladder;
 import si.banani.tiles.Prop;
 import si.banani.tiles.Switch;
 
@@ -71,6 +72,9 @@ public class Scene {
                 s.render(batch, dt);
             }else if(object instanceof Prop){
                 Prop p = (Prop) object;
+                p.render(batch, dt);
+            }else if(object instanceof Ladder){
+                Ladder p = (Ladder) object;
                 p.render(batch, dt);
             }
 

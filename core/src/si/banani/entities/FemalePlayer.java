@@ -60,6 +60,7 @@ public class FemalePlayer extends BasicPlayer {
 
         floatAnimation = new Animation(sprites, frameSpeed);
         jumpSpeed = 1.6f;
+
     }
     @Override
     public void update(float dt){

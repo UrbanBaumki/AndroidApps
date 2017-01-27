@@ -25,6 +25,7 @@ import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
 import si.banani.tiles.Door;
+import si.banani.tiles.Ladder;
 import si.banani.tiles.Prop;
 import si.banani.tiles.Spikes;
 import si.banani.tiles.Switch;
@@ -58,6 +59,7 @@ public class WorldCreator {
         createTileFixtures("GhostPath", Tiles.GHOST_PATH);
         createTileFixtures("Props", Tiles.PROPS);
         createTileFixtures("Swings", Tiles.SWINGS);
+        createTileFixtures("Ladders", Tiles.LADDERS);
     }
 
     private void createTileFixtures(String layerName, Tiles type){
@@ -124,6 +126,9 @@ public class WorldCreator {
                 case PROPS:
 
                     Scene.addObjectToScene( new Prop(world, rect) );
+                    break;
+                case LADDERS:
+                    Scene.addObjectToScene(new Ladder(world, rect, TextureManager.getRegionByName("ladder").split(33, 64)[0]));
                     break;
             }
 

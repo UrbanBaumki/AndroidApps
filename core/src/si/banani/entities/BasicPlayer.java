@@ -57,6 +57,7 @@ public abstract class BasicPlayer {
     protected  int jumpTimeout = 0;
 
     protected boolean isControlled = false;
+    protected boolean canClimb , isClimbing;
 
     public BasicPlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType){
         this.world = world;
@@ -73,6 +74,7 @@ public abstract class BasicPlayer {
         this.y = y;
 
         this.dir = 1;
+        canClimb = false;
 
         //creates the player by defining body , shape and fixture
         defineBody(x,y, bodyType);
@@ -182,6 +184,7 @@ public abstract class BasicPlayer {
         }
 
 
+
         //push the body according to the set direction of movement and also check speed constraints
         if(left && getXvelocity() >= -maxMovSpeed)
         {
@@ -204,15 +207,34 @@ public abstract class BasicPlayer {
             revoluteJoint.setMotorSpeed(0);
         }
 
-        if(up && !isFalling && !isJumping && jumpTimeout <= 0 && getYvelocity() <= jumpSpeed)
+        if(up && !canClimb && !isFalling && !isJumping && jumpTimeout <= 0 && getYvelocity() <= jumpSpeed)
         {
             jumpTimeout = 15;
             this.body.applyLinearImpulse(new Vector2(0, jumpSpeed*1.3f), body.getWorldCenter(), true);
 
+        }else if(up && canClimb){
+            body.setGravityScale(0f);
+            circleBody.setGravityScale(0f);
+            body.setLinearVelocity(0f, 1f);
+            isClimbing = true;
+
+        }else if(down && canClimb)
+        {
+            body.setGravityScale(0f);
+            circleBody.setGravityScale(0f);
+            body.setLinearVelocity(0f, -1f);
+            isClimbing = true;
+        } else if(isClimbing && canClimb){
+            body.setLinearVelocity(0f,0f);
+        }else if(!canClimb){
+            body.setGravityScale(1f);
+            circleBody.setGravityScale(1f);
+            isClimbing = false;
         }
+
     }
 
-
+public void setCanClimb(boolean can){ canClimb = can;}
     public void goLeft(){this.left = true;}
     public void goRight(){this.right = true;}
     public void goUp(){this.up = true;}
@@ -250,4 +272,5 @@ public abstract class BasicPlayer {
     public void setActive(boolean b ){
         this.isControlled = b;
     }
+
 }

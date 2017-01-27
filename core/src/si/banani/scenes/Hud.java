@@ -43,6 +43,8 @@ public class Hud {
     private float ghostEnergy = 100f;
     private float energyBarWidth;
 
+    private DialogUI _dialogUI;
+
     public Hud(SpriteBatch batch){
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
         this.stage = new Stage(viewport, batch);
@@ -99,6 +101,9 @@ public class Hud {
         topTable.add().expandX();
 
         stage.addActor(topTable);
+
+        _dialogUI = new DialogUI();
+        stage.addActor(_dialogUI);
 
     }
     public void update(){

@@ -12,5 +12,6 @@ public enum Tiles {
     DOORS,
     GHOST_PATH,
     PROPS,
-    SWINGS
+    SWINGS,
+    LADDERS
 }

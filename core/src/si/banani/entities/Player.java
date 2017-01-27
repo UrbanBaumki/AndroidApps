@@ -32,7 +32,8 @@ public class Player extends BasicPlayer implements AudioSubject {
 
     private Animation walkAnimation;
     private TextureRegion[] sprites;
-    private boolean fixedFriction, switching;
+    private boolean switching;
+
 
 
     private Hud hud;
@@ -91,6 +92,7 @@ public class Player extends BasicPlayer implements AudioSubject {
         health = 100f;
 
         isControlled = true;
+
 
     }
 
@@ -210,4 +212,6 @@ public class Player extends BasicPlayer implements AudioSubject {
         for(AudioObserver observer : _observers)
             observer.onNotify(command, event);
     }
+
+
 }

@@ -5,7 +5,9 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
 
+import si.banani.entities.BasicPlayer;
 import si.banani.entities.Player;
+import si.banani.tiles.Ladder;
 import si.banani.tiles.Switch;
 
 /**

@@ -272,11 +272,13 @@ public class Play extends BaseScreen implements AudioSubject{
         //mapRenderer.render(bg);
         batch.begin();
 
+        //render the scene with objects
+        Scene.render(delta);
+
         male.render(batch, delta);
 
 
-        //render the scene with objects
-        Scene.render(delta);
+
 
 
         //e.render(batch, delta);
@@ -343,9 +345,9 @@ public class Play extends BaseScreen implements AudioSubject{
 
         batch.end();
 
-
         if(PlayerMovementController.getInstance().getCurrent_player() == 1)
             mapRenderer.render(paths);
+
 
 
         handler.updateAndRender();
@@ -369,7 +371,7 @@ public class Play extends BaseScreen implements AudioSubject{
 
 
         //debuger
-        box2DDebugRenderer.render(world, camera.combined);
+        //box2DDebugRenderer.render(world, camera.combined);
 
     }
     public static void setRunning(boolean b){ running = b; }

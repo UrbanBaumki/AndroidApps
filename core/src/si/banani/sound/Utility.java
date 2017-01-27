@@ -27,6 +27,12 @@ public final class Utility {
     private static InternalFileHandleResolver _filePathResolver =  new InternalFileHandleResolver();
 
 
+    private final static String DIALOGUI_ATLAS_PATH = "skins/dialogUi.pack";
+    private final static String DIALOGUI_SKIN_PATH = "skins/dialogUi.json";
+
+    public static TextureAtlas DIALOGUI_ATLAS = new TextureAtlas(DIALOGUI_ATLAS_PATH);
+    public static Skin DIALOGUI_SKIN = new Skin(Gdx.files.internal(DIALOGUI_SKIN_PATH), DIALOGUI_ATLAS);
+
 
     public static void unloadAsset(String assetFilenamePath){
         // once the asset manager is done loading

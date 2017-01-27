@@ -80,16 +80,23 @@ use
   orig: 51, 51
   offset: 0, 0
   index: -1
-playerFemale
+ladder
   rotate: false
   xy: 769, 186
+  size: 33, 64
+  orig: 33, 64
+  offset: 0, 0
+  index: -1
+playerFemale
+  rotate: false
+  xy: 804, 186
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
   index: -1
 spiderEnemy
   rotate: false
-  xy: 803, 189
+  xy: 838, 189
   size: 28, 61
   orig: 28, 61
   offset: 0, 0

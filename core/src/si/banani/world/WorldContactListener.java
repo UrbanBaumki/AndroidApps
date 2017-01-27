@@ -17,6 +17,7 @@ import si.banani.entities.SpiderEnemy;
 import si.banani.screens.Play;
 import si.banani.tiles.Box;
 
+import si.banani.tiles.Ladder;
 import si.banani.tiles.Spikes;
 import si.banani.tiles.Switch;
 import si.banani.tiles.TileStates;
@@ -54,11 +55,19 @@ public class WorldContactListener implements ContactListener {
             p.dealDamageToTarget();
             Gdx.app.log("Dotik", "");
 
-        }else if(a.getUserData() instanceof BasicPlayer && a.isSensor() ){
+        }else if(a.getUserData() instanceof  BasicPlayer && a.isSensor() && b.getUserData() instanceof  Ladder){
+            ((BasicPlayer)a.getUserData()).setCanClimb(true);
+
+        }
+        if(a.getUserData() instanceof BasicPlayer && a.isSensor() ){
             BasicPlayer p = (BasicPlayer) a.getUserData();
             p.increaseFootContacts(1);
 
         }
+
+
+
+
         if(reverse)
             collideChecker(b, a, false);
     }
@@ -68,6 +77,14 @@ public class WorldContactListener implements ContactListener {
             p.increaseFootContacts(-1);
 
         }
+        if(a.getUserData() instanceof  BasicPlayer && a.isSensor() && b.getUserData() instanceof  Ladder){
+           ((BasicPlayer)a.getUserData()).setCanClimb(false);
+
+       }
+
+
+
+
         if(reverse)
             decollideChecker(b, a, false);
     }
