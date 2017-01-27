@@ -1,0 +1,84 @@
+package si.banani.tiles;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.World;
+
+import si.banani.learning.LearningGdx;
+import si.banani.world.CollisionBits;
+
+/**
+ * Created by Urban on 27.1.2017.
+ */
+
+public class Potion extends InteractiveTile {
+
+    public enum PotionType{
+        HEALTH,
+        ENERGY
+    }
+    private float x, y;
+    private int width, height;
+    private int dir = 1;
+    private float yOffset, xOffset;
+    private TextureRegion textureRegion;
+    private PotionType type;
+    private int value = 20;
+
+    public Potion(World world, Rectangle rect, TextureRegion[] sprites , PotionType type) {
+        super(world, rect);
+
+        this.type = type;
+
+        yOffset = -3f;
+        xOffset = -3f;
+
+        this.width = sprites[0].getRegionWidth();
+        this.height = sprites[0].getRegionHeight();
+        textureRegion = sprites[0];
+
+        fixture.setUserData(this);
+        fixture.setSensor(true);
+
+        x = body.getPosition().x;
+        y = body.getPosition().y;
+
+    }
+
+    public int getValue(){return this.value; }
+    @Override
+    public void render(SpriteBatch batch, float dt) {
+        if (!destroyed) {
+
+            batch.draw(textureRegion, x - dir * width / 2 / LearningGdx.PPM, y - height / 2 / LearningGdx.PPM + yOffset / LearningGdx.PPM, dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
+        }
+    }
+
+    @Override
+    public void update(float dt) {
+        if (destroy && !destroyed) {
+            world.destroyBody(body);
+        }else{
+            x = body.getPosition().x;
+            y = body.getPosition().y;
+        }
+
+
+    }
+    public void pickup(){
+        this.destroy = true;
+    }
+    public PotionType getPotionType(){
+        return type;
+    }
+
+    public boolean isSetForDestruction(){
+        return this.destroy;
+    }
+    public void setDestroyed(boolean set){
+        this.destroyed = set;
+    }
+    public Body getBody(){ return this.body; }
+}

@@ -1,0 +1,13 @@
+
+dialogUi.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+window
+  rotate: false
+  xy: 1, 1
+  size: 64, 25
+  split: 5, 5, 5, 5
+  orig: 64, 25
+  offset: 0, 0
+  index: -1

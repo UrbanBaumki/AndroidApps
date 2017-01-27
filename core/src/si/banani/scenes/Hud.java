@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -18,6 +19,11 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import si.banani.conversations.ConversationHolder;
+import si.banani.entities.BasicPlayer;
+import si.banani.entities.CameraCoordinates;
+import si.banani.entities.FemalePlayer;
+import si.banani.entities.Player;
 import si.banani.learning.LearningGdx;
 import si.banani.textures.TextureManager;
 
@@ -44,6 +50,9 @@ public class Hud {
     private float energyBarWidth;
 
     private DialogUI _dialogUI;
+    private CameraCoordinates cameraCoordinates;
+
+    private boolean dialogRunning = false;
 
     public Hud(SpriteBatch batch){
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
@@ -103,7 +112,29 @@ public class Hud {
         stage.addActor(topTable);
 
         _dialogUI = new DialogUI();
+        _dialogUI.setVisible(false);
         stage.addActor(_dialogUI);
+
+    }
+    public void render(float dt){
+        stage.draw();
+
+        if(dialogRunning){
+
+            Vector3 windowCoords = cameraCoordinates.getProjectedPosition(1-ConversationHolder.getInstance().getCurrentSpeaker());
+            _dialogUI.setPosition(windowCoords.x - 60, 150 );
+
+            if(_dialogUI.render(dt)){
+
+                String next = ConversationHolder.getInstance().getCurrentText();
+
+                if (next == null)
+                    enableDialog(false);
+                else
+                    _dialogUI.setNextText(next, next.length()/10f);
+            }
+        }
+
 
     }
     public void update(){
@@ -131,5 +162,12 @@ public class Hud {
     public Integer getNumLives(){
         return numLives;
     }
+    public void enableDialog(boolean b){
+        _dialogUI.setVisible(b);
+        dialogRunning = b;
 
+    }
+    public void setCameraCoordinates(CameraCoordinates c){
+        this.cameraCoordinates = c;
+    }
 }

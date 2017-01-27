@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import si.banani.tiles.Box;
 import si.banani.tiles.Door;
 import si.banani.tiles.Ladder;
+import si.banani.tiles.Potion;
 import si.banani.tiles.Prop;
 import si.banani.tiles.Switch;
 
@@ -38,6 +39,12 @@ public class Scene {
 
             if(object instanceof Box){
                 Box b = (Box) object;
+                b.update(dt);
+                if(b.isSetForDestruction()){
+                    b.setDestroyed(true);
+                }
+            }else if(object instanceof Potion){
+                Potion b = (Potion) object;
                 b.update(dt);
                 if(b.isSetForDestruction()){
                     b.setDestroyed(true);
@@ -76,6 +83,9 @@ public class Scene {
             }else if(object instanceof Ladder){
                 Ladder p = (Ladder) object;
                 p.render(batch, dt);
+            }else if(object instanceof Potion){
+                Potion b = (Potion) object;
+                b.render(batch, dt);
             }
 
         }

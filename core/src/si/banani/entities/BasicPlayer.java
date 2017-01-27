@@ -51,7 +51,7 @@ public abstract class BasicPlayer {
     protected BasicPlayer target = null;
     protected float damage = 1f;
 
-    protected float health = 100f;
+    protected int health = 3;
 
     protected int numFootContants = 0;
     protected  int jumpTimeout = 0;

@@ -1,8 +1,10 @@
 package si.banani.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -24,13 +26,16 @@ public class FemalePlayer extends BasicPlayer {
     private float offDir = 1f;
     private Animation floatAnimation;
     private float energyLevel = 100f;
+    private float maxEnergyLevel = 100f;
     private float energyDrainSpeed = 1f;
     private Hud hud;
+    private OrthographicCamera camera;
 
 
-    public FemalePlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud) {
+    public FemalePlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud, OrthographicCamera camera) {
         super(world, x, y, width, height, bodyType);
         this.hud = hud;
+        this.camera = camera;
         ((body.getFixtureList()).get(0)).setUserData(this);
 
         Filter f = new Filter();
@@ -77,6 +82,11 @@ public class FemalePlayer extends BasicPlayer {
         //Gdx.app.log("Falling", String.format("%d", numFootContants));
     }
 
+    public void addEnergy(float energy){
+        this.energyLevel +=energy;
+        if(energyLevel > maxEnergyLevel)
+            energyLevel = maxEnergyLevel;
+    }
     @Override
     public void render(SpriteBatch sb, float dt) {
 
@@ -112,5 +122,9 @@ public class FemalePlayer extends BasicPlayer {
     @Override
     PlayerState getState() {
         return currentState;
+    }
+
+    public Vector3 getProjectedPosition(){
+        return camera.project(new Vector3(body.getPosition().x, body.getPosition().y, 0));
     }
 }

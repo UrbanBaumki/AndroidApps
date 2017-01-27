@@ -1,9 +1,11 @@
 package si.banani.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
@@ -33,6 +35,7 @@ public class Player extends BasicPlayer implements AudioSubject {
     private Animation walkAnimation;
     private TextureRegion[] sprites;
     private boolean switching;
+    private int maxHealth = 3;
 
 
 
@@ -44,11 +47,12 @@ public class Player extends BasicPlayer implements AudioSubject {
     private float stepTimer = 0f;
     private AudioObserver.AudioTypeEvent steps[] = {AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_1, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_2, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_3, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_4};
     Random r = new Random();
-
-    public Player(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud) {
+    OrthographicCamera camera;
+    public Player(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud, OrthographicCamera camera) {
         super(world, x, y, width, height, bodyType);
         ((body.getFixtureList()).get(0)).setUserData(this);
 
+        this.camera = camera;
         Filter f = new Filter();
         f.categoryBits = CollisionBits.PLAYER_BIT;
         f.maskBits = CollisionBits.ENEMY_BIT |
@@ -89,11 +93,17 @@ public class Player extends BasicPlayer implements AudioSubject {
         loadSounds();
         stepTime = frameSpeed* 3.3f;
 
-        health = 100f;
+        health = 3;
 
         isControlled = true;
 
 
+    }
+
+    public void addHealth(int h){
+        health += h;
+        if (health > maxHealth)
+            health = maxHealth;
     }
 
     public void update(float dt){
@@ -213,5 +223,10 @@ public class Player extends BasicPlayer implements AudioSubject {
             observer.onNotify(command, event);
     }
 
-
+    public Vector3 getProjectedPosition(){
+        return camera.project(new Vector3(getX(), getY(), 0));
+    }
+    public void startDialog(){
+        hud.enableDialog(true);
+    }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 
 
 import si.banani.entities.BasicPlayer;
+import si.banani.entities.FemalePlayer;
 import si.banani.entities.Player;
 
 import si.banani.entities.RockEnemy;
@@ -17,7 +18,9 @@ import si.banani.entities.SpiderEnemy;
 import si.banani.screens.Play;
 import si.banani.tiles.Box;
 
+import si.banani.tiles.DialogPoint;
 import si.banani.tiles.Ladder;
+import si.banani.tiles.Potion;
 import si.banani.tiles.Spikes;
 import si.banani.tiles.Switch;
 import si.banani.tiles.TileStates;
@@ -50,7 +53,25 @@ public class WorldContactListener implements ContactListener {
             Player p = (Player)a.getUserData();
 
             Gdx.app.log("Stairs", "Stairs");
-        }else if(a.getUserData() instanceof Player &&  b.getUserData() instanceof RockEnemy ){
+        }else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof Potion){ //female in energy potion
+            Potion p = (Potion) b.getUserData();
+            if(p.getPotionType() == Potion.PotionType.ENERGY)
+                p.pickup();
+            ((FemalePlayer) a.getUserData()).addEnergy(p.getValue());
+
+        }else if(a.getUserData() instanceof Player && b.getUserData() instanceof Potion){
+            Potion p = (Potion) b.getUserData();
+            if(p.getPotionType() == Potion.PotionType.HEALTH)
+                p.pickup();
+            ((Player) a.getUserData()).addHealth(p.getValue());
+
+        } else if(a.getUserData() instanceof Player && b.getUserData() instanceof DialogPoint){
+            DialogPoint p = (DialogPoint) b.getUserData();
+            p.setDialogToDisplay();
+            p.setExecuted();
+            ((Player)a.getUserData()).startDialog();
+
+        } else if(a.getUserData() instanceof Player &&  b.getUserData() instanceof RockEnemy ){
             RockEnemy p = (RockEnemy) b.getUserData();
             p.dealDamageToTarget();
             Gdx.app.log("Dotik", "");

@@ -13,5 +13,7 @@ public enum Tiles {
     GHOST_PATH,
     PROPS,
     SWINGS,
-    LADDERS
+    LADDERS,
+    DIALOG,
+    POTION
 }

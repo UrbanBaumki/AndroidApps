@@ -1,15 +1,18 @@
 package si.banani.learning;
 
-import com.badlogic.gdx.ApplicationAdapter;
+
 import com.badlogic.gdx.Game;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+
+import si.banani.conversations.ChapterConversation;
+import si.banani.conversations.Conversation;
 import si.banani.screens.ScreenEnums;
 import si.banani.screens.ScreenManager;
-import si.banani.screens.Splash;
+import si.banani.serialization.Serializer;
+
 
 public class LearningGdx extends Game {
 

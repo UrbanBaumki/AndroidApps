@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" nextobjectid="77">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" nextobjectid="82">
  <tileset firstgid="1" name="forrest_tileset" tilewidth="64" tileheight="64" spacing="2" tilecount="15" columns="15">
   <image source="forrest_tileset.png" width="1024" height="128"/>
  </tileset>
@@ -37,8 +37,8 @@
   <object id="25" x="966.333" y="400.833" width="30.6666" height="27.6667"/>
   <object id="26" x="969" y="434.167" width="30.6666" height="27.6667"/>
   <object id="27" x="966.667" y="478.833" width="30.6666" height="27.6667"/>
-  <object id="54" x="129.334" y="402.333" width="30.6666" height="27.6667"/>
-  <object id="69" x="745" y="146.5" width="30.6666" height="27.6667"/>
+  <object id="54" x="716.334" y="138.333" width="30.6666" height="27.6667"/>
+  <object id="69" x="704" y="66.5" width="30.6666" height="27.6667"/>
  </objectgroup>
  <objectgroup name="Stairs" visible="0"/>
  <objectgroup name="Switches">
@@ -59,12 +59,25 @@
   <object id="67" x="687" y="164" width="165" height="17"/>
  </objectgroup>
  <objectgroup name="Swings">
-  <object id="71" x="704.25" y="99.0833">
+  <object id="71" x="683.25" y="114.083">
    <polygon points="13.5,0.5 -3.31818,-3.54545 163.591,-3.95455 145.75,0.5"/>
   </object>
  </objectgroup>
  <objectgroup name="Ladders">
-  <object id="74" x="384.667" y="381.333" width="31.6667" height="63.3333"/>
-  <object id="76" x="384.5" y="320" width="31.6667" height="63.3333"/>
+  <object id="74" x="451.667" y="252.333" width="31.6667" height="63.3333"/>
+ </objectgroup>
+ <objectgroup name="Dialogs">
+  <object id="77" x="344.5" y="319.25" width="25" height="128">
+   <properties>
+    <property name="Chapter" value="11"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Potions">
+  <object id="80" x="233.75" y="427" width="20.25" height="20">
+   <properties>
+    <property name="Type" value="energy"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

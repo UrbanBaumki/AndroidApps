@@ -1,6 +1,7 @@
 package si.banani.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -24,8 +25,10 @@ import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
+import si.banani.tiles.DialogPoint;
 import si.banani.tiles.Door;
 import si.banani.tiles.Ladder;
+import si.banani.tiles.Potion;
 import si.banani.tiles.Prop;
 import si.banani.tiles.Spikes;
 import si.banani.tiles.Switch;
@@ -60,6 +63,8 @@ public class WorldCreator {
         createTileFixtures("Props", Tiles.PROPS);
         createTileFixtures("Swings", Tiles.SWINGS);
         createTileFixtures("Ladders", Tiles.LADDERS);
+        createTileFixtures("Dialogs", Tiles.DIALOG);
+        createTileFixtures("Potions", Tiles.POTION);
     }
 
     private void createTileFixtures(String layerName, Tiles type){
@@ -129,6 +134,15 @@ public class WorldCreator {
                     break;
                 case LADDERS:
                     Scene.addObjectToScene(new Ladder(world, rect, TextureManager.getRegionByName("ladder").split(33, 64)[0]));
+                    break;
+                case DIALOG:
+                    String ss =  object.getProperties().get("Chapter", String.class);
+                    new DialogPoint(world, rect, ss);
+                    break;
+                case POTION:
+                    TextureRegion [] reg = object.getProperties().get("Type").equals("energy") ? TextureManager.getRegionByName("potion_blue").split(17, 21)[0] : TextureManager.getRegionByName("potion_red").split(17, 21)[0];
+                    Potion.PotionType pt = object.getProperties().get("Type").equals("energy") ? Potion.PotionType.ENERGY : Potion.PotionType.HEALTH;
+                    Scene.addObjectToScene(new Potion(world, rect, reg ,pt ));
                     break;
             }
 

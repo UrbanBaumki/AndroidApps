@@ -20,6 +20,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -33,6 +34,9 @@ import si.banani.camera.ParallaxCamera;
 import si.banani.camera.Parallaxer;
 import si.banani.controller.InputController;
 import si.banani.controller.PlayerMovementController;
+import si.banani.conversations.Conversation;
+import si.banani.conversations.ConversationHolder;
+import si.banani.entities.CameraCoordinates;
 import si.banani.entities.FemalePlayer;
 import si.banani.entities.Player;
 import si.banani.entities.RockEnemy;
@@ -138,7 +142,7 @@ public class Play extends BaseScreen implements AudioSubject{
 
 
 
-        this.hud = new Hud(this.batch);
+
 
 
         box2DDebugRenderer = new Box2DDebugRenderer();
@@ -155,10 +159,19 @@ public class Play extends BaseScreen implements AudioSubject{
         //bg = new Texture(Gdx.files.internal("wood_bg.png"));
         foreground = new Texture(Gdx.files.internal("wood_fg.png"));
 
-        this.male = new Player(world, 150, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerMale").split(32,64)[0], 1/7f, hud);
+
+        this.hud = new Hud(this.batch);
+
+        this.male = new Player(world, 150, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerMale").split(32,64)[0], 1/7f, hud, camera);
         male.setFirstAnimationFrame(1);
 
-        this.female = new FemalePlayer(world, 110, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(32,64)[0], 1/7f, hud);
+
+
+        this.female = new FemalePlayer(world, 110, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(32,64)[0], 1/7f, hud, camera);
+
+
+        CameraCoordinates c = new CameraCoordinates(male, female, camera);
+        hud.setCameraCoordinates(c);
 
         //e = new RockEnemy(world, 300, 300, 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f, male);
         //s = new SpiderEnemy(world, 355, 150, 10, 28, BodyDef.BodyType.KinematicBody, TextureManager.getRegionByName("spiderEnemy").split(14,61)[0],  TextureManager.getRegionByName("spiderAttacking").split(23,61)[0] , 1/6f,1/3f, male);
@@ -263,6 +276,8 @@ public class Play extends BaseScreen implements AudioSubject{
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+
+
         //bg
         parallaxer.render(batch, parallaxBgIndex);
 
@@ -365,13 +380,13 @@ public class Play extends BaseScreen implements AudioSubject{
         //batch.setShader(defaulShader);
         batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
 
-        hud.stage.draw();
+        hud.render(delta);
 
         this.inputController.draw();
 
 
         //debuger
-        //box2DDebugRenderer.render(world, camera.combined);
+        box2DDebugRenderer.render(world, camera.combined);
 
     }
     public static void setRunning(boolean b){ running = b; }
@@ -433,4 +448,5 @@ public class Play extends BaseScreen implements AudioSubject{
             observer.onNotify(command, event);
         }
     }
+
 }

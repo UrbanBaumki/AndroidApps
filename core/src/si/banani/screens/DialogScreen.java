@@ -81,7 +81,7 @@ public class DialogScreen extends BaseScreen {
         timeDisplayed += dt;
 
 
-       return full.substring(0, indexPercent);
+        return full.substring(0, indexPercent);
     }
     @Override
     public void render(float delta) {
@@ -96,7 +96,7 @@ public class DialogScreen extends BaseScreen {
 
         updateLabelString( getCurrentString(delta) );
         stage.draw();
-        Gdx.app.log("Dialog zaslon", "render");
+
 
     }
     private void updateLabelString(String string){
