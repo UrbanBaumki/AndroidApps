@@ -25,12 +25,18 @@ public class LearningGdx extends Game {
 
 	@Override
 	public void create () {
-
-		batch = new SpriteBatch();
+		if(batch == null)
+			batch = new SpriteBatch();
 		ScreenManager.getInstance().bindWithMainGameClass(this);
 		ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch);
 	}
 
+	public static SpriteBatch getSpriteBatch(){
+		if(batch == null){
+			batch = new SpriteBatch();
+		}
+		return batch;
+	}
 	@Override
 	public void render () {
 		super.render();

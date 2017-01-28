@@ -90,5 +90,12 @@ public class Scene {
 
         }
     }
+    public static void clearCachedObjects(){
+        sceneObjects.clear();
+    }
+    public static void disposeWorld(){
+        if(world != null)
+            world.dispose();
+    }
 
 }

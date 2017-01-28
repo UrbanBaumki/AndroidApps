@@ -44,14 +44,14 @@ public class WorldCreator {
     private TiledMap map;
     private int currSwitch;
     private Array<Switch> switches;
-    private MapManager mapManager;
-    public WorldCreator(World world, String mapName){
+    //private MapManager mapManager;
+    public WorldCreator(World world, TiledMap map){
         this.world = world;
-
+        this.map = map;
         this.currSwitch = 0;
         this.switches = new Array<Switch>();
-        mapManager = new MapManager();
-        mapManager.loadMap(mapName);
+        //mapManager = new MapManager();
+        //mapManager.loadMap(mapName);
 
         createTileFixtures("Floor", Tiles.FLOOR);
         createTileFixtures("Spikes", Tiles.SPIKES);
@@ -73,7 +73,7 @@ public class WorldCreator {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        MapLayer mapLayer = mapManager.getMapLayer(layerName);
+        MapLayer mapLayer = map.getLayers().get(layerName);
         if(mapLayer == null) return;
 
         for(MapObject object: mapLayer.getObjects().getByType(RectangleMapObject.class)){
@@ -258,7 +258,7 @@ public class WorldCreator {
         switches.get(index).addDoor(door);
         currSwitch++;
     }
-    public TiledMap getCurrentMap(){
-        return mapManager.getCurrentMap();
+    public void setTiledMap(TiledMap map){
+        this.map = map;
     }
 }

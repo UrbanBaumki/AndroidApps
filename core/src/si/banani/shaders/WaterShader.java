@@ -65,6 +65,8 @@ public class WaterShader extends Shader implements ShaderInterface {
 
     @Override
     public void dispose() {
-
+        shaderProgram.dispose();
+        water.dispose();
+        perlin.dispose();
     }
 }
