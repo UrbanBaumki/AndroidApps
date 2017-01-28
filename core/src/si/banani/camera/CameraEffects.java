@@ -18,18 +18,19 @@ public class CameraEffects {
     private static OrthographicCamera camera;
     private static BasicPlayer target;
     private static float lerp = 0.08f;
-    private static float offsetX = LearningGdx.V_WIDTH/6;
+    public static float offsetX = LearningGdx.V_WIDTH/6;
     private static float camZoom = 1.25f;
     private static float initialZoom;
     private static boolean zooming;
     private static int zoomDir = 1;
     private static float timeAnimating = 0f;
     private static float timeOfZooming = 0.5f;
+    public static int currTarDir = 1;
 
     public static void updateCamera(float dt){
 
         Vector3 camPos = camera.position;
-
+        currTarDir = target.getDir();
         float offset = offsetX * target.getDir();
         float tmpLerp = lerp;
 

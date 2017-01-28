@@ -127,8 +127,6 @@ public class Player extends BasicPlayer implements AudioSubject {
 
     }
     public void render(SpriteBatch sb, float dt){
-       //Gdx.app.log("Jumping", String.format("%b", isJumping));
-        //Gdx.app.log("Falling", String.format("%b", isFalling));
         sb.draw(getCurrentFrame(dt), x  - dir * width /2/ LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
 
     }

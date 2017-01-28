@@ -19,6 +19,7 @@ public class Potion extends InteractiveTile {
         HEALTH,
         ENERGY
     }
+    private float offDir = 1f;
     private float x, y;
     private int width, height;
     private int dir = 1;
@@ -51,6 +52,12 @@ public class Potion extends InteractiveTile {
     @Override
     public void render(SpriteBatch batch, float dt) {
         if (!destroyed) {
+            if(yOffset > 1f)
+                offDir = -1f;
+            else if(yOffset < -1f)
+                offDir = 1f;
+
+            yOffset += dt * offDir * 8f;
 
             batch.draw(textureRegion, x - dir * width / 2 / LearningGdx.PPM, y - height / 2 / LearningGdx.PPM + yOffset / LearningGdx.PPM, dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
         }

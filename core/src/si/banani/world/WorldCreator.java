@@ -133,7 +133,9 @@ public class WorldCreator {
                     Scene.addObjectToScene( new Prop(world, rect) );
                     break;
                 case LADDERS:
-                    Scene.addObjectToScene(new Ladder(world, rect, TextureManager.getRegionByName("ladder").split(33, 64)[0]));
+
+                    //Scene.addObjectToScene(new Ladder(world, rect, TextureManager.getRegionByName("ladder").split(33, 64)[0]));
+                    Scene.addObjectToScene(new Ladder(world, rect, new TextureRegion(TextureManager.getTexture("ladder.png"))));
                     break;
                 case DIALOG:
                     String ss =  object.getProperties().get("Chapter", String.class);

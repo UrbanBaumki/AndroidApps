@@ -1,5 +1,7 @@
 package si.banani.tiles;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
@@ -22,15 +24,20 @@ public class Ladder extends InteractiveTile {
     private float yOffset, xOffset;
     private TextureRegion textureRegion;
 
-    public Ladder(World world, Rectangle rect, TextureRegion[] sprites){
+    public Ladder(World world, Rectangle rect, TextureRegion sprite){
         super(world, rect);
 
         yOffset = -3f;
         xOffset = -3f;
 
-        this.width = sprites[0].getRegionWidth();
-        this.height = sprites[0].getRegionHeight();
-        textureRegion = sprites[0];
+
+        textureRegion = sprite;
+
+        textureRegion.setRegion(0,0, (int) rect.getWidth(), (int)rect.getHeight());
+        textureRegion.getTexture().setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+        this.width = sprite.getRegionWidth();
+        this.height = sprite.getRegionHeight();
 
         fixture.setUserData(this);
         fixture.setSensor(true);

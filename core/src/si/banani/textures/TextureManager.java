@@ -18,10 +18,25 @@ public class TextureManager {
     private static TextureManager txm;
     private static HashMap<String, TextureAtlas> atlasFiles;
     private static HashMap<String, TextureRegion> regions = new HashMap<String, TextureRegion>();
+    private static HashMap<String, Texture> singleTextures = new HashMap<String, Texture>();
 
     public static TextureManager getInstance(){
         if(txm == null) txm = new TextureManager();
         return txm;
+    }
+
+    public static Texture getTexture(String filename){
+        Texture tex = null;
+
+        if(singleTextures.containsKey(filename))
+            tex = singleTextures.get(filename);
+        else
+        {
+            tex = new Texture(Gdx.files.internal(filename));
+            singleTextures.put(filename, tex);
+        }
+
+        return tex;
     }
     public static void splitAtlasIntoRegions(){
 

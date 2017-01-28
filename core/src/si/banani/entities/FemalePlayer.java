@@ -27,7 +27,7 @@ public class FemalePlayer extends BasicPlayer {
     private Animation floatAnimation;
     private float energyLevel = 100f;
     private float maxEnergyLevel = 100f;
-    private float energyDrainSpeed = 1f;
+    private float energyDrainSpeed = 2f;
     private Hud hud;
     private OrthographicCamera camera;
 

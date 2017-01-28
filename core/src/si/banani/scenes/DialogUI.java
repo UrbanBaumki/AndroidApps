@@ -33,7 +33,6 @@ public class DialogUI extends Window {
 
         setKeepWithinStage(false);
 
-        setPosition(120, 150);
         setMovable(false);
         getTitleTable().clearChildren();
 

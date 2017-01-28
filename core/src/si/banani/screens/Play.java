@@ -44,6 +44,8 @@ import si.banani.entities.SpiderEnemy;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.scenes.Hud;
+import si.banani.shaders.ShaderFactory;
+import si.banani.shaders.WaterShader;
 import si.banani.sound.AudioManager;
 import si.banani.sound.AudioObserver;
 import si.banani.sound.AudioSubject;
@@ -107,7 +109,7 @@ public class Play extends BaseScreen implements AudioSubject{
     Texture water, perlin;
     float time = 1f;
 
-
+    WaterShader waterShader;
 
     public Play(SpriteBatch spriteBatch) {
         super(spriteBatch);
@@ -118,6 +120,7 @@ public class Play extends BaseScreen implements AudioSubject{
 
         //MAP LOADING
         //the texture manager
+
         TextureManager.addAtlas("content.pack", "contentAtlas");
         TextureManager.splitAtlasIntoRegions();
 
@@ -139,9 +142,6 @@ public class Play extends BaseScreen implements AudioSubject{
 
         parallaxer = new Parallaxer( camera);
         parallaxer.addTexture("wood_bg.png", -LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2, LearningGdx.V_WIDTH * 1.2f, LearningGdx.V_HEIGHT * 1.2f, 0.0025f, 0.6f);
-
-
-
 
 
 
@@ -207,11 +207,7 @@ public class Play extends BaseScreen implements AudioSubject{
 
         defaulShader = batch.createDefaultShader();
 
-        water = new Texture(Gdx.files.internal("water.png"));
-        perlin = new Texture(Gdx.files.internal("perlin.jpg"));
 
-        wS = new ShaderProgram(Gdx.files.internal("bin/shaders/water.vsh") ,Gdx.files.internal("bin/shaders/water.fsh"));
-        Gdx.app.log(bwShader.isCompiled() ? "Water compiled" : bwShader.getLog(), "");
 
 
     }
@@ -270,8 +266,6 @@ public class Play extends BaseScreen implements AudioSubject{
 
     @Override
     public void render(float delta) {
-
-
         update(delta);
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -292,10 +286,6 @@ public class Play extends BaseScreen implements AudioSubject{
 
         male.render(batch, delta);
 
-
-
-
-
         //e.render(batch, delta);
         //s.render(batch, delta);
 
@@ -303,38 +293,8 @@ public class Play extends BaseScreen implements AudioSubject{
 
 
 
-        //water shader
-        time += delta;
-        time = time % 10f;
-        float angle = time * (2 * MathUtils.PI);
-        if (angle > (2 * MathUtils.PI))
-            angle -= (2 * MathUtils.PI);
-
-
-        wS.begin();
-        wS.setUniformMatrix("u_projTrans", camera.combined, false);
-        wS.setUniformf("u_deltatime", angle);
-        wS.setUniformi("u_texture_perlin", 1);
-        wS.setUniformf("u_playerposition", camera.position.x);
-        //wS.setUniformf("u_speed", 0.1f);
-        wS.end();
-
-        //Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE1);
-        perlin.bind(1);
-
-        batch.setShader(wS);
-        batch.begin();
-        water.bind(0);
-        //Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
-        batch.draw(water, 200/LearningGdx.PPM, 80/LearningGdx.PPM, water.getWidth()/LearningGdx.PPM, water.getHeight()/LearningGdx.PPM);
-        batch.end();
-
-
-
-
-
-
-
+        //render water
+        ((WaterShader)ShaderFactory.getShader(ShaderFactory.ShaderType.WATER_SHADER)).render(batch, camera, delta);
 
 
 
@@ -386,7 +346,7 @@ public class Play extends BaseScreen implements AudioSubject{
 
 
         //debuger
-        box2DDebugRenderer.render(world, camera.combined);
+        //box2DDebugRenderer.render(world, camera.combined);
 
     }
     public static void setRunning(boolean b){ running = b; }
@@ -403,6 +363,7 @@ public class Play extends BaseScreen implements AudioSubject{
     public void resize(int width, int height) {
         super.resize(width, height);
         inputController.resize(width,height);
+        hud.resize(width,height);
         int gutterW = viewport.getLeftGutterWidth();
         int gutterH = viewport.getTopGutterHeight();
         int rhWidth = width - (2 * gutterW);

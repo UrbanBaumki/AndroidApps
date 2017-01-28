@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import si.banani.camera.CameraEffects;
 import si.banani.conversations.ConversationHolder;
 import si.banani.entities.BasicPlayer;
 import si.banani.entities.CameraCoordinates;
@@ -121,8 +122,11 @@ public class Hud {
 
         if(dialogRunning){
 
-            Vector3 windowCoords = cameraCoordinates.getProjectedPosition(1-ConversationHolder.getInstance().getCurrentSpeaker());
-            _dialogUI.setPosition(windowCoords.x - 60, 150 );
+
+            Vector3 windowCoords = cameraCoordinates.getProjectedPositionFromCamera(1-ConversationHolder.getInstance().getCurrentSpeaker());
+            viewport.unproject(windowCoords);
+
+            _dialogUI.setPosition(windowCoords.x - CameraEffects.offsetX, 150 );
 
             if(_dialogUI.render(dt)){
 
@@ -165,6 +169,11 @@ public class Hud {
     public void enableDialog(boolean b){
         _dialogUI.setVisible(b);
         dialogRunning = b;
+
+    }
+    public void resize(int width, int height){
+        stage.getViewport().update(width, height);
+        _dialogUI.getStage().getViewport().update(width,height);
 
     }
     public void setCameraCoordinates(CameraCoordinates c){

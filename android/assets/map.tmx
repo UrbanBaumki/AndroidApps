@@ -64,10 +64,10 @@
   </object>
  </objectgroup>
  <objectgroup name="Ladders">
-  <object id="74" x="451.667" y="252.333" width="31.6667" height="63.3333"/>
+  <object id="74" x="475.667" y="177.666" width="33.6667" height="123.333"/>
  </objectgroup>
  <objectgroup name="Dialogs">
-  <object id="77" x="344.5" y="319.25" width="25" height="128">
+  <object id="77" x="321.833" y="315.917" width="25" height="128">
    <properties>
     <property name="Chapter" value="11"/>
    </properties>
