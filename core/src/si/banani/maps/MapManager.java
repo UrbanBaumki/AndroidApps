@@ -1,6 +1,7 @@
 package si.banani.maps;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -53,6 +54,14 @@ public class MapManager {
 
         Scene.setWorld(_currentMap.getWorld());
 
+    }
+    public void renderCurrentMap(SpriteBatch batch, float dt){
+        if(_currentMap != null)
+            _currentMap.render(batch, dt);
+    }
+    public void updateCurrentMap(float dt){
+        if(_currentMap != null)
+            _currentMap.update(dt);
     }
     public void clearCurrentMap(){
         Scene.clearCachedObjects();

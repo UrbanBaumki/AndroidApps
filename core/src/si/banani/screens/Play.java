@@ -27,6 +27,7 @@ import si.banani.camera.Parallaxer;
 import si.banani.controller.InputController;
 import si.banani.controller.PlayerMovementController;
 import si.banani.entities.CameraCoordinates;
+import si.banani.entities.EntityFactory;
 import si.banani.entities.FemalePlayer;
 import si.banani.entities.Player;
 import si.banani.entities.RockEnemy;
@@ -97,17 +98,10 @@ public class Play extends BaseScreen {
     ParallaxCamera parallaxCameraFG;
 
     Texture  foreground;
-    Parallaxer parallaxer;
-    int [] parallaxBgIndex = {0};
-    int [] parallaxFgIndex = {1};
 
     //Testing lights
     RayHandler handler;
     PointLight pointLight;
-
-    //overlaping
-    WorldCollideListener overlaper;
-
 
     //Final map manager
     MapManager mapManager;
@@ -121,45 +115,41 @@ public class Play extends BaseScreen {
 
         gameState = GameState.RUNNING;
 
-        //MUSIC OBSERVER AND LOADING
-        //this.addObserver(AudioManager.getInstance());
-        //loadMusic();
 
-        //MAP LOADING
         //the texture manager
-
         TextureManager.addAtlas("content.pack", "contentAtlas");
         TextureManager.splitAtlasIntoRegions();
 
 
+        //the player hud
         this.hud = new Hud(this.batch);
 
 
-
+        //properties
         MapProperties properties = mapManager.getCurrentTiledMap().getProperties();
         levelW = properties.get("width", Integer.class);
         levelH = properties.get("height", Integer.class);
 
+        camera = mapManager.getCurrentCamera();
 
         parallaxCameraFG = new ParallaxCamera(LearningGdx.V_WIDTH/2, LearningGdx.V_HEIGHT/2, mapManager.getCurrentCamera());
 
-        parallaxer = new Parallaxer( mapManager.getCurrentCamera());
-        parallaxer.addTexture("wood_bg.png", -LearningGdx.V_WIDTH/2, -LearningGdx.V_HEIGHT/2, LearningGdx.V_WIDTH * 1.2f, LearningGdx.V_HEIGHT * 1.2f, 0.0025f, 0.6f);
 
 
 
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-        this.male = new Player(mapManager.getCurrentWorld(), 150, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerMale").split(32,64)[0], 1/7f, hud, camera);
+
+        EntityFactory.giveCamera(camera);
+        EntityFactory.giveHud(hud);
+        EntityFactory.giveWorld(mapManager.getCurrentWorld());
+
+        this.male = (Player)EntityFactory.getEntity(EntityFactory.EntityType.PLAYER);
         male.setFirstAnimationFrame(1);
-        this.female = new FemalePlayer(mapManager.getCurrentWorld(), 110, 250, 8, 24, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(32,64)[0], 1/7f, hud, camera);
+        this.female = (FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE);
 
         mapManager.setMale(male);
-        mapManager.setGhost(female);
-
-
-        mapManager.getCurrentWorld().setContactListener(new WorldContactListener());
-
+        mapManager.setGhost(female);//???
 
 
         //first give a batch to scene
@@ -181,7 +171,7 @@ public class Play extends BaseScreen {
         //s = new SpiderEnemy(world, 355, 150, 10, 28, BodyDef.BodyType.KinematicBody, TextureManager.getRegionByName("spiderEnemy").split(14,61)[0],  TextureManager.getRegionByName("spiderAttacking").split(23,61)[0] , 1/6f,1/3f, male);
 
 
-
+        //controller
         this.inputController = new InputController(this.batch);
 
         PlayerMovementController.getInstance().addPlayer(this.male);
@@ -190,6 +180,8 @@ public class Play extends BaseScreen {
 
         //RayHandler.useDiffuseLight(true);
 
+
+        //BOX2d lights
         handler = new RayHandler(mapManager.getCurrentWorld());
 
         handler.setAmbientLight(1f);
@@ -198,7 +190,7 @@ public class Play extends BaseScreen {
         pointLight.setIgnoreAttachedBody(true);
 
 
-
+        //to start with male
         CameraEffects.setTarget(male);
     }
 
@@ -211,21 +203,22 @@ public class Play extends BaseScreen {
 
         if(mapRenderer == null){
             mapRenderer = new OrthogonalTiledMapRenderer(mapManager.getCurrentTiledMap(), 1/ LearningGdx.PPM );
+            camera = mapManager.getCurrentCamera();
         }
     }
 
     public void update(float delta){
         if(!running) return;
 
+        mapManager.updateCurrentMap(delta);
 
-        mapManager.getCurrentWorld().step(1/60f, 6, 2);
-        mapManager.getCurrentOverlaper().update();
+
 
         male.update(delta);
         female.update(delta);
 
         //update the scene with its objects
-        Scene.update(delta); //important that is AFTER THE WORLD.STEP !!!
+        Scene.update(delta);
         //e.update(delta);
         //s.update(delta);
 
@@ -247,8 +240,8 @@ public class Play extends BaseScreen {
             male.resetPlayer();
             reset = false;
         }
-        //
 
+        //light handler
         handler.setCombinedMatrix(mapManager.getCurrentCamera());
 
     }
@@ -273,8 +266,11 @@ public class Play extends BaseScreen {
             mapManager.set_mapChanged(false);
         }
 
-        //bg
-        parallaxer.render(batch, parallaxBgIndex);
+
+
+        mapManager.renderCurrentMap(batch, delta);
+
+        //this could render each map:
 
         batch.setProjectionMatrix(mapManager.getCurrentCamera().combined);
         //render the map also
@@ -323,33 +319,32 @@ public class Play extends BaseScreen {
 
         batch.end();
 
+
+        //end of map rendering
+
         if(PlayerMovementController.getInstance().getCurrent_player() == 1)
             mapRenderer.render(paths);
 
 
 
         handler.updateAndRender();
+
+
         batch.begin();
         batch.setProjectionMatrix(mapManager.getCurrentCamera().combined);
         female.render(batch,delta);
-
-
-
         batch.end();
         /////
 
 
-
-        //batch.setShader(defaulShader);
         batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
 
         hud.render(delta);
 
         this.inputController.draw();
 
-
         //debuger
-        //box2DDebugRenderer.render(world, camera.combined);
+        box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
 
     }
     public static void setRunning(boolean b){ running = b; }

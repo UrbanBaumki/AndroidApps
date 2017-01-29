@@ -41,7 +41,6 @@ public abstract class Map implements AudioSubject{
     protected World world;
     protected WorldCreator worldCreator;
 
-    protected Box2DDebugRenderer debugRenderer;
     protected WorldCollideListener overlaper;
 
     protected Parallaxer parallaxer;
@@ -71,7 +70,8 @@ public abstract class Map implements AudioSubject{
 
         addObserver(AudioManager.getInstance());
     }
-
+    abstract public void update(float dt);
+    abstract public void render(SpriteBatch batch, float dt);
     abstract public void unloadMusic();
     abstract public void loadMusic();
 
