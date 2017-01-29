@@ -57,6 +57,7 @@ public class SadMap extends Map {
         worldCreator.createTileFixtures("Potions", Tiles.POTION);
 
         worldCreator.createTileFixtures("Start", Tiles.START);
+        worldCreator.createTileFixtures("End", Tiles.END);
     }
 
     @Override

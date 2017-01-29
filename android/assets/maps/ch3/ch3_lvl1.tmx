@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="64" tileheight="64" nextobjectid="77">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="64" tileheight="64" nextobjectid="79">
  <tileset firstgid="1" name="ch3_tileset" tilewidth="64" tileheight="64" spacing="2" tilecount="15" columns="15">
   <image source="ch3_tileset.png" width="1024" height="128"/>
  </tileset>
  <tileset firstgid="16" name="ch3_half_tilesets" tilewidth="64" tileheight="64" spacing="2" tilecount="15" columns="15">
   <image source="ch3_half_tilesets.png" width="1024" height="128"/>
+ </tileset>
+ <tileset firstgid="31" name="her_path" tilewidth="64" tileheight="64" spacing="2" tilecount="7" columns="7">
+  <image source="her_path.png" width="512" height="128"/>
  </tileset>
  <layer name="Bg" width="20" height="15">
   <data encoding="base64" compression="zlib">
@@ -13,7 +16,7 @@
  </layer>
  <layer name="Fg" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJzNkuEKgCAMhIfVKv9WEr3/g6bkYMiZGv7o4CPc4pK7HBGtFbgCMz2SZ0nm535TpZ/kY+N5IZwfK9JcueFeIvmOrZz30gAYPZfCgH3Q5tk9h+eMc/4AyuqMhH3aVZi//c/il94P+YUzylb3jvY5v9beS346d+kDdYYQP1b+Gnkvt0f01g1lsQn5
+   eJzNktsKgCAQRBcrK18rkf7/Q1NyYZHxFj40cAh3Y5KZLBHtDdgKK73iZ0nq535Lhx/nY+J5I5yfFqS56sZ7SfF3TON8lCbA7LkFCuyDDs/puTwuzvUHUFYuEvZpV2Fe+p/ZL70f8gtnlK3sHe1zfr291/xk7twH6gzBflr4S/i93B4xWg9ntAo7
   </data>
  </layer>
  <objectgroup name="Floor">
@@ -22,7 +25,7 @@
   <object id="5" x="576" y="448" width="320" height="63"/>
   <object id="6" x="0" y="511.333" width="896" height="66.6667"/>
   <object id="8" x="3" y="255.161" width="188" height="63.6774"/>
-  <object id="9" x="640" y="63" width="64" height="193"/>
+  <object id="9" x="576.667" y="63" width="64" height="193"/>
   <object id="10" x="3" y="0" width="1149" height="64"/>
   <object id="11" x="0" y="64" width="64" height="192"/>
   <object id="12" x="962.667" y="448.667" width="190.667" height="30.6667"/>
@@ -43,10 +46,10 @@
  </objectgroup>
  <objectgroup name="Ladders">
   <object id="1" x="897.667" y="432.5" width="35.3333" height="332.167"/>
-  <object id="18" x="192.667" y="195" width="29.3333" height="250.667"/>
+  <object id="18" x="192.667" y="232.333" width="29.3333" height="213.334"/>
  </objectgroup>
  <objectgroup name="Potions">
-  <object id="19" x="94.0303" y="219.606" width="28" height="32">
+  <object id="19" x="94.0303" y="222.273" width="28" height="32">
    <properties>
     <property name="Type" value="energy"/>
    </properties>
@@ -56,7 +59,7 @@
     <property name="Type" value="energy"/>
    </properties>
   </object>
-  <object id="74" x="990.667" y="534.667" width="29.3333" height="26.6667">
+  <object id="74" x="992" y="545.333" width="29.3333" height="26.6667">
    <properties>
     <property name="Type" value="health"/>
    </properties>
@@ -72,7 +75,7 @@
     <property name="Type" value="player"/>
    </properties>
   </object>
-  <object id="38" x="631.667" y="189.5" width="10" height="31.5">
+  <object id="38" x="567.667" y="192.167" width="10" height="31.5">
    <properties>
     <property name="Dir" value="1"/>
     <property name="Type" value="ghost"/>
@@ -94,13 +97,13 @@
  <objectgroup name="Doors">
   <object id="39" x="651.417" y="384.667" width="19.9167" height="62.1667"/>
   <object id="42" x="812.621" y="384.515" width="16.5455" height="63.3333"/>
-  <object id="57" x="866.667" y="703.667" width="14" height="63"/>
+  <object id="57" x="866.667" y="703.667" width="8" height="63"/>
   <object id="67" x="1030.5" y="384.333" width="20" height="64"/>
  </objectgroup>
  <objectgroup name="Boxes">
-  <object id="31" x="462.333" y="208.5" width="30.6666" height="27.6667"/>
-  <object id="32" x="513.667" y="213.5" width="30.6666" height="27.6667"/>
-  <object id="33" x="561.333" y="217.167" width="30.6666" height="27.6667"/>
+  <object id="31" x="378.333" y="213.167" width="30.6666" height="27.6667"/>
+  <object id="32" x="433.667" y="220.167" width="30.6666" height="27.6667"/>
+  <object id="33" x="472" y="222.5" width="30.6666" height="27.6667"/>
   <object id="66" x="1039.33" y="724.833" width="30.6666" height="27.6667"/>
  </objectgroup>
  <objectgroup name="GhostPath">
@@ -110,5 +113,13 @@
  <objectgroup name="Spikes">
   <object id="60" x="448.333" y="813.667" width="127" height="18"/>
   <object id="62" x="384.333" y="493.333" width="191.667" height="17.6667"/>
+ </objectgroup>
+ <layer name="Path" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BkAkUoVqKSecpUMmcU4AYA3hgAiA==
+  </data>
+ </layer>
+ <objectgroup name="End">
+  <object id="77" x="1228" y="284" width="34" height="88"/>
  </objectgroup>
 </map>

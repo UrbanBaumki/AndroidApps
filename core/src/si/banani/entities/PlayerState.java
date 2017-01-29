@@ -12,5 +12,6 @@ public enum PlayerState {
     FOLLOWING,
     SLEEPING,
     HIDDING,
-    STANDING;
+    STANDING,
+    CLIMBING;
 }

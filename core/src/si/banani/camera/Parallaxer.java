@@ -42,6 +42,7 @@ public class Parallaxer {
         {
             batch.setProjectionMatrix(texture.getParallaxCamera().calculateParallaxMatrix(texture.getpX(), texture.getpY()));
             batch.draw(texture.getTexture(), texture.getX(), texture.getY());
+            batch.draw(texture.getTexture(), texture.getX() + texture.getTexture().getWidth(), texture.getY());
         }
 
         batch.end();

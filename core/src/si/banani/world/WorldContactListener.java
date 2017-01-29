@@ -15,10 +15,12 @@ import si.banani.entities.Player;
 
 import si.banani.entities.RockEnemy;
 import si.banani.entities.SpiderEnemy;
+import si.banani.maps.MapFactory;
 import si.banani.screens.Play;
 import si.banani.tiles.Box;
 
 import si.banani.tiles.DialogPoint;
+import si.banani.tiles.EndPoint;
 import si.banani.tiles.Ladder;
 import si.banani.tiles.Potion;
 import si.banani.tiles.Spikes;
@@ -46,7 +48,11 @@ public class WorldContactListener implements ContactListener {
 
             Player p = (Player) b.getUserData();
             p.setReset(true);
-        }else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof Spikes){
+        }else if(a.getUserData() instanceof Player && b.getUserData() instanceof EndPoint){
+            Play.nextMap = MapFactory.MapType.CHAPTER1;
+
+        }
+        else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof Spikes){
             FemalePlayer p = (FemalePlayer) a.getUserData();
             p.setReset(true);
         }

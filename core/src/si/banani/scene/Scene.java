@@ -10,6 +10,7 @@ import si.banani.tiles.Door;
 import si.banani.tiles.Ladder;
 import si.banani.tiles.Potion;
 import si.banani.tiles.Prop;
+import si.banani.tiles.Swings;
 import si.banani.tiles.Switch;
 
 /**
@@ -86,6 +87,9 @@ public class Scene {
             }else if(object instanceof Potion){
                 Potion b = (Potion) object;
                 b.render(batch, dt);
+            }else if(object instanceof Swings){
+                Swings s = (Swings) object;
+                s.render(batch,dt);
             }
 
         }

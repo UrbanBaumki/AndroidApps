@@ -23,7 +23,7 @@ import si.banani.world.CollisionBits;
 
 public class FemalePlayer extends BasicPlayer {
 
-    private float yOffset = 6f;
+    private float yOffset = 0f;
     private float offDir = 1f;
     private Animation floatAnimation;
     private float energyLevel = 100f;
@@ -94,7 +94,7 @@ public class FemalePlayer extends BasicPlayer {
     }
 
     public void resetPlayer(){
-        
+
         setXYvelocity(0,0) ;
         setTransform(startX, startY, 0);
         //camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM,0);
@@ -116,9 +116,9 @@ public class FemalePlayer extends BasicPlayer {
     public void render(SpriteBatch sb, float dt) {
 
         //just a hardcoded float offset animation, to save cpu time from calculating sin function :)
-        if(yOffset > 6f)
+        if(yOffset > 1f)
             offDir = -1f;
-        else if(yOffset < 1f)
+        else if(yOffset < -4f)
             offDir = 1f;
 
         yOffset += dt * offDir * 5f;
@@ -130,7 +130,8 @@ public class FemalePlayer extends BasicPlayer {
         TextureRegion region = null;
         switch (currentState){
             case STANDING:
-                region = floatAnimation.getFirstFrame();
+                region = floatAnimation.getCurrentFrame();
+                floatAnimation.update(dt);
                 break;
             case FOLLOWING:
             case WALKING:

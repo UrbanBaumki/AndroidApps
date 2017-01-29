@@ -29,10 +29,12 @@ import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
 import si.banani.tiles.DialogPoint;
 import si.banani.tiles.Door;
+import si.banani.tiles.EndPoint;
 import si.banani.tiles.Ladder;
 import si.banani.tiles.Potion;
 import si.banani.tiles.Prop;
 import si.banani.tiles.Spikes;
+import si.banani.tiles.Swings;
 import si.banani.tiles.Switch;
 import si.banani.tiles.Tiles;
 
@@ -143,12 +145,15 @@ public class WorldCreator {
                 case START:
                     float x = rect.getX();
                     float y = rect.getY();
-
-
                     EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setTransform(x/LearningGdx.PPM, y/LearningGdx.PPM, 0);
                     EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setStart(x/LearningGdx.PPM, y/LearningGdx.PPM);
-                    EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setTransform(x/LearningGdx.PPM, y/LearningGdx.PPM, 0);
-                    EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setStart(x/LearningGdx.PPM, y/LearningGdx.PPM);
+                    EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setTransform(x/LearningGdx.PPM - 0.2f, y/LearningGdx.PPM, 0);
+                    EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setStart(x/LearningGdx.PPM - 0.2f, y/LearningGdx.PPM);
+
+                    break;
+                case END:
+
+                    new EndPoint(world, rect);
 
                     break;
             }
@@ -183,69 +188,9 @@ public class WorldCreator {
                     break;
                 case SWINGS:
 
+                    Scene.addObjectToScene(new Swings(world, rect));
 
 
-                    bdef.type = BodyDef.BodyType.DynamicBody;
-                    bdef.position.set( (rect.getX()  ) / LearningGdx.PPM , (rect.getY()  ) / LearningGdx.PPM);
-
-                    body = world.createBody(bdef);
-
-
-                    //swing fixture
-                    PolygonShape pS = new PolygonShape();
-
-                    float [] v2 = rect.getVertices();
-                    for( int i = 0;i < v2.length; i++){
-
-                        v2[i]= v2[i] / LearningGdx.PPM;
-
-                    }
-                    pS.set(v2);
-
-                    fdef.shape = pS;
-                    fdef.friction = 1f;
-                    fdef.density = 1f;
-
-                    fdef.restitution = 0f;
-
-
-                    body.createFixture(fdef);
-
-
-                    //the circle
-                    bdef = new BodyDef();
-                    bdef.type = BodyDef.BodyType.DynamicBody;
-                    bdef.position.set((rect.getX()  ) / LearningGdx.PPM, (rect.getY()  ) / LearningGdx.PPM - 20/LearningGdx.PPM);
-
-                    Body circleBody = world.createBody(bdef);
-
-
-                    //fixture definition for the circle fixture
-                    FixtureDef fdef2 = new FixtureDef();
-                    CircleShape circleShape = new CircleShape();
-                    circleShape.setRadius(8f/LearningGdx.PPM);
-
-                    fdef2.shape = circleShape;
-                    fdef2.density = 200f;
-                    fdef2.restitution = 0f;
-                    fdef2.friction = 2f;
-
-                    circleBody.createFixture(fdef2);
-                    circleBody.setFixedRotation(true);
-
-
-                    //the revolute joint def
-                    RevoluteJointDef revoluteJointDef = new RevoluteJointDef();
-                    revoluteJointDef.bodyA = body;
-                    revoluteJointDef.bodyB = circleBody;
-                    revoluteJointDef.localAnchorA.set(rect.getBoundingRectangle().getWidth()/2, -10/LearningGdx.PPM);
-
-                    revoluteJointDef.collideConnected = false;
-                    revoluteJointDef.enableMotor = true;
-                    revoluteJointDef.maxMotorTorque = 1;
-                    revoluteJointDef.motorSpeed = 0;
-
-                    world.createJoint(revoluteJointDef);
 
                     break;
             }

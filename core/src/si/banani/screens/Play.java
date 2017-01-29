@@ -64,6 +64,8 @@ public class Play extends BaseScreen {
         SAVING,
         LOADING
     }
+    public static MapFactory.MapType nextMap = null;
+
 
     private static GameState gameState;
 
@@ -91,8 +93,9 @@ public class Play extends BaseScreen {
     RockEnemy e;
     SpiderEnemy s;
 
-    int [] fg = {1,2,3,4,5,6};
-    int [] paths = {10};
+    int [] fg = {1};
+    int [] bg = {0};
+    int [] paths = {11};
 
 
     //Parallax
@@ -279,6 +282,12 @@ public class Play extends BaseScreen {
         //light handler
         handler.setCombinedMatrix(mapManager.getCurrentCamera());
 
+
+        if(nextMap != null){
+
+            mapManager.loadMap(nextMap);
+            nextMap = null;
+        }
     }
 
     @Override
@@ -306,16 +315,23 @@ public class Play extends BaseScreen {
 
         mapManager.renderCurrentMapsBg(batch, delta);
 
+
+        mapRenderer.render(bg);
         //this could render each map:
 
         mapManager.renderCurrentMap(batch, delta);
 
+        mapRenderer.render(fg);
 
         //fg
 
-        mapRenderer.render(); //map renderer has its own shader apparently
+        //map renderer has its own shader apparently
 
         ((DefaultShader) ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).render(batch,mapManager.getCurrentCamera(), delta);
+
+        if(PlayerMovementController.getInstance().getCurrent_player() == 1)
+            mapRenderer.render(paths);
+
         //female render
         handler.updateAndRender();
         batch.begin();
@@ -330,10 +346,6 @@ public class Play extends BaseScreen {
         //end of map rendering
 
 
-        if(PlayerMovementController.getInstance().getCurrent_player() == 1)
-        {
-            //mapRenderer.render(paths);
-        }
 
 
         batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
@@ -343,7 +355,7 @@ public class Play extends BaseScreen {
         this.inputController.draw();
 
         //debuger
-        box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
+        //box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
 
     }
     public static void setRunning(boolean b){ running = b; }

@@ -41,7 +41,7 @@ public class EntityFactory {
             case FEMALE:
                 p = entities.get(EntityType.FEMALE);
                 if(p == null){
-                    p = new FemalePlayer(world, 110, 250, 8, 18, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(32,64)[0], 1/7f, hud, camera);
+                    p = new FemalePlayer(world, 110, 250, 8, 18, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("playerFemale").split(15,50)[0], 1/6f, hud, camera);
                     entities.put(EntityType.FEMALE, p);
                 }
 

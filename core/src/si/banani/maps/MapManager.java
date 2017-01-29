@@ -82,7 +82,7 @@ public class MapManager {
     }
     public TiledMap getCurrentTiledMap(){
         if( _currentMap == null ) {
-            loadMap(MapFactory.MapType.CHAPTER3);
+            loadMap(MapFactory.MapType.CHAPTER5);
         }
         return _currentMap.get_currentMap();
     }

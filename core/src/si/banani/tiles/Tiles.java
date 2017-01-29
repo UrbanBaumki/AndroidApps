@@ -16,5 +16,6 @@ public enum Tiles {
     LADDERS,
     DIALOG,
     POTION,
-    START
+    START,
+    END
 }

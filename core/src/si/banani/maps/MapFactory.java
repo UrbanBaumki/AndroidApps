@@ -15,7 +15,8 @@ public class MapFactory {
         CHAPTER1,
         CHAPTER2,
         CHAPTER3,
-        CHAPTER4
+        CHAPTER4,
+        CHAPTER5
     }
 
     public static Map getMap(MapType mapType){
@@ -34,6 +35,14 @@ public class MapFactory {
                 if(map == null){
                     map = new SadMap();
                     _maps.put(MapType.CHAPTER3, map);
+                }
+                break;
+
+            case CHAPTER5:
+                map = _maps.get(MapType.CHAPTER5);
+                if(map == null){
+                    map = new DrownMap();
+                    _maps.put(MapType.CHAPTER5, map);
                 }
                 break;
 

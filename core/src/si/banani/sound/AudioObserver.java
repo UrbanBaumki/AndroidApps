@@ -9,6 +9,7 @@ public interface AudioObserver {
     public static enum AudioTypeEvent{
 
         MUSIC_CHAPTER_ONE("audio/ambience2.ogg"),
+        MUSIC_CHAPTER_FIVE("audio/darkAmbience.ogg"),
         SOUND_SWITCH_ON("audio/switchOn.ogg"),
         SOUND_SWITCH_OFF("audio/switchOff.ogg"),
         SOUND_STEP_GRASS_1("audio/step_grass1.ogg"),

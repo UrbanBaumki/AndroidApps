@@ -20,6 +20,7 @@ import si.banani.screens.Play;
 import si.banani.sound.AudioManager;
 import si.banani.sound.AudioObserver;
 import si.banani.sound.AudioSubject;
+import si.banani.textures.TextureManager;
 import si.banani.tiles.Switch;
 import si.banani.world.CollisionBits;
 
@@ -32,7 +33,7 @@ public class Player extends BasicPlayer implements AudioSubject {
 
     private int yOffset = -6;
 
-    private Animation walkAnimation;
+    private Animation walkAnimation, climbAnimation;
     private TextureRegion[] sprites;
     private boolean switching;
     private int maxHealth = 3;
@@ -88,6 +89,7 @@ public class Player extends BasicPlayer implements AudioSubject {
         this.dir = 1;
 
         this.walkAnimation = new Animation(this.sprites, frameSpeed);
+        this.climbAnimation = new Animation(TextureManager.getRegionByName("climbing").split(15,50)[0], 1/7f);
 
         jumpSpeed = 1.6f;
 
@@ -150,6 +152,11 @@ public class Player extends BasicPlayer implements AudioSubject {
                 region = this.walkAnimation.getCurrentFrame();
                 walkAnimation.update(dt);
                 break;
+            case CLIMBING:
+                region = this.climbAnimation.getCurrentFrame();
+                if(getXvelocity() != 0 || getYvelocity() != 0)
+                    climbAnimation.update(dt);
+                break;
         }
         timeInCurrentState = currentState == previousState ? timeInCurrentState + dt : 0;
         previousState = currentState;
@@ -194,7 +201,9 @@ public class Player extends BasicPlayer implements AudioSubject {
     public boolean isSwitching(){ return this.switching; }
     public PlayerState getState(){
 
-        if(this.body.getLinearVelocity().x <= 0.09f && this.body.getLinearVelocity().x >= -0.09f )
+        if(isClimbing)
+            return PlayerState.CLIMBING;
+        else if(this.body.getLinearVelocity().x <= 0.09f && this.body.getLinearVelocity().x >= -0.09f )
             return PlayerState.STANDING;
         else
             return PlayerState.WALKING;
