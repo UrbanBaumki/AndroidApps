@@ -14,6 +14,7 @@ import si.banani.animation.Animation;
 import si.banani.controller.PlayerMovementController;
 import si.banani.learning.LearningGdx;
 import si.banani.scenes.Hud;
+import si.banani.screens.Play;
 import si.banani.world.CollisionBits;
 
 /**
@@ -30,6 +31,7 @@ public class FemalePlayer extends BasicPlayer {
     private float energyDrainSpeed = 2f;
     private Hud hud;
     private OrthographicCamera camera;
+    private boolean switching = false;
 
 
     public FemalePlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud, OrthographicCamera camera) {
@@ -38,16 +40,20 @@ public class FemalePlayer extends BasicPlayer {
         this.camera = camera;
         ((body.getFixtureList()).get(0)).setUserData(this);
 
+        startX = x;
+        startY = y;
+
         Filter f = new Filter();
         f.categoryBits = CollisionBits.GHOST_BIT;
         f.maskBits = CollisionBits.ENEMY_BIT |
                 CollisionBits.SPIKES_BIT |
                 CollisionBits.DEFAULT_BIT |
+                CollisionBits.SWITCH_BIT |
                 CollisionBits.OBJECT_BIT;
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
         ((body.getFixtureList()).get(1)).setFilterData(f);
-        ((body.getFixtureList()).get(0)).setDensity(6f);
+        ((body.getFixtureList()).get(0)).setDensity(8f);
         ((body.getFixtureList()).get(0)).setFriction(1f);
         ((circleBody.getFixtureList()).get(0)).setDensity(6f);
         ((circleBody.getFixtureList()).get(0)).setFilterData(f);
@@ -69,6 +75,11 @@ public class FemalePlayer extends BasicPlayer {
     }
     @Override
     public void update(float dt){
+        if(reset){
+            resetPlayer();
+            reset = false;
+        }
+        this.switching = false;
         super.update(dt);
 
         if(isControlled){
@@ -82,6 +93,20 @@ public class FemalePlayer extends BasicPlayer {
         //Gdx.app.log("Falling", String.format("%d", numFootContants));
     }
 
+    public void resetPlayer(){
+        
+        setXYvelocity(0,0) ;
+        setTransform(startX, startY, 0);
+        //camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM,0);
+
+
+        if(hud.getNumLives() == 0){
+
+            Play.setRunning(false);
+
+            hud.showGameOver();
+        }
+    }
     public void addEnergy(float energy){
         this.energyLevel +=energy;
         if(energyLevel > maxEnergyLevel)
@@ -127,4 +152,8 @@ public class FemalePlayer extends BasicPlayer {
     public Vector3 getProjectedPosition(){
         return camera.project(new Vector3(body.getPosition().x, body.getPosition().y, 0));
     }
+    public void doSwitch(){
+        this.switching = true;
+    }
+    public boolean isSwitching(){ return this.switching; }
 }

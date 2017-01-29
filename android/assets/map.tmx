@@ -37,12 +37,12 @@
   <object id="25" x="966.333" y="400.833" width="30.6666" height="27.6667"/>
   <object id="26" x="969" y="434.167" width="30.6666" height="27.6667"/>
   <object id="27" x="966.667" y="478.833" width="30.6666" height="27.6667"/>
-  <object id="54" x="716.334" y="138.333" width="30.6666" height="27.6667"/>
-  <object id="69" x="704" y="66.5" width="30.6666" height="27.6667"/>
+  <object id="54" x="469.001" y="257.666" width="30.6666" height="27.6667"/>
+  <object id="69" x="468.667" y="287.833" width="30.6666" height="27.6667"/>
  </objectgroup>
  <objectgroup name="Stairs" visible="0"/>
  <objectgroup name="Switches">
-  <object id="28" x="281.334" y="389.333" width="12.8333" height="23.5"/>
+  <object id="28" x="342.001" y="386.666" width="12.8333" height="23.5"/>
  </objectgroup>
  <objectgroup name="Doors">
   <object id="33" x="702.208" y="385" width="34.125" height="63.3333"/>
@@ -55,26 +55,26 @@
    eJxjYBgFo2AUUBvIDZC98kAsgAMPBwAAluAAng==
   </data>
  </layer>
- <objectgroup name="Props" visible="0">
-  <object id="67" x="687" y="164" width="165" height="17"/>
+ <objectgroup name="Props">
+  <object id="67" x="743.667" y="108.667" width="180.333" height="17"/>
  </objectgroup>
  <objectgroup name="Swings">
-  <object id="71" x="683.25" y="114.083">
+  <object id="71" x="765.917" y="164.083">
    <polygon points="13.5,0.5 -3.31818,-3.54545 163.591,-3.95455 145.75,0.5"/>
   </object>
  </objectgroup>
  <objectgroup name="Ladders">
-  <object id="74" x="475.667" y="177.666" width="33.6667" height="123.333"/>
+  <object id="74" x="413.667" y="256.333" width="33.6667" height="189.333"/>
  </objectgroup>
  <objectgroup name="Dialogs">
-  <object id="77" x="321.833" y="315.917" width="25" height="128">
+  <object id="77" x="499.833" y="93.2503" width="25" height="128">
    <properties>
     <property name="Chapter" value="11"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="Potions">
-  <object id="80" x="233.75" y="427" width="20.25" height="20">
+  <object id="80" x="589.75" y="423.667" width="20.25" height="20">
    <properties>
     <property name="Type" value="energy"/>
    </properties>

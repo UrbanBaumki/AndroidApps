@@ -1,0 +1,110 @@
+
+ch3_half_tilesets.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ch3_halfBlocks
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 3
+ch3_halfBlocks
+  rotate: false
+  xy: 67, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 4
+ch3_halfBlocks
+  rotate: false
+  xy: 133, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 5
+ch3_halfBlocks
+  rotate: false
+  xy: 199, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 7
+ch3_halfBlocks
+  rotate: false
+  xy: 265, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 8
+ch3_halfBlocks
+  rotate: false
+  xy: 331, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 9
+ch3_halfBlocks
+  rotate: false
+  xy: 397, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 11
+ch3_halfBlocks
+  rotate: false
+  xy: 463, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 13
+ch3_halfBlocks
+  rotate: false
+  xy: 529, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 14
+ch3_halfBlocks
+  rotate: false
+  xy: 595, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 15
+ch3_halfBlocks
+  rotate: false
+  xy: 661, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 19
+ch3_halfBlocks
+  rotate: false
+  xy: 727, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 20
+ch3_halfBlocks
+  rotate: false
+  xy: 793, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 21
+ch3_halfBlocks
+  rotate: false
+  xy: 859, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 22
+ch3_halfBlocks
+  rotate: false
+  xy: 925, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: 24

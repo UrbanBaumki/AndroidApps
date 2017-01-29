@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 
 
 import si.banani.animation.Animation;
+import si.banani.camera.CameraEffects;
 import si.banani.learning.LearningGdx;
 import si.banani.sound.AudioManager;
 import si.banani.sound.AudioObserver;
@@ -32,16 +33,24 @@ public class Switch extends InteractiveTile implements AudioSubject {
     private TileStates currentState, previousState;
     private float timeInCurrentState;
     private Door door;
+    private SwitchType switchType;
+
+    public static enum SwitchType{
+        SWITCH_PLAYER,
+        SWITCH_GHOST
+    }
 
     private Array<AudioObserver> _observers = new Array<AudioObserver>();
 
 
-    public Switch(World world, Rectangle rectangle, TextureRegion[] sprites, float frameSpeed){
+    public Switch(World world, Rectangle rectangle, TextureRegion[] sprites, float frameSpeed, int dir, SwitchType switchType){
         super(world, rectangle);
         fixture.setUserData(this);
-
+        this.dir = dir;
         this.width = sprites[0].getRegionWidth();
         this.height = sprites[0].getRegionHeight();
+
+        this.switchType = switchType;
 
         setCategoryFilter(CollisionBits.SWITCH_BIT);
 
@@ -103,13 +112,19 @@ public class Switch extends InteractiveTile implements AudioSubject {
                 isOn = true;
                 //switch the doors
                 if(door != null)
+                {
                     this.door.setOpen(true);
+                    CameraEffects.setTileTarget(door, 2f);
+                }
                 return TileStates.ON;
             } else {
                 isOn = false;
                 //close the doors
                 if(door != null)
+                {
                     this.door.setOpen(false);
+                    CameraEffects.setTileTarget(door, 2f);
+                }
                 return TileStates.OFF;
             }
         }
@@ -155,5 +170,8 @@ public class Switch extends InteractiveTile implements AudioSubject {
     public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
         for(AudioObserver observer : _observers)
             observer.onNotify(command, event);
+    }
+    public SwitchType getSwitchType(){
+        return this.switchType;
     }
 }

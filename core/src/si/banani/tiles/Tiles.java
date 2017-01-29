@@ -15,5 +15,6 @@ public enum Tiles {
     SWINGS,
     LADDERS,
     DIALOG,
-    POTION
+    POTION,
+    START
 }

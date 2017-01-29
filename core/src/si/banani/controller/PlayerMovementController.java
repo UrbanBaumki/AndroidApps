@@ -28,7 +28,7 @@ public class PlayerMovementController {
         players.add(player);
     }
     public void doSwitch(){
-        ((Player)(players.get(0))).doSwitch();
+        ((players.get(current_player))).doSwitch();
     }
     public void switchPlayer(){
         movePlayerDown(false);

@@ -29,7 +29,13 @@ public class MapFactory {
                     _maps.put(MapType.CHAPTER1, map);
                 }
                 break;
-
+            case CHAPTER3:
+                map = _maps.get(MapType.CHAPTER3);
+                if(map == null){
+                    map = new SadMap();
+                    _maps.put(MapType.CHAPTER3, map);
+                }
+                break;
 
         }
 

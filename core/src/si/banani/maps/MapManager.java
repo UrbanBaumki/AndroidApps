@@ -59,6 +59,10 @@ public class MapManager {
         if(_currentMap != null)
             _currentMap.render(batch, dt);
     }
+    public void renderCurrentMapsBg(SpriteBatch batch, float dt){
+        if(_currentMap != null)
+            _currentMap.renderBackground(batch, dt);
+    }
     public void updateCurrentMap(float dt){
         if(_currentMap != null)
             _currentMap.update(dt);
@@ -78,7 +82,7 @@ public class MapManager {
     }
     public TiledMap getCurrentTiledMap(){
         if( _currentMap == null ) {
-            loadMap(MapFactory.MapType.CHAPTER1);
+            loadMap(MapFactory.MapType.CHAPTER3);
         }
         return _currentMap.get_currentMap();
     }

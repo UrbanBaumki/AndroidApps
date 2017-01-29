@@ -1,6 +1,7 @@
 package si.banani.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.utils.Array;
 
+import si.banani.entities.EntityFactory;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
@@ -53,21 +55,10 @@ public class WorldCreator {
         //mapManager = new MapManager();
         //mapManager.loadMap(mapName);
 
-        createTileFixtures("Floor", Tiles.FLOOR);
-        createTileFixtures("Spikes", Tiles.SPIKES);
-        createTileFixtures("Boxes", Tiles.BOX);
-        createTileFixtures("Ceil", Tiles.FLOOR);
-        createTileFixtures("Switches", Tiles.SWITCHES);
-        createTileFixtures("Doors", Tiles.DOORS);
-        createTileFixtures("GhostPath", Tiles.GHOST_PATH);
-        createTileFixtures("Props", Tiles.PROPS);
-        createTileFixtures("Swings", Tiles.SWINGS);
-        createTileFixtures("Ladders", Tiles.LADDERS);
-        createTileFixtures("Dialogs", Tiles.DIALOG);
-        createTileFixtures("Potions", Tiles.POTION);
+
     }
 
-    private void createTileFixtures(String layerName, Tiles type){
+    public void createTileFixtures(String layerName, Tiles type){
         BodyDef bdef = new BodyDef();
 
         FixtureDef fdef = new FixtureDef();
@@ -101,7 +92,10 @@ public class WorldCreator {
                     body.createFixture(fdef);
                     break;
                 case SWITCHES:
-                    Switch s = new Switch(world, rect, TextureManager.getRegionByName("switch").split(7, 16)[0], 1/10f);
+                    int d = Integer.valueOf((String)object.getProperties().get("Dir"));
+                    Switch.SwitchType switchType = ((String) object.getProperties().get("Type")).equals("player") ? Switch.SwitchType.SWITCH_PLAYER : Switch.SwitchType.SWITCH_GHOST;
+                    TextureRegion [] tr = switchType == Switch.SwitchType.SWITCH_PLAYER ? TextureManager.getRegionByName("switches_red").split(7, 16)[0] : TextureManager.getRegionByName("switches_blue").split(7, 16)[0];
+                    Switch s = new Switch(world, rect, tr, 1/10f, d, switchType);
                     Scene.addObjectToScene( s );
                     this.switches.add(s);
                     break;
@@ -129,8 +123,8 @@ public class WorldCreator {
                     break;
 
                 case PROPS:
-
-                    Scene.addObjectToScene( new Prop(world, rect) );
+                    Texture t = TextureManager.getTexture("box.png");
+                    Scene.addObjectToScene( new Prop(world, rect, t) );
                     break;
                 case LADDERS:
 
@@ -145,6 +139,17 @@ public class WorldCreator {
                     TextureRegion [] reg = object.getProperties().get("Type").equals("energy") ? TextureManager.getRegionByName("potion_blue").split(17, 21)[0] : TextureManager.getRegionByName("potion_red").split(17, 21)[0];
                     Potion.PotionType pt = object.getProperties().get("Type").equals("energy") ? Potion.PotionType.ENERGY : Potion.PotionType.HEALTH;
                     Scene.addObjectToScene(new Potion(world, rect, reg ,pt ));
+                    break;
+                case START:
+                    float x = rect.getX();
+                    float y = rect.getY();
+
+
+                    EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setTransform(x/LearningGdx.PPM, y/LearningGdx.PPM, 0);
+                    EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setStart(x/LearningGdx.PPM, y/LearningGdx.PPM);
+                    EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setTransform(x/LearningGdx.PPM, y/LearningGdx.PPM, 0);
+                    EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setStart(x/LearningGdx.PPM, y/LearningGdx.PPM);
+
                     break;
             }
 
@@ -258,7 +263,5 @@ public class WorldCreator {
         switches.get(index).addDoor(door);
         currSwitch++;
     }
-    public void setTiledMap(TiledMap map){
-        this.map = map;
-    }
+
 }

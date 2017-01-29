@@ -6,8 +6,13 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import si.banani.camera.Parallaxer;
+import si.banani.entities.EntityFactory;
 import si.banani.learning.LearningGdx;
+import si.banani.scene.Scene;
+import si.banani.shaders.ShaderFactory;
+import si.banani.shaders.WaterShader;
 import si.banani.sound.AudioObserver;
+import si.banani.tiles.Tiles;
 import si.banani.world.WorldCollideListener;
 import si.banani.world.WorldContactListener;
 import si.banani.world.WorldCreator;
@@ -33,6 +38,25 @@ public class LoneMap extends Map {
 
         world.setContactListener(new WorldContactListener());
 
+        EntityFactory.giveCamera(camera);
+
+        EntityFactory.giveWorld(world);
+
+        //map specifics
+        worldCreator.createTileFixtures("Floor", Tiles.FLOOR);
+        worldCreator.createTileFixtures("Spikes", Tiles.SPIKES);
+        worldCreator.createTileFixtures("Boxes", Tiles.BOX);
+        worldCreator.createTileFixtures("Ceil", Tiles.FLOOR);
+        worldCreator.createTileFixtures("Switches", Tiles.SWITCHES);
+        worldCreator.createTileFixtures("Doors", Tiles.DOORS);
+        worldCreator.createTileFixtures("GhostPath", Tiles.GHOST_PATH);
+        worldCreator.createTileFixtures("Props", Tiles.PROPS);
+        worldCreator.createTileFixtures("Swings", Tiles.SWINGS);
+        worldCreator.createTileFixtures("Ladders", Tiles.LADDERS);
+        worldCreator.createTileFixtures("Dialogs", Tiles.DIALOG);
+        worldCreator.createTileFixtures("Potions", Tiles.POTION);
+
+
     }
 
     @Override
@@ -44,10 +68,33 @@ public class LoneMap extends Map {
     @Override
     public void render(SpriteBatch batch, float dt) {
 
+        //here we render everything, but each map renders in specific order or specific shader
 
+        batch.setProjectionMatrix(camera.combined);
+        //render the map also
+        //mapRenderer.render(bg);
+        batch.begin();
+
+        //render the scene with objects
+        Scene.render(dt);
+
+        (EntityFactory.getEntity(EntityFactory.EntityType.PLAYER)).render(batch, dt);
+
+        //e.render(batch, delta);
+        //s.render(batch, delta);
+
+        batch.end();
+
+
+
+        //render water
+        ((WaterShader) ShaderFactory.getShader(ShaderFactory.ShaderType.WATER_SHADER)).render(batch, camera, dt);
+
+
+    }
+    public void renderBackground(SpriteBatch batch, float dt){
         //bg
         parallaxer.render(batch);
-
     }
 
     @Override

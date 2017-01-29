@@ -3,142 +3,142 @@ content.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-terrain
-  rotate: false
-  xy: 1, 63
-  size: 384, 192
-  orig: 384, 192
-  offset: 0, 0
-  index: -1
-playerMale
-  rotate: false
-  xy: 387, 191
-  size: 226, 64
-  orig: 226, 64
-  offset: 0, 0
-  index: -1
 rockEnemy
   rotate: false
-  xy: 1, 24
+  xy: 1, 85
   size: 132, 37
   orig: 132, 37
   offset: 0, 0
   index: -1
+playerMale
+  rotate: false
+  xy: 1, 35
+  size: 105, 48
+  orig: 105, 48
+  offset: 0, 0
+  index: -1
 doors
   rotate: false
-  xy: 387, 125
+  xy: 135, 58
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 spiderAttacking
   rotate: false
-  xy: 615, 194
+  xy: 201, 61
   size: 46, 61
   orig: 46, 61
   offset: 0, 0
   index: -1
 down_arrow
   rotate: false
-  xy: 387, 72
+  xy: 249, 71
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 left_arrow
   rotate: false
-  xy: 453, 138
+  xy: 302, 71
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 right_arrow
   rotate: false
-  xy: 663, 204
+  xy: 355, 71
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 switch_player
   rotate: false
-  xy: 506, 138
-  size: 51, 51
-  orig: 51, 51
-  offset: 0, 0
-  index: -1
-up_arrow
-  rotate: false
-  xy: 716, 204
-  size: 51, 51
-  orig: 51, 51
-  offset: 0, 0
-  index: -1
-use
-  rotate: false
-  xy: 559, 138
+  xy: 408, 71
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 ladder
   rotate: false
-  xy: 769, 191
+  xy: 461, 58
   size: 33, 64
   orig: 33, 64
   offset: 0, 0
   index: -1
+box
+  rotate: false
+  xy: 1, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+up_arrow
+  rotate: false
+  xy: 249, 18
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+use
+  rotate: false
+  xy: 302, 18
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
 playerFemale
   rotate: false
-  xy: 804, 191
+  xy: 355, 5
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
   index: -1
 spiderEnemy
   rotate: false
-  xy: 838, 194
+  xy: 389, 8
   size: 28, 61
   orig: 28, 61
   offset: 0, 0
   index: -1
-box
+switches_blue
   rotate: false
-  xy: 135, 29
-  size: 32, 32
-  orig: 32, 32
+  xy: 35, 17
+  size: 35, 16
+  orig: 35, 16
+  offset: 0, 0
+  index: -1
+switches_red
+  rotate: false
+  xy: 419, 53
+  size: 35, 16
+  orig: 35, 16
   offset: 0, 0
   index: -1
 potion_blue
   rotate: false
-  xy: 1, 1
+  xy: 108, 62
   size: 17, 21
   orig: 17, 21
   offset: 0, 0
   index: -1
 potion_red
   rotate: false
-  xy: 20, 1
+  xy: 419, 30
   size: 17, 21
   orig: 17, 21
   offset: 0, 0
   index: -1
-switch
-  rotate: false
-  xy: 868, 239
-  size: 35, 16
-  orig: 35, 16
-  offset: 0, 0
-  index: -1
 empty_heart
   rotate: false
-  xy: 387, 64
+  xy: 496, 116
   size: 7, 6
   orig: 7, 6
   offset: 0, 0
   index: -1
 full_heart
   rotate: false
-  xy: 440, 117
+  xy: 72, 27
   size: 7, 6
   orig: 7, 6
   offset: 0, 0

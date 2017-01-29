@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 
 import si.banani.animation.Animation;
+import si.banani.camera.CameraEffects;
 import si.banani.learning.LearningGdx;
 import si.banani.world.CollisionBits;
 

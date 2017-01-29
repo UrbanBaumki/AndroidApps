@@ -3,6 +3,8 @@ package si.banani.screens;
 import com.badlogic.gdx.Gdx;
 
 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 
@@ -111,7 +113,7 @@ public class Play extends BaseScreen {
 
         Scene.setSpriteBatch(batch);
 
-        mapManager = new MapManager();
+
 
         gameState = GameState.RUNNING;
 
@@ -123,7 +125,8 @@ public class Play extends BaseScreen {
 
         //the player hud
         this.hud = new Hud(this.batch);
-
+        EntityFactory.giveHud(hud);
+        mapManager = new MapManager();
 
         //properties
         MapProperties properties = mapManager.getCurrentTiledMap().getProperties();
@@ -139,10 +142,6 @@ public class Play extends BaseScreen {
 
         box2DDebugRenderer = new Box2DDebugRenderer();
 
-
-        EntityFactory.giveCamera(camera);
-        EntityFactory.giveHud(hud);
-        EntityFactory.giveWorld(mapManager.getCurrentWorld());
 
         this.male = (Player)EntityFactory.getEntity(EntityFactory.EntityType.PLAYER);
         male.setFirstAnimationFrame(1);
@@ -204,10 +203,46 @@ public class Play extends BaseScreen {
         if(mapRenderer == null){
             mapRenderer = new OrthogonalTiledMapRenderer(mapManager.getCurrentTiledMap(), 1/ LearningGdx.PPM );
             camera = mapManager.getCurrentCamera();
+            EntityFactory.giveWorld(mapManager.getCurrentWorld());
         }
+
     }
 
+    public void input(){
+
+
+        if( Gdx.input.isKeyPressed(Input.Keys.D)){
+            PlayerMovementController.getInstance().movePlayerRigth(true);
+        }else{
+            PlayerMovementController.getInstance().movePlayerRigth(false);
+        }
+
+        if( Gdx.input.isKeyPressed(Input.Keys.A)){
+            PlayerMovementController.getInstance().movePlayerLeft(true);
+        }else{
+            PlayerMovementController.getInstance().movePlayerLeft(false);
+        }
+
+        if( Gdx.input.isKeyPressed(Input.Keys.W)){
+            PlayerMovementController.getInstance().movePlayerUp(true);
+        }else{
+            PlayerMovementController.getInstance().movePlayerUp(false);
+        }
+        if( Gdx.input.isKeyPressed(Input.Keys.S)){
+            PlayerMovementController.getInstance().movePlayerDown(true);
+        }else{
+            PlayerMovementController.getInstance().movePlayerDown(false);
+        }
+        if( Gdx.input.isKeyJustPressed(Input.Keys.E)){
+            PlayerMovementController.getInstance().doSwitch();
+        }
+
+        if( Gdx.input.isKeyJustPressed(Input.Keys.Q)){
+            PlayerMovementController.getInstance().switchPlayer();
+        }
+    }
     public void update(float delta){
+        input();
         if(!running) return;
 
         mapManager.updateCurrentMap(delta);
@@ -262,79 +297,43 @@ public class Play extends BaseScreen {
 
         if(mapManager.hasMapChanged()){
             mapRenderer.setMap(mapManager.getCurrentTiledMap());
-
+            camera = mapManager.getCurrentCamera();
+            EntityFactory.giveWorld(mapManager.getCurrentWorld());
             mapManager.set_mapChanged(false);
         }
 
 
 
-        mapManager.renderCurrentMap(batch, delta);
+        mapManager.renderCurrentMapsBg(batch, delta);
 
         //this could render each map:
 
-        batch.setProjectionMatrix(mapManager.getCurrentCamera().combined);
-        //render the map also
-        //mapRenderer.render(bg);
-        batch.begin();
-
-        //render the scene with objects
-        Scene.render(delta);
-
-        male.render(batch, delta);
-
-        //e.render(batch, delta);
-        //s.render(batch, delta);
-
-        batch.end();
-
-
-
-        //render water
-        ((WaterShader)ShaderFactory.getShader(ShaderFactory.ShaderType.WATER_SHADER)).render(batch, mapManager.getCurrentCamera(), delta);
-
+        mapManager.renderCurrentMap(batch, delta);
 
 
         //fg
 
-        mapRenderer.render(fg);
-
+        mapRenderer.render(); //map renderer has its own shader apparently
 
         ((DefaultShader) ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).render(batch,mapManager.getCurrentCamera(), delta);
-
-        batch.setProjectionMatrix(parallaxCameraFG.calculateParallaxMatrix(1.2f, 0.5f));
-        batch.begin();
-        batch.enableBlending();
-
-
-        float par = parallaxCameraFG.position.x + parallaxCameraFG.getViewportWidth();
-        int ind = (int) (par / foreground.getWidth()) + 1;
-        if(ind-1 == 0){
-            batch.draw(foreground,(ind-1) * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-            batch.draw(foreground,ind * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-        }else{
-            batch.draw(foreground,(ind-2) * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-            batch.draw(foreground,(ind-1) * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-            batch.draw(foreground,ind * foreground.getWidth(), -LearningGdx.V_HEIGHT/7);
-        }
-
-        batch.end();
-
-
-        //end of map rendering
-
-        if(PlayerMovementController.getInstance().getCurrent_player() == 1)
-            mapRenderer.render(paths);
-
-
-
+        //female render
         handler.updateAndRender();
-
-
         batch.begin();
         batch.setProjectionMatrix(mapManager.getCurrentCamera().combined);
         female.render(batch,delta);
         batch.end();
-        /////
+
+
+
+
+
+        //end of map rendering
+
+
+        if(PlayerMovementController.getInstance().getCurrent_player() == 1)
+        {
+            //mapRenderer.render(paths);
+        }
 
 
         batch.setProjectionMatrix(this.hud.stage.getCamera().combined);

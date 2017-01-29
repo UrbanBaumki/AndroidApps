@@ -128,4 +128,9 @@ public class RockEnemy extends BasicPlayer {
         return state;
     }
 
+    @Override
+    public void doSwitch() {
+
+    }
+
 }

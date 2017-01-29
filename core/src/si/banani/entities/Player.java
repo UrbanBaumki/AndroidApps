@@ -30,7 +30,7 @@ import si.banani.world.CollisionBits;
 
 public class Player extends BasicPlayer implements AudioSubject {
 
-    private int yOffset = 1;
+    private int yOffset = -6;
 
     private Animation walkAnimation;
     private TextureRegion[] sprites;
@@ -52,6 +52,9 @@ public class Player extends BasicPlayer implements AudioSubject {
         super(world, x, y, width, height, bodyType);
         ((body.getFixtureList()).get(0)).setUserData(this);
 
+        startX = x;
+        startY = y;
+
         this.camera = camera;
         Filter f = new Filter();
         f.categoryBits = CollisionBits.PLAYER_BIT;
@@ -65,7 +68,7 @@ public class Player extends BasicPlayer implements AudioSubject {
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
         ((body.getFixtureList()).get(1)).setFilterData(f);
-        ((body.getFixtureList()).get(0)).setDensity(6f);
+        ((body.getFixtureList()).get(0)).setDensity(8f);
         ((body.getFixtureList()).get(0)).setFriction(1f);
         ((circleBody.getFixtureList()).get(0)).setFilterData(f);
         body.resetMassData();
@@ -108,6 +111,10 @@ public class Player extends BasicPlayer implements AudioSubject {
 
     public void update(float dt){
         //Gdx.app.log("H", String.format("%f", health));
+        if(reset){
+            resetPlayer();
+            reset = false;
+        }
         this.switching = false;
         super.update(dt);
 
@@ -153,7 +160,7 @@ public class Player extends BasicPlayer implements AudioSubject {
         hud.decreaseLives();
         hud.update();
         setXYvelocity(0,0) ;
-        setTransform(150 / LearningGdx.PPM, 230 / LearningGdx.PPM, 0);
+        setTransform(startX, startY, 0);
         //camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM,0);
 
 

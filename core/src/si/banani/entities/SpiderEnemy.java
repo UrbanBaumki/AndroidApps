@@ -152,4 +152,9 @@ public class SpiderEnemy extends BasicPlayer {
 
         return state;
     }
+
+    @Override
+    public void doSwitch() {
+
+    }
 }

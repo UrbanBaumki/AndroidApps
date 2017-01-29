@@ -57,4 +57,8 @@ public abstract class InteractiveTile {
     }
     public abstract void render(SpriteBatch batch, float dt);
     public abstract void update(float dt);
+
+    public Vector2 getPosition(){
+        return body.getPosition();
+    }
 }

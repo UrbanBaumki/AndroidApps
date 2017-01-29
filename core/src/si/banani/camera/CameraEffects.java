@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import si.banani.entities.BasicPlayer;
 import si.banani.learning.LearningGdx;
+import si.banani.tiles.InteractiveTile;
 
 /**
  * Created by Urban on 27.12.2016.
@@ -17,6 +18,8 @@ public class CameraEffects {
 
     private static OrthographicCamera camera;
     private static BasicPlayer target;
+    private static InteractiveTile tileTarget = null;
+    private static float tileDisplayTime, timeDisplaying = 0f;
     private static float lerp = 0.08f;
     public static float offsetX = LearningGdx.V_WIDTH/6;
     private static float camZoom = 1.25f;
@@ -31,12 +34,27 @@ public class CameraEffects {
 
         Vector3 camPos = camera.position;
         currTarDir = target.getDir();
-        float offset = offsetX * target.getDir();
-        float tmpLerp = lerp;
 
-        camPos.x = camera.position.x + (target.getPosition().x + offset/LearningGdx.PPM - camera.position.x) * tmpLerp;
-        camPos.y = camera.position.y + (target.getPosition().y  - camera.position.y) * tmpLerp * 2;
+        if(tileTarget != null){
+            float offset = LearningGdx.V_WIDTH/2/LearningGdx.PPM;
+            float tmpLerp = lerp;
+            camPos.x = camera.position.x + (tileTarget.getPosition().x + offset / LearningGdx.PPM - camera.position.x) * tmpLerp;
+            camPos.y = camera.position.y + (tileTarget.getPosition().y - camera.position.y) * tmpLerp * 2;
+            timeDisplaying += dt;
+            if(timeDisplaying >= tileDisplayTime){
+                timeDisplaying= 0f;
+                tileTarget = null;
+                zooming = true;
+                return;
+            }
+        }else {
 
+            float offset = offsetX * target.getDir();
+            float tmpLerp = lerp;
+
+            camPos.x = camera.position.x + (target.getPosition().x + offset / LearningGdx.PPM - camera.position.x) * tmpLerp;
+            camPos.y = camera.position.y + (target.getPosition().y - camera.position.y) * tmpLerp * 2;
+        }
         //zooming
         if(zooming){
 
@@ -110,5 +128,14 @@ public class CameraEffects {
             zoomDir = -zoomDir;
         }
 
+    }
+    public static void setTileTarget(InteractiveTile tile, float displayTime){
+        tileTarget = tile;
+        tileDisplayTime = displayTime;
+        if(zooming){
+            timeAnimating = 0;
+            zoomDir = -zoomDir;
+        }
+        zooming = false;
     }
 }

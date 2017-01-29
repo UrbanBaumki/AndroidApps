@@ -19,12 +19,13 @@ import si.banani.world.CollisionBits;
 
 public class Prop extends InteractiveTile {
 
-    private Animation box;
+
     private float x, y;
     private int width, height;
     private float yOffset;
+    private TextureRegion region;
 
-    public Prop(World world, Rectangle rect){
+    public Prop(World world, Rectangle rect, Texture t){
         super(world, rect);
 
         fixture.setUserData(this);
@@ -37,16 +38,18 @@ public class Prop extends InteractiveTile {
         fixture.setFriction(0.3f);
         body.resetMassData();
 
-        Texture b = new Texture(Gdx.files.internal("box.png"));
-        b.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-        TextureRegion reg = new TextureRegion(b, 0,0, 20,150);
-        TextureRegion[] sprites = {reg};
 
-        this.width = sprites[0].getRegionWidth();
-        this.height = sprites[0].getRegionHeight();
 
-        box = new Animation(sprites, 0);
+        t.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+
+         region = new TextureRegion(t, 0,0, (int)rect.getWidth(),(int)rect.getHeight());
+
+
+        this.width = region.getRegionWidth();
+        this.height = region.getRegionHeight();
+
+
 
         this.destroyed = false;
         this.destroy = false;
@@ -57,8 +60,8 @@ public class Prop extends InteractiveTile {
     @Override
     public void render(SpriteBatch batch, float dt) {
         if(!destroyed) {
-            float angle = (float)(body.getAngle() * 180 / Math.PI) + 90;
-            batch.draw(box.getCurrentFrame(), x - width / 2 / LearningGdx.PPM, y - height / 2 / LearningGdx.PPM - yOffset / LearningGdx.PPM, width / 2 / LearningGdx.PPM, height / 2 / LearningGdx.PPM, width / LearningGdx.PPM, height / LearningGdx.PPM, 1, 1, angle, true);
+            float angle = (float)(body.getAngle() * 180 / Math.PI);
+            batch.draw(region, x - width / 2 / LearningGdx.PPM, y - height / 2 / LearningGdx.PPM - yOffset / LearningGdx.PPM, width / 2 / LearningGdx.PPM, height / 2 / LearningGdx.PPM, width / LearningGdx.PPM, height / LearningGdx.PPM, 1, 1, angle, true);
         }
     }
 
@@ -70,7 +73,6 @@ public class Prop extends InteractiveTile {
             x = body.getPosition().x;
             y = body.getPosition().y;
 
-            box.update(dt);
         }
 
     }

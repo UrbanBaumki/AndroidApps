@@ -32,7 +32,9 @@ public abstract class BasicPlayer {
     protected RevoluteJoint revoluteJoint;
     protected RevoluteJointDef revoluteJointDef;
     protected Fixture footFixture;
-    protected boolean hasFloor = true;
+    protected boolean reset = false;
+
+    protected float startX, startY;
 
     protected float x, y;
 
@@ -248,7 +250,7 @@ public void setCanClimb(boolean can){ canClimb = can;}
 
     public abstract  void render(SpriteBatch sb, float dt);
     abstract PlayerState getState();
-
+    public abstract void doSwitch();
 
     public void setXYvelocity(float x, float y){
         this.body.setLinearVelocity(x,y);
@@ -256,6 +258,13 @@ public void setCanClimb(boolean can){ canClimb = can;}
     public void setTransform(float x, float y, float z){
         this.body.setTransform(x,y, z);
         this.circleBody.setTransform(x,y,z);
+    }
+    public void setReset(boolean b){
+        reset = b;
+    }
+    public void setStart(float x, float y){
+        startX = x;
+        startY = y;
     }
     public void setFriction(float f){
         this.body.getFixtureList().get(0).setFriction(f);

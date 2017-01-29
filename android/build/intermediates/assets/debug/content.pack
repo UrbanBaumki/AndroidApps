@@ -5,140 +5,140 @@ filter: Nearest,Nearest
 repeat: none
 terrain
   rotate: false
-  xy: 1, 63
+  xy: 1, 58
   size: 384, 192
   orig: 384, 192
   offset: 0, 0
   index: -1
-playerMale
-  rotate: false
-  xy: 387, 191
-  size: 226, 64
-  orig: 226, 64
-  offset: 0, 0
-  index: -1
 rockEnemy
   rotate: false
-  xy: 1, 24
+  xy: 1, 19
   size: 132, 37
   orig: 132, 37
   offset: 0, 0
   index: -1
+playerMale
+  rotate: false
+  xy: 387, 202
+  size: 105, 48
+  orig: 105, 48
+  offset: 0, 0
+  index: -1
 doors
   rotate: false
-  xy: 387, 125
+  xy: 387, 136
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
 spiderAttacking
   rotate: false
-  xy: 615, 194
+  xy: 387, 73
   size: 46, 61
   orig: 46, 61
   offset: 0, 0
   index: -1
+ladder
+  rotate: false
+  xy: 453, 136
+  size: 33, 64
+  orig: 33, 64
+  offset: 0, 0
+  index: -1
 down_arrow
   rotate: false
-  xy: 387, 72
+  xy: 435, 83
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 left_arrow
   rotate: false
-  xy: 453, 138
+  xy: 135, 5
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 right_arrow
   rotate: false
-  xy: 663, 204
+  xy: 188, 5
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 switch_player
   rotate: false
-  xy: 506, 138
+  xy: 241, 5
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 up_arrow
   rotate: false
-  xy: 716, 204
+  xy: 294, 5
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 use
   rotate: false
-  xy: 559, 138
+  xy: 347, 5
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
-ladder
-  rotate: false
-  xy: 769, 191
-  size: 33, 64
-  orig: 33, 64
-  offset: 0, 0
-  index: -1
 playerFemale
   rotate: false
-  xy: 804, 191
+  xy: 400, 7
   size: 32, 64
   orig: 32, 64
   offset: 0, 0
   index: -1
-spiderEnemy
-  rotate: false
-  xy: 838, 194
-  size: 28, 61
-  orig: 28, 61
-  offset: 0, 0
-  index: -1
-box
-  rotate: false
-  xy: 135, 29
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
 potion_blue
   rotate: false
-  xy: 1, 1
+  xy: 494, 229
   size: 17, 21
   orig: 17, 21
   offset: 0, 0
   index: -1
 potion_red
   rotate: false
-  xy: 20, 1
+  xy: 494, 206
   size: 17, 21
   orig: 17, 21
   offset: 0, 0
   index: -1
+spiderEnemy
+  rotate: false
+  xy: 434, 10
+  size: 28, 61
+  orig: 28, 61
+  offset: 0, 0
+  index: -1
 switch
   rotate: false
-  xy: 868, 239
+  xy: 1, 1
   size: 35, 16
   orig: 35, 16
   offset: 0, 0
   index: -1
+box
+  rotate: false
+  xy: 464, 49
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 empty_heart
   rotate: false
-  xy: 387, 64
+  xy: 387, 65
   size: 7, 6
   orig: 7, 6
   offset: 0, 0
   index: -1
 full_heart
   rotate: false
-  xy: 440, 117
+  xy: 38, 11
   size: 7, 6
   orig: 7, 6
   offset: 0, 0

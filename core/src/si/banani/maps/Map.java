@@ -72,6 +72,7 @@ public abstract class Map implements AudioSubject{
     }
     abstract public void update(float dt);
     abstract public void render(SpriteBatch batch, float dt);
+    abstract public void renderBackground(SpriteBatch batch, float dt);
     abstract public void unloadMusic();
     abstract public void loadMusic();
 
