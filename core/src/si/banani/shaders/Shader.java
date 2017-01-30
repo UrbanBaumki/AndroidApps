@@ -14,6 +14,7 @@ public abstract class Shader {
     protected String VERTEX_SHADER_PATH;
     protected String FRAGMENT_SHADER_PATH;
     public abstract void dispose();
+    public abstract void render(SpriteBatch batch, OrthographicCamera camera, float dt);
 
 
 }

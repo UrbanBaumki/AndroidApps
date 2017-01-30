@@ -216,6 +216,8 @@ public class Play extends BaseScreen {
     public void input(){
 
 
+        //should be removed for finished game
+
         if( Gdx.input.isKeyPressed(Input.Keys.D)){
             PlayerMovementController.getInstance().movePlayerRigth(true);
         }else{
@@ -250,17 +252,16 @@ public class Play extends BaseScreen {
         input();
         if(!running) return;
 
-        mapManager.updateCurrentMap(delta);
 
 
-    //this should be in the specific map
 
-        //update the scene with its objects
+
+        mapManager.updateCurrentMap(delta, mapRenderer);
 
         //e.update(delta);
         //s.update(delta);
 
-       //camera update
+       //CAMERA UPDATE---
         CameraEffects.updateCamera(delta);
 
         float sX = mapManager.getCurrentCamera().viewportWidth/2;
@@ -269,17 +270,8 @@ public class Play extends BaseScreen {
         CameraEffects.boundCamera(sX, sY, levelW * 64 - sX *2, levelH * 64 - sY * 2);
         // ---- end camera update
 
-        //for the map renderer
-        mapRenderer.setView(mapManager.getCurrentCamera());
 
-        if(male.getY() < 0){
-            male.resetPlayer();
-        }else if(reset){
-            male.resetPlayer();
-            reset = false;
-        }
-
-        //light handler
+        //point handler
         handler.setCombinedMatrix(mapManager.getCurrentCamera());
 
 
@@ -321,32 +313,17 @@ public class Play extends BaseScreen {
             pointLight.attachToBody(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).getBody());
 
             //batch.flush();
-            ShaderFactory.disposeShaders();
+            //ShaderFactory.disposeShaders();
             resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }
 
 
 
-        mapManager.renderCurrentMapsBg(batch, delta);
+        //RENDERING THE MAP -- map takes care of render order, since it is map-specific
+        mapManager.renderCurrentMap(batch, delta, mapRenderer);
 
-        mapRenderer.getBatch().setShader(((DefaultShader)ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).getShaderProgram());
-        mapRenderer.render(bg);
-        //this could render each map:
 
-        mapManager.renderCurrentMap(batch, delta);
-
-        mapRenderer.render(fg);
-
-        //fg
-
-        //map renderer has its own shader apparently
-
-        ((DefaultShader) ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).render(batch,mapManager.getCurrentCamera(), delta);
-
-        if(PlayerMovementController.getInstance().getCurrent_player() == 1)
-            mapRenderer.render(paths);
-
-        //female render
+        //female render with her light
         handler.updateAndRender();
         batch.begin();
         batch.setProjectionMatrix(mapManager.getCurrentCamera().combined);
@@ -357,11 +334,7 @@ public class Play extends BaseScreen {
 
 
 
-        //end of map rendering
-
-
-
-
+        //sets the correct projection matrix for hud
         batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
 
         hud.render(delta);

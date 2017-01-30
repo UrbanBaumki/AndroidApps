@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -71,8 +72,8 @@ public abstract class Map implements AudioSubject{
 
         addObserver(AudioManager.getInstance());
     }
-    abstract public void update(float dt);
-    abstract public void render(SpriteBatch batch, float dt);
+    abstract public void update(float dt, OrthogonalTiledMapRenderer mapRenderer);
+    abstract public void render(SpriteBatch batch, float dt, OrthogonalTiledMapRenderer mapRenderer);
     abstract public void renderBackground(SpriteBatch batch, float dt);
     abstract public void unloadMusic();
     abstract public void loadMusic();

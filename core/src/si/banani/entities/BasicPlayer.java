@@ -288,4 +288,7 @@ public void setCanClimb(boolean can){ canClimb = can;}
     public void dispose(){
         shape.dispose();
     }
+    public float getY() {
+        return body.getPosition().y;
+    }
 }

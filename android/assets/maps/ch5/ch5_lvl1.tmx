@@ -100,13 +100,13 @@
   <object id="39" x="1728" y="1382.67" width="254.667" height="25.3333"/>
  </objectgroup>
  <objectgroup name="Dialogs">
-  <object id="41" x="278" y="1076.67" width="35" height="139">
+  <object id="41" x="264.667" y="1371.34" width="7" height="96.3333">
    <properties>
     <property name="Chapter" value="11"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="End">
-  <object id="43" x="316" y="1407.33" width="17.3333" height="60.6667"/>
+  <object id="43" x="2464" y="1215.33" width="17.3333" height="60.6667"/>
  </objectgroup>
 </map>

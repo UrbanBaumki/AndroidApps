@@ -45,7 +45,7 @@
   <object id="28" x="342.001" y="386.666" width="12.8333" height="23.5"/>
  </objectgroup>
  <objectgroup name="Doors">
-  <object id="33" x="702.208" y="385" width="34.125" height="63.3333"/>
+  <object id="33" x="702.208" y="385" width="18.7917" height="63.3333"/>
  </objectgroup>
  <objectgroup name="GhostPath">
   <object id="61" x="256.75" y="448.5" width="64.25" height="14.1667"/>

@@ -1,6 +1,7 @@
 package si.banani.maps;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -27,7 +28,9 @@ public class SadMap extends Map {
 
 
     private static String _mapPath = "maps/ch3/ch3_lvl1.tmx";
-
+    private static int bg[] = {0};
+    private static int fg[] = {1};
+    private static int paths[] = {11};
     public SadMap(World world) {
         super(MapFactory.MapType.CHAPTER3, _mapPath, world);
 
@@ -70,21 +73,41 @@ public class SadMap extends Map {
     }
 
     @Override
-    public void update(float dt) {
+    public void update(float dt, OrthogonalTiledMapRenderer mapRenderer) {
+
+        //each map defines its own update method, so we get same/similar or totally different behaviour
+        //based on the map needs.
         world.step(1/60f, 6, 2);
         overlaper.update();
 
+        mapRenderer.setView(camera);
+
         EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).update(dt);
         EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).update(dt);
+
+        //Player's reset if out fallen of the map. It decreases life aswell
+        if(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).getY() < 0){
+            EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setReset(true);
+        }
+        if(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).getY() < 0){
+            EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setReset(true);
+        }
 
         Scene.update(dt);
 
     }
 
     @Override
-    public void render(SpriteBatch batch, float dt) {
+    public void render(SpriteBatch batch, float dt, OrthogonalTiledMapRenderer mapRenderer) {
 
         //here we render everything, but each map renders in specific order or specific shader
+
+        //maps parallaxed bg texture
+        renderBackground(batch, dt);
+
+        //tiled map background images
+        mapRenderer.render(bg);
+
 
         batch.setProjectionMatrix(camera.combined);
         //render the map also
@@ -100,6 +123,13 @@ public class SadMap extends Map {
         //s.render(batch, delta);
 
         batch.end();
+
+
+        //maps foreground or main layer
+        mapRenderer.render(fg);
+
+        if(PlayerMovementController.getInstance().getCurrent_player() == 1)
+            mapRenderer.render(paths);
 
 
     }

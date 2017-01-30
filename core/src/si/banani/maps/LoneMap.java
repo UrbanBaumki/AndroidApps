@@ -1,11 +1,14 @@
 package si.banani.maps;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import si.banani.camera.CameraEffects;
 import si.banani.camera.Parallaxer;
+import si.banani.controller.PlayerMovementController;
 import si.banani.entities.EntityFactory;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
@@ -42,6 +45,8 @@ public class LoneMap extends Map {
 
         EntityFactory.giveWorld(world);
 
+        Scene.clearCachedObjects();
+
         //map specifics
         worldCreator.createTileFixtures("Floor", Tiles.FLOOR);
         worldCreator.createTileFixtures("Spikes", Tiles.SPIKES);
@@ -57,16 +62,39 @@ public class LoneMap extends Map {
         //worldCreator.createTileFixtures("Potions", Tiles.POTION);
 
 
+        CameraEffects.setTarget(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+        PlayerMovementController.getInstance().clearPlayers();
+        PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+        PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
+        PlayerMovementController.getInstance().setPlayer(0);
+
     }
 
     @Override
-    public void update(float dt) {
+    public void update(float dt, OrthogonalTiledMapRenderer mapRenderer) {
         world.step(1/60f, 6, 2);
         overlaper.update();
+
+        mapRenderer.setView(camera);
+
+        EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).update(dt);
+        EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).update(dt);
+
+        //Player's reset if out fallen of the map. It decreases life aswell
+        if(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).getY() < 0){
+            EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setReset(true);
+        }
+        if(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).getY() < 0){
+            EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setReset(true);
+        }
+
+        Scene.update(dt);
+
+
     }
 
     @Override
-    public void render(SpriteBatch batch, float dt) {
+    public void render(SpriteBatch batch, float dt , OrthogonalTiledMapRenderer mapRenderer) {
 
         //here we render everything, but each map renders in specific order or specific shader
 
@@ -88,7 +116,7 @@ public class LoneMap extends Map {
 
 
         //render water
-        ((WaterShader) ShaderFactory.getShader(ShaderFactory.ShaderType.WATER_SHADER)).render(batch, camera, dt);
+        ShaderFactory.getShader(ShaderFactory.ShaderType.WATER_SHADER).render(batch, camera, dt);
 
 
     }

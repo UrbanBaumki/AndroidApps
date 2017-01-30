@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 public interface ShaderInterface {
 
 
-     void render(SpriteBatch batch, OrthographicCamera camera, float delta);
     void dispose();
 
 }
