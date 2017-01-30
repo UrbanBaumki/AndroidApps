@@ -53,10 +53,11 @@ public abstract class Map implements AudioSubject{
 
     protected SpriteBatch batch = LearningGdx.getSpriteBatch();
 
-    public Map(MapFactory.MapType mapType, String mapPath){
+    public Map(MapFactory.MapType mapType, String mapPath, World world){
         _observers = new Array<AudioObserver>();
         this.mapType = mapType;
         _playerStart = new Vector2(0,0);
+        this.world = world;
 
         this.camera = new OrthographicCamera();
         this.viewport = new FitViewport(LearningGdx.V_WIDTH / LearningGdx.PPM, LearningGdx.V_HEIGHT / LearningGdx.PPM, camera);
@@ -107,5 +108,9 @@ public abstract class Map implements AudioSubject{
     }
     public WorldCollideListener getOverlaper(){
         return overlaper;
+    }
+    public void dispose(){
+
+        MapFactory.remove(mapType);
     }
 }

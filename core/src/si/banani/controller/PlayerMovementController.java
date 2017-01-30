@@ -75,4 +75,9 @@ public class PlayerMovementController {
 
     public int getCurrent_player(){ return current_player;}
 
+    public void clearPlayers(){
+
+        players.clear();
+    }
+
 }

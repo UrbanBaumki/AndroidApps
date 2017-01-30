@@ -21,7 +21,6 @@ public class Scene {
 
     public static ArrayList<Object> sceneObjects = new ArrayList<Object>();
     private static SpriteBatch batch;
-    private static World world;
 
     public static void setSpriteBatch(SpriteBatch b){
         batch = b;
@@ -30,9 +29,7 @@ public class Scene {
     public static void addObjectToScene(Object o ){
         sceneObjects.add(o);
     }
-    public static void setWorld(World w){
-        world = w;
-    }
+
     public static void update(float dt){
 
         for(int i = 0; i < sceneObjects.size(); i++){
@@ -97,9 +94,6 @@ public class Scene {
     public static void clearCachedObjects(){
         sceneObjects.clear();
     }
-    public static void disposeWorld(){
-        if(world != null)
-            world.dispose();
-    }
+
 
 }

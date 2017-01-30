@@ -89,6 +89,7 @@ public class Player extends BasicPlayer implements AudioSubject {
         this.dir = 1;
 
         this.walkAnimation = new Animation(this.sprites, frameSpeed);
+        walkAnimation.setStartingFrame(1);
         this.climbAnimation = new Animation(TextureManager.getRegionByName("climbing").split(15,50)[0], 1/7f);
 
         jumpSpeed = 1.6f;
@@ -187,9 +188,7 @@ public class Player extends BasicPlayer implements AudioSubject {
     public float getX(){return this.x;}
     public float getY(){return this.y;}
     public int getDir(){return this.dir; }
-    public void setFirstAnimationFrame(int i){
-        this.walkAnimation.setStartingFrame(1);
-    }
+
     public Vector2 getPosition(){ return this.body.getPosition(); }
     public void setMovementSpeed(float speed){this.movementSpeed = speed; }
     public void setMaxMovSpeed(float cap){this.maxMovSpeed = cap;}

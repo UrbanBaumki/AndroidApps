@@ -111,6 +111,8 @@ public class Play extends BaseScreen {
     //Final map manager
     MapManager mapManager;
 
+    MapProperties properties;
+
     public Play(SpriteBatch spriteBatch) {
         super(spriteBatch);
 
@@ -132,7 +134,7 @@ public class Play extends BaseScreen {
         mapManager = new MapManager();
 
         //properties
-        MapProperties properties = mapManager.getCurrentTiledMap().getProperties();
+        properties = mapManager.getCurrentTiledMap().getProperties();
         levelW = properties.get("width", Integer.class);
         levelH = properties.get("height", Integer.class);
 
@@ -147,7 +149,7 @@ public class Play extends BaseScreen {
 
 
         this.male = (Player)EntityFactory.getEntity(EntityFactory.EntityType.PLAYER);
-        male.setFirstAnimationFrame(1);
+
         this.female = (FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE);
 
         mapManager.setMale(male);
@@ -251,12 +253,10 @@ public class Play extends BaseScreen {
         mapManager.updateCurrentMap(delta);
 
 
-
-        male.update(delta);
-        female.update(delta);
+    //this should be in the specific map
 
         //update the scene with its objects
-        Scene.update(delta);
+
         //e.update(delta);
         //s.update(delta);
 
@@ -287,6 +287,9 @@ public class Play extends BaseScreen {
 
             mapManager.loadMap(nextMap);
             nextMap = null;
+            properties = mapManager.getCurrentTiledMap().getProperties();
+            levelW = properties.get("width", Integer.class);
+            levelH = properties.get("height", Integer.class);
         }
     }
 
@@ -307,15 +310,26 @@ public class Play extends BaseScreen {
         if(mapManager.hasMapChanged()){
             mapRenderer.setMap(mapManager.getCurrentTiledMap());
             camera = mapManager.getCurrentCamera();
-            EntityFactory.giveWorld(mapManager.getCurrentWorld());
+            mapRenderer.setView(camera);
+
             mapManager.set_mapChanged(false);
+
+            //light render bullshit
+            handler.setCombinedMatrix(camera);
+            handler.setWorld(mapManager.getCurrentWorld());
+
+            pointLight.attachToBody(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).getBody());
+
+            //batch.flush();
+            ShaderFactory.disposeShaders();
+            resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }
 
 
 
         mapManager.renderCurrentMapsBg(batch, delta);
 
-
+        mapRenderer.getBatch().setShader(((DefaultShader)ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).getShaderProgram());
         mapRenderer.render(bg);
         //this could render each map:
 
@@ -336,7 +350,7 @@ public class Play extends BaseScreen {
         handler.updateAndRender();
         batch.begin();
         batch.setProjectionMatrix(mapManager.getCurrentCamera().combined);
-        female.render(batch,delta);
+        EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).render(batch,delta);
         batch.end();
 
 
@@ -355,7 +369,7 @@ public class Play extends BaseScreen {
         this.inputController.draw();
 
         //debuger
-        //box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
+        box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
 
     }
     public static void setRunning(boolean b){ running = b; }

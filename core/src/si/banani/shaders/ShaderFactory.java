@@ -1,7 +1,13 @@
 package si.banani.shaders;
 
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
+
+import si.banani.maps.MapFactory;
 
 /**
  * Created by Urban on 28.1.2017.
@@ -49,5 +55,22 @@ public class ShaderFactory {
         }
 
         return shader;
+    }
+    public static void disposeShaders(){
+        Set<ShaderType> keys = _shaders.keySet();
+
+        //Obtaining iterator over set entries
+        Iterator<ShaderType> itr = keys.iterator();
+
+        //Displaying Key and value pairs
+        ShaderType str;
+        while (itr.hasNext()) {
+
+            str = itr.next();
+
+            _shaders.get(str).dispose();
+        }
+
+        _shaders.clear();
     }
 }

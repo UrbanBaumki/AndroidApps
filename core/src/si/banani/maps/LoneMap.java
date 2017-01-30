@@ -25,10 +25,10 @@ public class LoneMap extends Map {
 
     private static String _mapPath = "map.tmx";
 
-    public LoneMap() {
-        super(MapFactory.MapType.CHAPTER1, _mapPath);
+    public LoneMap(World world) {
+        super(MapFactory.MapType.CHAPTER1, _mapPath, world);
 
-        world = new World(new Vector2(0, -10), true);
+
         overlaper = new WorldCollideListener(world);
 
 

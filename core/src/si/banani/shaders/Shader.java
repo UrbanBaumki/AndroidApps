@@ -13,6 +13,7 @@ public abstract class Shader {
     protected ShaderProgram shaderProgram;
     protected String VERTEX_SHADER_PATH;
     protected String FRAGMENT_SHADER_PATH;
+    public abstract void dispose();
 
 
 }

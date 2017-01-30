@@ -61,4 +61,7 @@ public class EntityFactory {
     public static void giveWorld(World wor){
         world = wor;
     }
+    public static void clearEntities(){
+        entities.clear();
+    }
 }

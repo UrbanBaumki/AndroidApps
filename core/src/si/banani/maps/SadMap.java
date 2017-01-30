@@ -4,8 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 
+import si.banani.camera.CameraEffects;
 import si.banani.camera.Parallaxer;
+import si.banani.controller.PlayerMovementController;
 import si.banani.entities.EntityFactory;
+import si.banani.entities.Player;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.shaders.ShaderFactory;
@@ -25,10 +28,9 @@ public class SadMap extends Map {
 
     private static String _mapPath = "maps/ch3/ch3_lvl1.tmx";
 
-    public SadMap() {
-        super(MapFactory.MapType.CHAPTER3, _mapPath);
+    public SadMap(World world) {
+        super(MapFactory.MapType.CHAPTER3, _mapPath, world);
 
-        world = new World(new Vector2(0, -10), true);
         overlaper = new WorldCollideListener(world);
 
 
@@ -42,6 +44,7 @@ public class SadMap extends Map {
 
         EntityFactory.giveWorld(world);
 
+        Scene.clearCachedObjects();
         //map specifics
         worldCreator.createTileFixtures("Floor", Tiles.FLOOR);
         worldCreator.createTileFixtures("Spikes", Tiles.SPIKES);
@@ -58,12 +61,24 @@ public class SadMap extends Map {
 
         worldCreator.createTileFixtures("Start", Tiles.START);
         worldCreator.createTileFixtures("End", Tiles.END);
+
+        CameraEffects.setTarget(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+        PlayerMovementController.getInstance().clearPlayers();
+        PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+        PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
+        PlayerMovementController.getInstance().setPlayer(0);
     }
 
     @Override
     public void update(float dt) {
         world.step(1/60f, 6, 2);
         overlaper.update();
+
+        EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).update(dt);
+        EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).update(dt);
+
+        Scene.update(dt);
+
     }
 
     @Override

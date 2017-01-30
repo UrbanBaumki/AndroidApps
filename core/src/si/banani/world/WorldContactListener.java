@@ -49,7 +49,7 @@ public class WorldContactListener implements ContactListener {
             Player p = (Player) b.getUserData();
             p.setReset(true);
         }else if(a.getUserData() instanceof Player && b.getUserData() instanceof EndPoint){
-            Play.nextMap = MapFactory.MapType.CHAPTER1;
+            Play.nextMap = MapFactory.MapType.CHAPTER3;
 
         }
         else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof Spikes){

@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.camera.CameraEffects;
+import si.banani.entities.EntityFactory;
 import si.banani.entities.FemalePlayer;
 import si.banani.entities.Player;
 import si.banani.learning.LearningGdx;
@@ -31,6 +32,7 @@ public class MapManager {
     }
 
     public void loadMap(MapFactory.MapType mapType){
+        EntityFactory.clearEntities();
         Map map = MapFactory.getMap(mapType);
 
         if(map == null)
@@ -39,6 +41,7 @@ public class MapManager {
         if(_currentMap != null){
             _currentMap.unloadMusic();
             clearCurrentMap();
+
         }
 
         map.loadMusic();
@@ -52,7 +55,7 @@ public class MapManager {
 
         CameraEffects.setZooming(true);
 
-        Scene.setWorld(_currentMap.getWorld());
+
 
     }
     public void renderCurrentMap(SpriteBatch batch, float dt){
@@ -68,8 +71,7 @@ public class MapManager {
             _currentMap.update(dt);
     }
     public void clearCurrentMap(){
-        Scene.clearCachedObjects();
-        Scene.disposeWorld();
+        _currentMap.dispose();
     }
 
     public MapFactory.MapType getCurrentMapType(){ return _currentMap.mapType; }

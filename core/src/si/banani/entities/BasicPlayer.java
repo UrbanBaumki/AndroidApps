@@ -282,4 +282,10 @@ public void setCanClimb(boolean can){ canClimb = can;}
         this.isControlled = b;
     }
 
+    public Body getBody(){
+        return body;
+    }
+    public void dispose(){
+        shape.dispose();
+    }
 }

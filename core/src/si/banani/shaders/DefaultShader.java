@@ -20,6 +20,9 @@ public class DefaultShader extends Shader implements ShaderInterface {
 
     }
 
+    public ShaderProgram getShaderProgram(){
+        return shaderProgram;
+    }
     @Override
     public void render(SpriteBatch batch, OrthographicCamera camera, float delta) {
         batch.setShader(shaderProgram);
