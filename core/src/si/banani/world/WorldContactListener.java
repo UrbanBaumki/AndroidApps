@@ -19,6 +19,7 @@ import si.banani.maps.MapFactory;
 import si.banani.screens.Play;
 import si.banani.tiles.Box;
 
+import si.banani.tiles.CheckPoint;
 import si.banani.tiles.DialogPoint;
 import si.banani.tiles.EndPoint;
 import si.banani.tiles.Ladder;
@@ -50,6 +51,15 @@ public class WorldContactListener implements ContactListener {
             p.setReset(true);
         }else if(a.getUserData() instanceof Player && b.getUserData() instanceof EndPoint){
             Play.nextMap = MapFactory.MapType.CHAPTER3;
+
+        }else if(a.getUserData() instanceof Player && b.getUserData() instanceof RockEnemy && b.isSensor()){
+         //"VIDNI" SENZOR ZA ROCK ENEMY in PLAYER KONTAKT
+            ((RockEnemy)b.getUserData()).setTarget((Player)a.getUserData());
+        }
+        else if(a.getUserData() instanceof Player && b.getUserData() instanceof CheckPoint){
+            Player p = (Player) a.getUserData();
+            p.setCheckpoint((CheckPoint)b.getUserData());
+            ((CheckPoint)b.getUserData()).setAlreadyActivated();
 
         }
         else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof Spikes){
@@ -112,6 +122,11 @@ public class WorldContactListener implements ContactListener {
            ((BasicPlayer)a.getUserData()).setCanClimb(false);
 
        }
+
+        if(a.getUserData() instanceof Player && b.getUserData() instanceof RockEnemy && b.isSensor()){
+            //"VIDNI" SENZOR ZA ROCK ENEMY in PLAYER KONTAKT
+            ((RockEnemy)b.getUserData()).setTarget(null);
+        }
 
 
 

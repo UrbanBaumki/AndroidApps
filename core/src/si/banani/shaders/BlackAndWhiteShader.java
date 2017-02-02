@@ -20,7 +20,7 @@ public class BlackAndWhiteShader extends Shader implements ShaderInterface {
 
     }
 
-    public ShaderProgram getShader(){ return shaderProgram;}
+    public ShaderProgram getShaderProgram(){ return shaderProgram;}
     @Override
     public void render(SpriteBatch batch, OrthographicCamera camera, float delta) {
         batch.setShader(shaderProgram);

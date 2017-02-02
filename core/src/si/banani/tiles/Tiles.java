@@ -17,5 +17,6 @@ public enum Tiles {
     DIALOG,
     POTION,
     START,
-    END
+    END,
+    CHECKPOINT
 }

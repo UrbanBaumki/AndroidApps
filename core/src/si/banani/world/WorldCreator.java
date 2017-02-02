@@ -27,6 +27,7 @@ import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
+import si.banani.tiles.CheckPoint;
 import si.banani.tiles.DialogPoint;
 import si.banani.tiles.Door;
 import si.banani.tiles.EndPoint;
@@ -155,6 +156,9 @@ public class WorldCreator {
 
                     new EndPoint(world, rect);
 
+                    break;
+                case CHECKPOINT:
+                    new CheckPoint(world, rect);
                     break;
             }
 

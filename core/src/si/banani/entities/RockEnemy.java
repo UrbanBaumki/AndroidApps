@@ -1,10 +1,14 @@
 package si.banani.entities;
 
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 import si.banani.animation.Animation;
@@ -18,15 +22,14 @@ import si.banani.world.CollisionBits;
 public class RockEnemy extends BasicPlayer {
 
     private TextureRegion[] sprites;
-    private Player target;
     private Animation walk;
     private float yOffset = 5f;
     private float damage = 10f;
 
-    public RockEnemy(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Player player) {
-        super(world, x, y, width, height, bodyType);
 
-        this.target = player;
+
+    public RockEnemy(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed) {
+        super(world, x, y, width, height, bodyType);
 
         this.currentState = PlayerState.SLEEPING;
         this.previousState = PlayerState.SLEEPING;
@@ -44,6 +47,7 @@ public class RockEnemy extends BasicPlayer {
         this.maxMovSpeed = 0.95f;
         this.jumpSpeed = 4f;
 
+
         this.walk = new Animation(this.sprites, frameSpeed);
         this.walk.setStartingFrame(1);
 
@@ -58,7 +62,32 @@ public class RockEnemy extends BasicPlayer {
         ((body.getFixtureList()).get(0)).setFilterData(f);
 
         ((body.getFixtureList()).get(0)).setUserData(this);
-        ((body.getFixtureList()).get(1)).setUserData(this);
+
+
+
+        body.destroyFixture(footFixture);
+        circleBody.destroyFixture(circleFixture);
+
+        //creating a sensor as a radar to detect our target
+
+        PolygonShape radarShape = new PolygonShape();
+        radarShape.setAsBox(200 / LearningGdx.PPM, 40 / LearningGdx.PPM);
+
+        FixtureDef radarFixtureDef = new FixtureDef();
+        radarFixtureDef.shape = radarShape;
+        radarFixtureDef.isSensor = true;
+        radarFixtureDef.density = 0f;
+
+        f = new Filter();
+        f.categoryBits = CollisionBits.SENSOR_BIT;
+        f.maskBits =
+                CollisionBits.PLAYER_BIT;
+
+       Fixture radar =  body.createFixture(radarFixtureDef);
+        radar.setFilterData(f);
+        radar.setUserData(this);
+
+
 
     }
     public void dealDamageToTarget(){
@@ -82,6 +111,8 @@ public class RockEnemy extends BasicPlayer {
         }
 
     }
+
+
 
     @Override
     public void render(SpriteBatch sb, float dt) {
@@ -112,19 +143,19 @@ public class RockEnemy extends BasicPlayer {
     public  PlayerState getState() {
         PlayerState state = PlayerState.SLEEPING;
 
-        if(this.x <= target.getPosition().x)
-            dir = 1;
-        else
-            dir = -1;
+        if(target != null) {
+            if (this.x <= target.getPosition().x)
+                dir = 1;
+            else
+                dir = -1;
 
-        if(target.getDir() == dir) {
-            state = PlayerState.FOLLOWING;
-        }else if(this.getXvelocity() == 0)
-        {
-            state = PlayerState.SLEEPING;
+            if (target.getDir() == dir) {
+                state = PlayerState.FOLLOWING;
+            } else if (this.getXvelocity() == 0) {
+                state = PlayerState.SLEEPING;
 
+            }
         }
-
         return state;
     }
 
@@ -132,5 +163,11 @@ public class RockEnemy extends BasicPlayer {
     public void doSwitch() {
 
     }
+
+    public void setTarget(Player t){
+        this.target = t;
+    }
+
+
 
 }

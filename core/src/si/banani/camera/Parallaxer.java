@@ -1,5 +1,6 @@
 package si.banani.camera;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -40,8 +41,14 @@ public class Parallaxer {
 
         for(ParallaxTexture texture : textures)
         {
+
+            Texture t = texture.getTexture();
+
             batch.setProjectionMatrix(texture.getParallaxCamera().calculateParallaxMatrix(texture.getpX(), texture.getpY()));
-            batch.draw(texture.getTexture(), texture.getX(), texture.getY());
+            batch.draw(texture.getTexture(), texture.getX()  , texture.getY());
+
+
+
             batch.draw(texture.getTexture(), texture.getX() + texture.getTexture().getWidth(), texture.getY());
         }
 

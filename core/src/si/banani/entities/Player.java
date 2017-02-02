@@ -1,6 +1,6 @@
 package si.banani.entities;
 
-import com.badlogic.gdx.Gdx;
+
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,6 +21,7 @@ import si.banani.sound.AudioManager;
 import si.banani.sound.AudioObserver;
 import si.banani.sound.AudioSubject;
 import si.banani.textures.TextureManager;
+import si.banani.tiles.CheckPoint;
 import si.banani.tiles.Switch;
 import si.banani.world.CollisionBits;
 
@@ -55,6 +56,8 @@ public class Player extends BasicPlayer implements AudioSubject {
 
         startX = x;
         startY = y;
+        lastCheckpointX = x;
+        lastCheckpointY = y;
 
         this.camera = camera;
         Filter f = new Filter();
@@ -65,13 +68,15 @@ public class Player extends BasicPlayer implements AudioSubject {
                 CollisionBits.OBJECT_BIT |
                 CollisionBits.SWITCH_BIT |
                 CollisionBits.DOORS_BIT  |
-                CollisionBits.GHOST_PATH_BIT;
+                CollisionBits.GHOST_PATH_BIT|
+                CollisionBits.SENSOR_BIT;
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
-        ((body.getFixtureList()).get(1)).setFilterData(f);
+        //((body.getFixtureList()).get(1)).setFilterData(f);
         ((body.getFixtureList()).get(0)).setDensity(8f);
         ((body.getFixtureList()).get(0)).setFriction(1f);
         ((circleBody.getFixtureList()).get(0)).setFilterData(f);
+
         body.resetMassData();
 
         footFixture.setUserData(this);
@@ -112,6 +117,11 @@ public class Player extends BasicPlayer implements AudioSubject {
             health = maxHealth;
     }
 
+    public void setCheckpoint(CheckPoint checkpoint){
+        this.lastCheckpointX = checkpoint.spawnX;
+        this.lastCheckpointY = checkpoint.spawnY;
+    }
+
     public void update(float dt){
         //Gdx.app.log("H", String.format("%f", health));
         if(reset){
@@ -149,6 +159,8 @@ public class Player extends BasicPlayer implements AudioSubject {
                 region = this.walkAnimation.getFirstFrame();
                 walkAnimation.reset();
                 break;
+            case FALLING:
+            case JUMPING:
             case WALKING:
                 region = this.walkAnimation.getCurrentFrame();
                 walkAnimation.update(dt);
@@ -159,6 +171,11 @@ public class Player extends BasicPlayer implements AudioSubject {
                     climbAnimation.update(dt);
                 break;
         }
+
+        if((previousState == PlayerState.JUMPING || previousState == PlayerState.FALLING) && (currentState == PlayerState.STANDING || currentState == PlayerState.WALKING)){
+            body.setLinearVelocity(0, 0);
+            circleBody.setLinearVelocity(0, 0);
+        }
         timeInCurrentState = currentState == previousState ? timeInCurrentState + dt : 0;
         previousState = currentState;
         return region;
@@ -167,8 +184,9 @@ public class Player extends BasicPlayer implements AudioSubject {
     public void resetPlayer(){
         hud.decreaseLives();
         hud.update();
+        dir = 1;
         setXYvelocity(0,0) ;
-        setTransform(startX, startY, 0);
+        setTransform(lastCheckpointX, lastCheckpointY, 0);
         //camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM,0);
 
 
@@ -180,6 +198,8 @@ public class Player extends BasicPlayer implements AudioSubject {
         }
     }
 
+
+
     public void recieveDamage(float dmg, int dir){
         this.health -= dmg;
         float force = dir * dmg * 15;
@@ -190,6 +210,9 @@ public class Player extends BasicPlayer implements AudioSubject {
     public int getDir(){return this.dir; }
 
     public Vector2 getPosition(){ return this.body.getPosition(); }
+
+
+
     public void setMovementSpeed(float speed){this.movementSpeed = speed; }
     public void setMaxMovSpeed(float cap){this.maxMovSpeed = cap;}
     public void setJumpSpeed(float jumpSpeed){this.jumpSpeed = jumpSpeed;}
@@ -202,6 +225,10 @@ public class Player extends BasicPlayer implements AudioSubject {
 
         if(isClimbing)
             return PlayerState.CLIMBING;
+        else if(isJumping)
+            return PlayerState.JUMPING;
+        else if(isFalling)
+            return PlayerState.FALLING;
         else if(this.body.getLinearVelocity().x <= 0.09f && this.body.getLinearVelocity().x >= -0.09f )
             return PlayerState.STANDING;
         else
@@ -242,4 +269,6 @@ public class Player extends BasicPlayer implements AudioSubject {
     public void startDialog(){
         hud.enableDialog(true);
     }
+
+
 }

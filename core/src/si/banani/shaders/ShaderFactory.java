@@ -18,7 +18,8 @@ public class ShaderFactory {
     public static enum ShaderType{
         WATER_SHADER,
         BLACK_AND_WHITE_SHADER,
-        DEFAULT_SHADER
+        DEFAULT_SHADER,
+        OPACITY_SHADER
     }
     private static Hashtable<ShaderType, Shader> _shaders = new Hashtable<ShaderType, Shader>();
 
@@ -48,6 +49,14 @@ public class ShaderFactory {
                 {
                     shader = new BlackAndWhiteShader();
                     _shaders.put(ShaderType.BLACK_AND_WHITE_SHADER, shader);
+                }
+                break;
+            case OPACITY_SHADER:
+                shader = _shaders.get(ShaderType.OPACITY_SHADER);
+                if(shader == null)
+                {
+                    shader = new OpacityShader();
+                    _shaders.put(ShaderType.OPACITY_SHADER, shader);
                 }
                 break;
 

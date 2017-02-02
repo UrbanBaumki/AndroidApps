@@ -64,6 +64,11 @@ public class WaterShader extends Shader implements ShaderInterface {
     }
 
     @Override
+    public ShaderProgram getShaderProgram() {
+        return shaderProgram;
+    }
+
+    @Override
     public void dispose() {
         shaderProgram.dispose();
         water.dispose();

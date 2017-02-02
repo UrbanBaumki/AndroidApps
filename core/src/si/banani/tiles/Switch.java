@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Tooltip;
 import com.badlogic.gdx.utils.Array;
@@ -52,7 +53,12 @@ public class Switch extends InteractiveTile implements AudioSubject {
 
         this.switchType = switchType;
 
-        setCategoryFilter(CollisionBits.SWITCH_BIT);
+        Filter f = new Filter();
+        f.categoryBits = CollisionBits.SWITCH_BIT;
+        f.maskBits = CollisionBits.GHOST_BIT |
+                CollisionBits.PLAYER_BIT;
+        fixture.setFilterData(f);
+
 
         body.setType(BodyDef.BodyType.StaticBody);
         fixture.setSensor(true);

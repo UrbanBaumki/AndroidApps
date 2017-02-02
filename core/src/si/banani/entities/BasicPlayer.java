@@ -31,10 +31,11 @@ public abstract class BasicPlayer {
     protected PolygonShape shape;
     protected RevoluteJoint revoluteJoint;
     protected RevoluteJointDef revoluteJointDef;
-    protected Fixture footFixture;
+    protected Fixture footFixture, circleFixture;
     protected boolean reset = false;
 
     protected float startX, startY;
+    protected float lastCheckpointX, lastCheckpointY;
 
     protected float x, y;
 
@@ -50,7 +51,7 @@ public abstract class BasicPlayer {
     public boolean left, right, up, down;
     protected boolean isJumping, isFalling;
 
-    protected BasicPlayer target = null;
+    protected Player target = null;
     protected float damage = 1f;
 
     protected int health = 3;
@@ -60,6 +61,8 @@ public abstract class BasicPlayer {
 
     protected boolean isControlled = false;
     protected boolean canClimb , isClimbing;
+
+    protected boolean setResetToCheckpoint;
 
     public BasicPlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType){
         this.world = world;
@@ -145,13 +148,16 @@ public abstract class BasicPlayer {
                 CollisionBits.OBJECT_BIT |
                 CollisionBits.GHOST_PATH_BIT;
 
+
         footFixture = body.createFixture(footSensor);
         footFixture.setFilterData(f);
 
         f.categoryBits = CollisionBits.PLAYER_BIT;
 
 
-        this.circleBody.createFixture(fdef2).setFilterData(f);
+        circleFixture = this.circleBody.createFixture(fdef2);
+        circleFixture.setFilterData(f);
+
         circleBody.setFixedRotation(false);
         //the revolute joint def
         revoluteJointDef = new RevoluteJointDef();
@@ -290,5 +296,8 @@ public void setCanClimb(boolean can){ canClimb = can;}
     }
     public float getY() {
         return body.getPosition().y;
+    }
+    public void setResetToCheckpoint(boolean b){
+        setResetToCheckpoint = true;
     }
 }

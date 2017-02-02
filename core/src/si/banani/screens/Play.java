@@ -17,6 +17,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -46,6 +47,7 @@ import si.banani.sound.AudioManager;
 import si.banani.sound.AudioObserver;
 import si.banani.sound.AudioSubject;
 import si.banani.textures.TextureManager;
+import si.banani.world.CollisionBits;
 import si.banani.world.WorldCollideListener;
 import si.banani.world.WorldContactListener;
 import si.banani.world.WorldCreator;
@@ -74,16 +76,15 @@ public class Play extends BaseScreen {
     public static boolean reset = false;
     private Hud hud;
 
-    private TiledMap map;
+
     private OrthogonalTiledMapRenderer mapRenderer;
 
     //box2d
-    private World world;
+
     private Box2DDebugRenderer box2DDebugRenderer;
     private int levelW, levelH;
 
-    //my fixture creator
-    private WorldCreator worldCreator;
+
 
     //for player
 
@@ -93,14 +94,10 @@ public class Play extends BaseScreen {
     RockEnemy e;
     SpiderEnemy s;
 
-    int [] fg = {1};
-    int [] bg = {0};
-    int [] paths = {11};
-
 
     //Parallax
 
-    ParallaxCamera parallaxCameraFG;
+
 
     Texture  foreground;
 
@@ -140,9 +137,6 @@ public class Play extends BaseScreen {
 
         camera = mapManager.getCurrentCamera();
 
-        parallaxCameraFG = new ParallaxCamera(LearningGdx.V_WIDTH/2, LearningGdx.V_HEIGHT/2, mapManager.getCurrentCamera());
-
-
 
 
         box2DDebugRenderer = new Box2DDebugRenderer();
@@ -152,17 +146,7 @@ public class Play extends BaseScreen {
 
         this.female = (FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE);
 
-        mapManager.setMale(male);
-        mapManager.setGhost(female);//???
 
-
-        //first give a batch to scene
-
-        // Scene.setSpriteBatch(this.batch);
-       // Scene.setWorld(world);
-
-
-        //bg = new Texture(Gdx.files.internal("wood_bg.png"));
         foreground = new Texture(Gdx.files.internal("wood_fg.png"));
 
 
@@ -171,7 +155,7 @@ public class Play extends BaseScreen {
         CameraCoordinates c = new CameraCoordinates(male, female, mapManager.getCurrentCamera());
         hud.setCameraCoordinates(c);
 
-        //e = new RockEnemy(world, 300, 300, 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f, male);
+        e = new RockEnemy(mapManager.getCurrentWorld(), 100, 500, 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f);
         //s = new SpiderEnemy(world, 355, 150, 10, 28, BodyDef.BodyType.KinematicBody, TextureManager.getRegionByName("spiderEnemy").split(14,61)[0],  TextureManager.getRegionByName("spiderAttacking").split(23,61)[0] , 1/6f,1/3f, male);
 
 
@@ -192,6 +176,14 @@ public class Play extends BaseScreen {
         pointLight = new PointLight(handler, 100, Color.WHITE, 128/LearningGdx.PPM, 0,0);
         pointLight.attachToBody(female.getBody());
         pointLight.setIgnoreAttachedBody(true);
+        Filter f = new Filter();
+        f.categoryBits = CollisionBits.SENSOR_BIT;
+        f.maskBits =
+                        CollisionBits.OBJECT_BIT |
+                        CollisionBits.DEFAULT_BIT |
+                        CollisionBits.PLAYER_BIT;
+
+        pointLight.setContactFilter(f);
 
 
         //to start with male
@@ -252,13 +244,9 @@ public class Play extends BaseScreen {
         input();
         if(!running) return;
 
-
-
-
-
         mapManager.updateCurrentMap(delta, mapRenderer);
 
-        //e.update(delta);
+        e.update(delta);
         //s.update(delta);
 
        //CAMERA UPDATE---
@@ -276,7 +264,6 @@ public class Play extends BaseScreen {
 
 
         if(nextMap != null){
-
             mapManager.loadMap(nextMap);
             nextMap = null;
             properties = mapManager.getCurrentTiledMap().getProperties();
@@ -312,8 +299,6 @@ public class Play extends BaseScreen {
 
             pointLight.attachToBody(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).getBody());
 
-            //batch.flush();
-            //ShaderFactory.disposeShaders();
             resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }
 
@@ -328,6 +313,7 @@ public class Play extends BaseScreen {
         batch.begin();
         batch.setProjectionMatrix(mapManager.getCurrentCamera().combined);
         EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).render(batch,delta);
+        e.render(batch, delta);
         batch.end();
 
 
@@ -342,7 +328,7 @@ public class Play extends BaseScreen {
         this.inputController.draw();
 
         //debuger
-        box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
+       box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
 
     }
     public static void setRunning(boolean b){ running = b; }
@@ -351,7 +337,6 @@ public class Play extends BaseScreen {
     public void dispose() {
         super.dispose();
         TextureManager.disposeAll();
-        world.dispose();
         handler.dispose();
     }
 

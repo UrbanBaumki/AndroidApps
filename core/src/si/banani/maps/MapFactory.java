@@ -1,7 +1,9 @@
 package si.banani.maps;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.Hashtable;
 
@@ -14,7 +16,7 @@ public class MapFactory {
 
     private static Hashtable<MapType, Map> _maps = new Hashtable<MapType, Map>();
 
-    private static World world ;
+    private static World world = new World(new Vector2(0,-10), true);
     public static enum MapType{
         CHAPTER1,
         CHAPTER2,
@@ -26,7 +28,6 @@ public class MapFactory {
     public static Map getMap(MapType mapType){
         Map map = null;
 
-        world = new World(new Vector2(0,-10), true);
         switch (mapType){
             case CHAPTER1:
                 map = _maps.get(MapType.CHAPTER1);
@@ -61,5 +62,14 @@ public class MapFactory {
     }
     public static void setWorld(World w){
         world = w;
+    }
+
+    public static void clearCurrentWorld() {
+        Array<Body> bodies = new Array<Body>();
+        world.getBodies(bodies);
+        for(Body b : bodies){
+            if(!world.isLocked())
+                world.destroyBody(b);
+        }
     }
 }

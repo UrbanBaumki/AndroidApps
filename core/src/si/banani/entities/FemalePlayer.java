@@ -49,7 +49,8 @@ public class FemalePlayer extends BasicPlayer {
                 CollisionBits.SPIKES_BIT |
                 CollisionBits.DEFAULT_BIT |
                 CollisionBits.SWITCH_BIT |
-                CollisionBits.OBJECT_BIT;
+                CollisionBits.OBJECT_BIT|
+                CollisionBits.DOORS_BIT;
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
         ((body.getFixtureList()).get(1)).setFilterData(f);

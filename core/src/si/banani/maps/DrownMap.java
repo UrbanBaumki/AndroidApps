@@ -1,6 +1,7 @@
 package si.banani.maps;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.shaders.DefaultShader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -11,6 +12,8 @@ import si.banani.controller.PlayerMovementController;
 import si.banani.entities.EntityFactory;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
+import si.banani.shaders.OpacityShader;
+import si.banani.shaders.ShaderFactory;
 import si.banani.sound.AudioObserver;
 import si.banani.tiles.Tiles;
 import si.banani.world.WorldCollideListener;
@@ -58,6 +61,7 @@ public class DrownMap extends Map {
         worldCreator.createTileFixtures("Ladders", Tiles.LADDERS);
         worldCreator.createTileFixtures("Dialogs", Tiles.DIALOG);
         worldCreator.createTileFixtures("Potions", Tiles.POTION);
+        worldCreator.createTileFixtures("Checkpoints", Tiles.CHECKPOINT);
 
         worldCreator.createTileFixtures("Start", Tiles.START);
         worldCreator.createTileFixtures("End", Tiles.END);
@@ -97,9 +101,10 @@ public class DrownMap extends Map {
     public void render(SpriteBatch batch, float dt , OrthogonalTiledMapRenderer mapRenderer) {
 
         //maps parallaxed bg texture
-        renderBackground(batch, dt);
+       renderBackground(batch, dt);
 
         //tiled map background images
+        mapRenderer.getBatch().setProjectionMatrix(camera.combined);
         mapRenderer.render(bg);
 
 
@@ -123,7 +128,19 @@ public class DrownMap extends Map {
         mapRenderer.render(fg);
 
         if(PlayerMovementController.getInstance().getCurrent_player() == 1)
-            mapRenderer.render(paths);
+        {
+            ((OpacityShader)ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER)).setDirection(1);
+
+        }else{
+            ((OpacityShader)ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER)).setDirection(-1);
+
+        }
+
+
+        mapRenderer.getBatch().setShader((ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER)).getShaderProgram());
+        ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER).render(batch, camera, dt);
+        mapRenderer.render(paths);
+        mapRenderer.getBatch().setShader(  (ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).getShaderProgram());
     }
 
     @Override

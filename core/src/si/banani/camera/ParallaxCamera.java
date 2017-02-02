@@ -40,6 +40,7 @@ public class ParallaxCamera extends OrthographicCamera {
         Matrix4.mul(parallaxCombined.val, parallaxView.val);
         return parallaxCombined;
     }
+    public float getTmpVecX(){ return tmpVec.x;}
     public float getViewportWidth(){ return this.viewportWidth; }
     public float getViewportHeight(){ return this.viewportHeight; }
 }

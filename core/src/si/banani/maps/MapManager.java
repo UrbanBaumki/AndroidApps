@@ -34,6 +34,7 @@ public class MapManager {
 
     public void loadMap(MapFactory.MapType mapType){
         EntityFactory.clearEntities();
+        MapFactory.clearCurrentWorld();
         Map map = MapFactory.getMap(mapType);
 
         if(map == null)

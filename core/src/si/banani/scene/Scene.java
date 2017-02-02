@@ -20,6 +20,7 @@ import si.banani.tiles.Switch;
 public class Scene {
 
     public static ArrayList<Object> sceneObjects = new ArrayList<Object>();
+    public static ArrayList<Object> removables = new ArrayList<Object>();
     private static SpriteBatch batch;
 
     public static void setSpriteBatch(SpriteBatch b){
@@ -32,20 +33,24 @@ public class Scene {
 
     public static void update(float dt){
 
+
         for(int i = 0; i < sceneObjects.size(); i++){
             Object object = sceneObjects.get(i);
+            Object pleaseRemove = null;
 
             if(object instanceof Box){
                 Box b = (Box) object;
                 b.update(dt);
                 if(b.isSetForDestruction()){
                     b.setDestroyed(true);
+                    pleaseRemove = b;
                 }
             }else if(object instanceof Potion){
                 Potion b = (Potion) object;
                 b.update(dt);
                 if(b.isSetForDestruction()){
                     b.setDestroyed(true);
+                    pleaseRemove = b;
                 }
             }
             else if(object instanceof Switch){
@@ -58,7 +63,15 @@ public class Scene {
                 Prop p = (Prop) object;
                 p.update(dt);
             }
+
+            removables.add(pleaseRemove);
         }
+
+        //remove destroyed objects here
+        for(Object obj : removables){
+            sceneObjects.remove(obj);
+        }
+        removables.clear();
     }
     public static void render(float dt){
 

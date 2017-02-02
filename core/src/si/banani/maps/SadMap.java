@@ -106,6 +106,7 @@ public class SadMap extends Map {
         renderBackground(batch, dt);
 
         //tiled map background images
+        mapRenderer.getBatch().setProjectionMatrix(camera.combined);
         mapRenderer.render(bg);
 
 
