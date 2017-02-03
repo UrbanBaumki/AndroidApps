@@ -300,4 +300,7 @@ public void setCanClimb(boolean can){ canClimb = can;}
     public void setResetToCheckpoint(boolean b){
         setResetToCheckpoint = true;
     }
+    public void setTarget(Player target){
+        this.target = target;
+    }
 }

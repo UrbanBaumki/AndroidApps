@@ -18,5 +18,6 @@ public enum Tiles {
     POTION,
     START,
     END,
-    CHECKPOINT
+    CHECKPOINT,
+    ENEMIES
 }

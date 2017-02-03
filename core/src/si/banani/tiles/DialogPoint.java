@@ -19,6 +19,7 @@ public class DialogPoint extends InteractiveTile {
         super(world, rect);
         fixture.setUserData(this);
         fixture.setSensor(true);
+        setCategoryFilter(CollisionBits.SENSOR_BIT);
 
         this.chapter = chapter;
     }

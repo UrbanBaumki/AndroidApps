@@ -1,8 +1,10 @@
 package si.banani.entities;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.Hashtable;
 
@@ -15,6 +17,7 @@ import si.banani.textures.TextureManager;
 
 public class EntityFactory {
     private static Hashtable<EntityType, BasicPlayer> entities = new Hashtable<EntityType, BasicPlayer>();
+    private static Array<BasicPlayer> enemies = new Array<BasicPlayer>(); // using array so we have multiple instances of same class (multiple same-type enemies).
     private static Hud hud;
     private static OrthographicCamera camera;
     private static World world;
@@ -24,6 +27,7 @@ public class EntityFactory {
         FEMALE,
         ROCK,
         GHOST,
+        ZOMBIE,
         SPIDER
     }
 
@@ -50,6 +54,20 @@ public class EntityFactory {
 
         }
 
+        return p;
+    }
+    public static BasicPlayer createEnemy(EntityType entityType, Rectangle rect, World world){
+        BasicPlayer p = null;
+
+        switch (entityType){
+            case ROCK:
+                break;
+            case ZOMBIE:
+                p = new ZombieEnemy(world, (int)rect.getX(), (int)rect.getY(), 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f);
+                break;
+            default:
+
+        }
         return p;
     }
     public static void giveHud(Hud hudd){

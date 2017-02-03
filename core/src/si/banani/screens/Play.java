@@ -35,6 +35,7 @@ import si.banani.entities.FemalePlayer;
 import si.banani.entities.Player;
 import si.banani.entities.RockEnemy;
 import si.banani.entities.SpiderEnemy;
+import si.banani.entities.ZombieEnemy;
 import si.banani.learning.LearningGdx;
 import si.banani.maps.MapFactory;
 import si.banani.maps.MapManager;
@@ -91,7 +92,7 @@ public class Play extends BaseScreen {
     Player male;
     FemalePlayer female;
 
-    RockEnemy e;
+    ZombieEnemy e;
     SpiderEnemy s;
 
 
@@ -155,7 +156,7 @@ public class Play extends BaseScreen {
         CameraCoordinates c = new CameraCoordinates(male, female, mapManager.getCurrentCamera());
         hud.setCameraCoordinates(c);
 
-        e = new RockEnemy(mapManager.getCurrentWorld(), 100, 500, 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f);
+
         //s = new SpiderEnemy(world, 355, 150, 10, 28, BodyDef.BodyType.KinematicBody, TextureManager.getRegionByName("spiderEnemy").split(14,61)[0],  TextureManager.getRegionByName("spiderAttacking").split(23,61)[0] , 1/6f,1/3f, male);
 
 
@@ -180,8 +181,10 @@ public class Play extends BaseScreen {
         f.categoryBits = CollisionBits.SENSOR_BIT;
         f.maskBits =
                         CollisionBits.OBJECT_BIT |
+                                CollisionBits.ENEMY_BIT|
                         CollisionBits.DEFAULT_BIT |
-                        CollisionBits.PLAYER_BIT;
+                        CollisionBits.PLAYER_BIT |
+                                CollisionBits.DOORS_BIT;
 
         pointLight.setContactFilter(f);
 
@@ -246,7 +249,7 @@ public class Play extends BaseScreen {
 
         mapManager.updateCurrentMap(delta, mapRenderer);
 
-        e.update(delta);
+
         //s.update(delta);
 
        //CAMERA UPDATE---
@@ -313,7 +316,7 @@ public class Play extends BaseScreen {
         batch.begin();
         batch.setProjectionMatrix(mapManager.getCurrentCamera().combined);
         EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).render(batch,delta);
-        e.render(batch, delta);
+
         batch.end();
 
 

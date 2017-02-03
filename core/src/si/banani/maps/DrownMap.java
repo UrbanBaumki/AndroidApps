@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import si.banani.camera.CameraEffects;
 import si.banani.camera.Parallaxer;
 import si.banani.controller.PlayerMovementController;
+import si.banani.entities.EnemyManager;
 import si.banani.entities.EntityFactory;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
@@ -65,6 +66,7 @@ public class DrownMap extends Map {
 
         worldCreator.createTileFixtures("Start", Tiles.START);
         worldCreator.createTileFixtures("End", Tiles.END);
+        worldCreator.createTileFixtures("Enemies", Tiles.ENEMIES);
 
         CameraEffects.setTarget(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
         PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
@@ -93,7 +95,10 @@ public class DrownMap extends Map {
             EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setReset(true);
         }
 
+        //we update objects and enemies
         Scene.update(dt);
+        EnemyManager.getInstance().updateEnemies(dt);
+
 
     }
 
@@ -119,6 +124,7 @@ public class DrownMap extends Map {
         (EntityFactory.getEntity(EntityFactory.EntityType.PLAYER)).render(batch, dt);
 
         //e.render(batch, delta);
+        EnemyManager.getInstance().renderEnemies(batch, dt);
         //s.render(batch, delta);
 
         batch.end();

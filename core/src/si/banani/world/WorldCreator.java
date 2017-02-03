@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.joints.RevoluteJoint;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.utils.Array;
 
+import si.banani.entities.EnemyManager;
 import si.banani.entities.EntityFactory;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
@@ -159,6 +160,11 @@ public class WorldCreator {
                     break;
                 case CHECKPOINT:
                     new CheckPoint(world, rect);
+                    break;
+                case ENEMIES:
+                    String eType =  object.getProperties().get("Type", String.class);
+                    EntityFactory.EntityType enemyType = EntityFactory.EntityType.valueOf(eType);
+                    EnemyManager.getInstance().addEnemy(EntityFactory.createEnemy(enemyType, rect, world));
                     break;
             }
 

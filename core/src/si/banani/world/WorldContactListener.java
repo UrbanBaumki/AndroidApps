@@ -15,6 +15,7 @@ import si.banani.entities.Player;
 
 import si.banani.entities.RockEnemy;
 import si.banani.entities.SpiderEnemy;
+import si.banani.entities.ZombieEnemy;
 import si.banani.maps.MapFactory;
 import si.banani.screens.Play;
 import si.banani.tiles.Box;
@@ -52,9 +53,9 @@ public class WorldContactListener implements ContactListener {
         }else if(a.getUserData() instanceof Player && b.getUserData() instanceof EndPoint){
             Play.nextMap = MapFactory.MapType.CHAPTER3;
 
-        }else if(a.getUserData() instanceof Player && b.getUserData() instanceof RockEnemy && b.isSensor()){
+        }else if(a.getUserData() instanceof Player && (b.getUserData() instanceof RockEnemy && b.isSensor() || b.getUserData() instanceof ZombieEnemy && b.isSensor())){
          //"VIDNI" SENZOR ZA ROCK ENEMY in PLAYER KONTAKT
-            ((RockEnemy)b.getUserData()).setTarget((Player)a.getUserData());
+            ((BasicPlayer)b.getUserData()).setTarget((Player)a.getUserData());
         }
         else if(a.getUserData() instanceof Player && b.getUserData() instanceof CheckPoint){
             Player p = (Player) a.getUserData();
@@ -101,8 +102,16 @@ public class WorldContactListener implements ContactListener {
 
         }
         if(a.getUserData() instanceof BasicPlayer && a.isSensor() ){
-            BasicPlayer p = (BasicPlayer) a.getUserData();
-            p.increaseFootContacts(1);
+            if(a.getUserData() instanceof ZombieEnemy){
+                if(a.getFilterData().maskBits == (CollisionBits.OBJECT_BIT | CollisionBits.DEFAULT_BIT | CollisionBits.DOORS_BIT)){
+                    //the collision sensor
+                    ((ZombieEnemy) a.getUserData()).switchDirection();
+                }
+            }else{
+                BasicPlayer p = (BasicPlayer) a.getUserData();
+                p.increaseFootContacts(1);
+            }
+
 
         }
 
@@ -123,9 +132,13 @@ public class WorldContactListener implements ContactListener {
 
        }
 
-        if(a.getUserData() instanceof Player && b.getUserData() instanceof RockEnemy && b.isSensor()){
+        if(a.getUserData() instanceof Player && (b.getUserData() instanceof RockEnemy && b.isSensor()  || b.getUserData() instanceof ZombieEnemy && b.isSensor())){
             //"VIDNI" SENZOR ZA ROCK ENEMY in PLAYER KONTAKT
-            ((RockEnemy)b.getUserData()).setTarget(null);
+            if(b.getFilterData().maskBits != (CollisionBits.OBJECT_BIT | CollisionBits.DEFAULT_BIT | CollisionBits.DOORS_BIT)){
+                //the collision sensor
+                ((BasicPlayer)b.getUserData()).setTarget(null);
+            }
+
         }
 
 
