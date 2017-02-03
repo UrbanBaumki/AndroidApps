@@ -13,7 +13,7 @@
  </layer>
  <layer name="Fg" width="57" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlssOgyAQRcdq07WP7mnV//9FIUJsDaMBB2FxT3LixuAdBx2IAAAAAAAAACAtXeFKMBYuSIvSVtZP3iinxObrtQ2t+2mQi5OEOneAGwip8al9W+cLz3zZq9K2jJL7P6TGR+D9iv4zTzvNetzMkNxfR2uZjBWje8+/vd17ZS5K1uirw+U3/5WY2eVm91Gf7qzRlyN0fUX+b6qUPn491kxmzhRnOMkac59HUSMAGwvqnBnD
+   eJztlssOgyAQRUdt41qte/rw/39RiJBaw5iAQx2Te5ITNzrOBRSIAAAAAAAAAKAsvXIleCtXgqdQHc00mc8Za+XVPk65GQfrjZb19JBrpwi5Ga9ESsa7dfROB97Z+quxdoyS6z8lY514v6Hfnj8bXT1uz5BcX3u1XI8VYxjn9dxuPbIvSmaM5Qj9u/9Kzt4V9u69efpnxlgfqfUNxb8pLfP4itgwPXOWOMNJZjz7PIqMAHyZAWg/Gck=
   </data>
  </layer>
  <objectgroup name="Floor">

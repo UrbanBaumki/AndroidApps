@@ -49,6 +49,14 @@ public enum ScreenEnums {
             return new Play((SpriteBatch) params[0]);
         }
     },
+    CUTSCENE{
+                public Screen getScreen(Object... params){
+                if(params == null)
+                    return null;
+                return new CutsceneScreen((SpriteBatch) params[0]);
+            }
+    },
+
     DIALOG{
         public Screen getScreen(Object... params){
             if(params == null)

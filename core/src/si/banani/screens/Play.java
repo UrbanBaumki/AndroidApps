@@ -70,15 +70,15 @@ public class Play extends BaseScreen {
     public static MapFactory.MapType nextMap = null;
 
 
-    private static GameState gameState;
+    public static GameState gameState;
 
     private Array<AudioObserver> _observers = new Array<AudioObserver>();
 
     public static boolean reset = false;
-    private Hud hud;
+    protected Hud hud;
 
 
-    private OrthogonalTiledMapRenderer mapRenderer;
+    protected OrthogonalTiledMapRenderer mapRenderer;
 
     //box2d
 
@@ -107,7 +107,7 @@ public class Play extends BaseScreen {
     PointLight pointLight;
 
     //Final map manager
-    MapManager mapManager;
+   protected MapManager mapManager;
 
     MapProperties properties;
 

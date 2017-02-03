@@ -120,6 +120,12 @@ public class LoneMap extends Map {
 
 
     }
+
+    @Override
+    public void renderForCutscene(SpriteBatch batch, float dt, OrthogonalTiledMapRenderer mapRenderer) {
+
+    }
+
     public void renderBackground(SpriteBatch batch, float dt){
         //bg
         parallaxer.render(batch);

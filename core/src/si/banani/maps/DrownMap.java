@@ -97,9 +97,25 @@ public class DrownMap extends Map {
 
         //we update objects and enemies
         Scene.update(dt);
-        EnemyManager.getInstance().updateEnemies(dt);
+        EnemyManager.getInstance().updateEnemies(dt,  EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).getPosition().x);
 
 
+    }
+
+    public void renderForCutscene(SpriteBatch batch, float dt , OrthogonalTiledMapRenderer mapRenderer){
+        mapRenderer.setView(camera);
+        //maps parallaxed bg texture
+        renderBackground(batch, dt);
+
+        //tiled map background images
+        mapRenderer.getBatch().setProjectionMatrix(camera.combined);
+        mapRenderer.render(bg);
+
+        batch.setProjectionMatrix(camera.combined);
+
+
+        //maps foreground or main layer
+        mapRenderer.render(fg);
     }
 
     @Override

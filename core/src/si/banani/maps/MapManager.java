@@ -64,6 +64,10 @@ public class MapManager {
         if(_currentMap != null)
             _currentMap.render(batch, dt, mapRenderer);
     }
+    public void renderCurrentMapForCutscene(SpriteBatch batch, float dt, OrthogonalTiledMapRenderer mapRenderer){
+        if(_currentMap != null)
+            _currentMap.renderForCutscene(batch, dt, mapRenderer);
+    }
     public void renderCurrentMapsBg(SpriteBatch batch, float dt){
         if(_currentMap != null)
             _currentMap.renderBackground(batch, dt);

@@ -110,7 +110,7 @@ public class ZombieEnemy extends BasicPlayer {
         frontCollisionFixture.setUserData(this);
         frontCollisionFixture.setFilterData(f);
 
-
+        body.setActive(false);
 
     }
 
@@ -198,6 +198,7 @@ public class ZombieEnemy extends BasicPlayer {
     public void switchDirection(){
         setTarget(null);
         body.setLinearVelocity(0, getYvelocity());
+
         dir = -dir;
     }
 }
