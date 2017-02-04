@@ -72,7 +72,7 @@
  </objectgroup>
  <objectgroup name="Swings">
   <object id="40" x="1664.5" y="1318">
-   <polygon points="13.5,0.5 -3.31818,-3.54545 163.591,-3.95455 145.75,0.5"/>
+   <polygon points="23,1.75 -3.31818,-3.54545 163.591,-3.95455 142.25,1"/>
   </object>
  </objectgroup>
  <objectgroup name="GhostPath">

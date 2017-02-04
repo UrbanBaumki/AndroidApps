@@ -47,6 +47,7 @@ public class DrownMap extends Map {
         EntityFactory.giveCamera(camera);
 
         EntityFactory.giveWorld(world);
+
         Scene.clearCachedObjects();
 
         //map specifics
@@ -69,6 +70,7 @@ public class DrownMap extends Map {
         worldCreator.createTileFixtures("Enemies", Tiles.ENEMIES);
 
         CameraEffects.setTarget(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+        PlayerMovementController.getInstance().clearPlayers();
         PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
         PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
         PlayerMovementController.getInstance().setPlayer(0);

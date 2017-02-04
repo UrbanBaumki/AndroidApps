@@ -34,6 +34,7 @@ public class Levels extends BaseScreen {
     private Label.LabelStyle style;
     private TweenManager tweenManager;
 
+
     public Levels(SpriteBatch sb) {
         super(sb);
 
@@ -73,6 +74,8 @@ public class Levels extends BaseScreen {
                     ScreenManager.getInstance().set(s);
                 else
                     ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch);
+
+
             }
         });
 
@@ -132,6 +135,7 @@ public class Levels extends BaseScreen {
 
         stage.draw();
         //layout.debug();
+
     }
 
     @Override
@@ -151,7 +155,7 @@ public class Levels extends BaseScreen {
 
     @Override
     public void dispose() {
-        super.dispose();
+
         font.dispose();
         layout = null;
         stage.dispose();

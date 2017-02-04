@@ -76,7 +76,7 @@ public class Splash extends BaseScreen {
 
     @Override
     public void dispose() {
-        super.dispose();
+
         this.img.getTexture().dispose();
     }
 }

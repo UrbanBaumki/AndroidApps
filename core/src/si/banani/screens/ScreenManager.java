@@ -123,6 +123,9 @@ public class ScreenManager {
         Screen newScreen = screenenums.getScreen(params);
         game.setScreen(newScreen);
 
+        screens.pop();
+        push(newScreen);
+
 
     }
 }

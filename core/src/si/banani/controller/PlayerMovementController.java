@@ -14,7 +14,7 @@ import si.banani.entities.Player;
 public class PlayerMovementController {
 
     private static PlayerMovementController pmc;
-    private static Array<BasicPlayer> players;
+    private static Array<BasicPlayer> players = new Array<BasicPlayer>();
     private static int current_player = 0;
 
     public static PlayerMovementController getInstance(){

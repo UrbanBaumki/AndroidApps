@@ -194,7 +194,7 @@ public class MainMenu extends BaseScreen {
     }
     @Override
     public void dispose(){
-        super.dispose();
+
         stage.dispose();
         font.dispose();
 

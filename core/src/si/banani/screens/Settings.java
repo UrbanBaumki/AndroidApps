@@ -237,7 +237,7 @@ public class Settings extends BaseScreen {
     }
     @Override
     public void dispose(){
-        super.dispose();
+
         font.dispose();
         layout = null;
         stage.dispose();

@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.camera.CameraEffects;
+import si.banani.entities.EnemyManager;
 import si.banani.entities.EntityFactory;
 import si.banani.entities.FemalePlayer;
 import si.banani.entities.Player;
@@ -32,9 +33,19 @@ public class MapManager {
 
     }
 
+    public void dispose(){
+        EnemyManager.getInstance().clearCachedEnemies();
+        EntityFactory.clearEntities();
+        MapFactory.clearCurrentWorld();
+        if(_currentMap != null){
+            _currentMap.unloadMusic();
+            clearCurrentMap();
+        }
+    }
     public void loadMap(MapFactory.MapType mapType){
         EntityFactory.clearEntities();
         MapFactory.clearCurrentWorld();
+        EnemyManager.getInstance().clearCachedEnemies();
         Map map = MapFactory.getMap(mapType);
 
         if(map == null)

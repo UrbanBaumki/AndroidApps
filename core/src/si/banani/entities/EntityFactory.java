@@ -17,7 +17,6 @@ import si.banani.textures.TextureManager;
 
 public class EntityFactory {
     private static Hashtable<EntityType, BasicPlayer> entities = new Hashtable<EntityType, BasicPlayer>();
-    private static Array<BasicPlayer> enemies = new Array<BasicPlayer>(); // using array so we have multiple instances of same class (multiple same-type enemies).
     private static Hud hud;
     private static OrthographicCamera camera;
     private static World world;

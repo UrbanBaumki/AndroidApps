@@ -296,7 +296,7 @@ public class Play extends BaseScreen {
 
             mapManager.set_mapChanged(false);
 
-            //light render bullshit
+            //light render
             handler.setCombinedMatrix(camera);
             handler.setWorld(mapManager.getCurrentWorld());
 
@@ -338,9 +338,10 @@ public class Play extends BaseScreen {
 
     @Override
     public void dispose() {
-        super.dispose();
+
         TextureManager.disposeAll();
         handler.dispose();
+        mapManager.dispose();
     }
 
     @Override

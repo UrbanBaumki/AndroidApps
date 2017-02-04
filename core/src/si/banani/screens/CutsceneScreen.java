@@ -84,8 +84,8 @@ public class CutsceneScreen extends Play {
 
             @Override
             public void run() {
-
-                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.MAIN_MENU, batch);
+                mapManager.disableCurrentMapMusic();
+                ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.MAIN_MENU, batch);
             }
         };
 
@@ -98,7 +98,7 @@ public class CutsceneScreen extends Play {
             public void run() {
 
                 mapManager.loadMap(MapFactory.MapType.CHAPTER5);
-                //mapManager.disableCurrentMapMusic();
+                mapManager.disableCurrentMapMusic();
 
 
 
@@ -182,5 +182,9 @@ public class CutsceneScreen extends Play {
                                 }),
                                 Actions.addAction(switchScreenAction)
                 );
+    }
+    @Override
+    public void dispose(){
+        super.dispose();
     }
 }

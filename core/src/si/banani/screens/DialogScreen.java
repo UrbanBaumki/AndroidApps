@@ -120,7 +120,7 @@ public class DialogScreen extends BaseScreen {
 
     @Override
     public void dispose() {
-        super.dispose();
+
         font.dispose();
     }
 }

@@ -55,8 +55,5 @@ public abstract class BaseScreen implements Screen{
     public abstract void hide() ;
 
     @Override
-    public void dispose() {
-        //this.batch.dispose();
-
-    }
+    public abstract void dispose() ;
 }

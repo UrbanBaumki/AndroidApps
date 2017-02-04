@@ -99,6 +99,8 @@ public class TextureManager {
 
             reg.dispose();
         }
+        regions.clear();
+        atlasFiles.clear();
     }
 
 }

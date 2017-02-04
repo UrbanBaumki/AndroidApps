@@ -50,12 +50,16 @@ public class Swings {
         PolygonShape pS = new PolygonShape();
 
         float [] v2 = rect.getVertices();
+
+
         for( int i = 0;i < v2.length; i++){
 
             v2[i]= v2[i] / LearningGdx.PPM;
 
+
         }
         pS.set(v2);
+
 
         fdef.shape = pS;
         fdef.friction = 1f;
@@ -101,6 +105,10 @@ public class Swings {
         revoluteJointDef.motorSpeed = 0;
 
         world.createJoint(revoluteJointDef);
+
+        pS.dispose();
+
+
     }
 
     public void update(float dt){
@@ -113,4 +121,5 @@ public class Swings {
         batch.draw(swing, circleBody.getPosition().x - width/2/LearningGdx.PPM, circleBody.getPosition().y + yOffset/LearningGdx.PPM, width / 2 / LearningGdx.PPM, height / 2 / LearningGdx.PPM, width / LearningGdx.PPM, height / LearningGdx.PPM, 1, 1, angle, true);
         batch.draw(circle, circleBody.getPosition().x - circle.getRegionWidth()/2/LearningGdx.PPM , circleBody.getPosition().y - circle.getRegionHeight()/2/LearningGdx.PPM, circle.getRegionWidth()/LearningGdx.PPM, circle.getRegionHeight()/LearningGdx.PPM);
     }
+
 }

@@ -2,6 +2,8 @@ package si.banani.maps;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
@@ -66,10 +68,19 @@ public class MapFactory {
 
     public static void clearCurrentWorld() {
         Array<Body> bodies = new Array<Body>();
+        Array<Joint> joints = new Array<Joint>();
         world.getBodies(bodies);
+        world.getJoints(joints);
+
+        for(Joint j : joints){
+            if(!world.isLocked())
+                world.destroyJoint(j);
+        }
         for(Body b : bodies){
             if(!world.isLocked())
                 world.destroyBody(b);
         }
+        world.dispose();
+        world = new World(new Vector2(0, -10), true);
     }
 }
