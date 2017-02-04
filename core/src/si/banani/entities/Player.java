@@ -270,5 +270,5 @@ public class Player extends BasicPlayer implements AudioSubject {
         hud.enableDialog(true);
     }
 
-
+    public int getHealth(){ return  health;}
 }

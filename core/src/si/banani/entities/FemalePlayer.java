@@ -158,4 +158,13 @@ public class FemalePlayer extends BasicPlayer {
         this.switching = true;
     }
     public boolean isSwitching(){ return this.switching; }
+
+    public float getEnergyLevel() {
+        return energyLevel;
+    }
+
+    public void setEnergyLevel(float energyLevel) {
+        this.energyLevel = energyLevel;
+        hud.setEnergyLevel(energyLevel);
+    }
 }

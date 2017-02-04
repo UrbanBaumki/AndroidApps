@@ -9,7 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import si.banani.screens.ScreenEnums;
 import si.banani.screens.ScreenManager;
-
+import si.banani.serialization.SaveGameDescriptor;
+import si.banani.serialization.Serializer;
 
 
 public class LearningGdx extends Game {
@@ -23,6 +24,7 @@ public class LearningGdx extends Game {
 
 	@Override
 	public void create () {
+
 		if(batch == null)
 			batch = new SpriteBatch();
 		ScreenManager.getInstance().bindWithMainGameClass(this);

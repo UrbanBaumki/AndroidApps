@@ -147,9 +147,9 @@ public class WorldCreator {
                 case START:
                     float x = rect.getX();
                     float y = rect.getY();
-                    EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setTransform(x/LearningGdx.PPM, y/LearningGdx.PPM, 0);
+                    //EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setTransform(x/LearningGdx.PPM, y/LearningGdx.PPM, 0);
                     EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setStart(x/LearningGdx.PPM, y/LearningGdx.PPM);
-                    EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setTransform(x/LearningGdx.PPM - 0.2f, y/LearningGdx.PPM, 0);
+                    //EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setTransform(x/LearningGdx.PPM - 0.2f, y/LearningGdx.PPM, 0);
                     EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setStart(x/LearningGdx.PPM - 0.2f, y/LearningGdx.PPM);
 
                     break;

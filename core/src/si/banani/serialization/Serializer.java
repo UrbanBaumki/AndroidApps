@@ -18,16 +18,19 @@ import java.util.Iterator;
  * Created by Urban on 11.1.2017.
  */
 
-public class Serializer {
+public class Serializer extends ProfileSubject{
 
     private static Serializer serializer;
     private static FileHandle fileHandle;
     private static HashMap<String, FileHandle> files;
     private static HashMap<String, Object> objects;
+    private static SaveGameDescriptor currentSave;
     private static String filePath = "bin/";
     private static String suffix = ".sav";
     private static Json json;
+
     public Serializer(){
+
         files = new HashMap<String, FileHandle>();
         objects = new HashMap<String, Object>();
         json = new Json();
@@ -109,5 +112,19 @@ public class Serializer {
 
         return serializedObject;
     }
+    public void setCurrentSave(SaveGameDescriptor save){ currentSave = save;}
+    public void loadSaveGame(){
+        SaveGameDescriptor saveGame = loadDescriptor(SaveGameDescriptor.class, "save");
 
+        setCurrentSave(saveGame);
+        notify(this, ProfileObserver.ProfileEvent.PROFILE_LOADED);
+    }
+    public void saveGame(){
+        notify(this, ProfileObserver.ProfileEvent.SAVING_PROFILE);
+        saveObject("save", currentSave, true);
+
+    }
+    public SaveGameDescriptor getCurrentSave(){
+        return currentSave;
+    }
 }

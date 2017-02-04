@@ -41,6 +41,7 @@ import si.banani.maps.MapFactory;
 import si.banani.maps.MapManager;
 import si.banani.scene.Scene;
 import si.banani.scenes.Hud;
+import si.banani.serialization.Serializer;
 import si.banani.shaders.DefaultShader;
 import si.banani.shaders.ShaderFactory;
 import si.banani.shaders.WaterShader;
@@ -109,6 +110,7 @@ public class Play extends BaseScreen {
     //Final map manager
    protected MapManager mapManager;
 
+    CameraCoordinates c;
     MapProperties properties;
 
     public Play(SpriteBatch spriteBatch) {
@@ -130,6 +132,8 @@ public class Play extends BaseScreen {
         this.hud = new Hud(this.batch);
         EntityFactory.giveHud(hud);
         mapManager = new MapManager();
+
+        mapManager.setHud(hud);
 
         //properties
         properties = mapManager.getCurrentTiledMap().getProperties();
@@ -153,7 +157,7 @@ public class Play extends BaseScreen {
 
 
 
-        CameraCoordinates c = new CameraCoordinates(male, female, mapManager.getCurrentCamera());
+         c = new CameraCoordinates(male, female, mapManager.getCurrentCamera());
         hud.setCameraCoordinates(c);
 
 
@@ -197,6 +201,8 @@ public class Play extends BaseScreen {
     @Override
     public void show() {
 
+        Serializer.getInstance().addObserver(mapManager);
+        Serializer.getInstance().loadSaveGame();
         //First method called when screen opened
         inputController.resetInputProcessor();
 
@@ -204,6 +210,7 @@ public class Play extends BaseScreen {
             mapRenderer = new OrthogonalTiledMapRenderer(mapManager.getCurrentTiledMap(), 1/ LearningGdx.PPM );
             camera = mapManager.getCurrentCamera();
             EntityFactory.giveWorld(mapManager.getCurrentWorld());
+
         }
 
     }
@@ -272,6 +279,10 @@ public class Play extends BaseScreen {
             properties = mapManager.getCurrentTiledMap().getProperties();
             levelW = properties.get("width", Integer.class);
             levelH = properties.get("height", Integer.class);
+
+
+            //we give both players to the map manager, so it could create SaveDescriptor
+
         }
     }
 
@@ -370,7 +381,7 @@ public class Play extends BaseScreen {
 
     @Override
     public void hide() {
-
+        Serializer.getInstance().saveGame();
     }
 
 

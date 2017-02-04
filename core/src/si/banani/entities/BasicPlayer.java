@@ -303,4 +303,12 @@ public void setCanClimb(boolean can){ canClimb = can;}
     public void setTarget(Player target){
         this.target = target;
     }
+
+    public float getLastCheckpointX() {
+        return lastCheckpointX;
+    }
+
+    public float getLastCheckpointY() {
+        return lastCheckpointY;
+    }
 }

@@ -187,4 +187,7 @@ public class CutsceneScreen extends Play {
     public void dispose(){
         super.dispose();
     }
+
+    @Override
+    public void hide(){}
 }

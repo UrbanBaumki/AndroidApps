@@ -8,19 +8,24 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.camera.CameraEffects;
+import si.banani.entities.CameraCoordinates;
 import si.banani.entities.EnemyManager;
 import si.banani.entities.EntityFactory;
 import si.banani.entities.FemalePlayer;
 import si.banani.entities.Player;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
+import si.banani.scenes.Hud;
+import si.banani.serialization.ProfileObserver;
+import si.banani.serialization.SaveGameDescriptor;
+import si.banani.serialization.Serializer;
 import si.banani.world.WorldCollideListener;
 
 /**
  * Created by Urban on 28.1.2017.
  */
 
-public class MapManager {
+public class MapManager implements ProfileObserver{
 
     private Map _currentMap;
     private boolean _mapChanged = false;
@@ -28,6 +33,7 @@ public class MapManager {
 
     private Player male;
     private FemalePlayer ghost;
+    private Hud hud;
 
     public MapManager(){
 
@@ -46,16 +52,16 @@ public class MapManager {
         EntityFactory.clearEntities();
         MapFactory.clearCurrentWorld();
         EnemyManager.getInstance().clearCachedEnemies();
+        if(_currentMap != null){
+            _currentMap.unloadMusic();
+            clearCurrentMap();
+        }
         Map map = MapFactory.getMap(mapType);
 
         if(map == null)
             return;
 
-        if(_currentMap != null){
-            _currentMap.unloadMusic();
-            clearCurrentMap();
 
-        }
 
         map.loadMusic();
 
@@ -128,5 +134,36 @@ public class MapManager {
     }
     public Viewport getCurrentViewport(){
         return _currentMap.viewport;
+    }
+
+    @Override
+    public void onNotify(Serializer profileManager, ProfileEvent event) {
+        switch (event){
+            case PROFILE_LOADED:
+                SaveGameDescriptor loadedSave = profileManager.getCurrentSave();
+                loadMap(MapFactory.MapType.valueOf(loadedSave.getMapType()));
+                setMale((Player)EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+                setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
+                male.setTransform(loadedSave.getLastX(), loadedSave.getLastY(), 0);
+                ghost.setTransform(loadedSave.getLastX() - 0.2f, loadedSave.getLastY(), 0);
+                ghost.setEnergyLevel(loadedSave.getLastGhostEnergy());
+                CameraCoordinates c = new CameraCoordinates(male, ghost, currCamera);
+                hud.setCameraCoordinates(c);
+                break;
+            case SAVING_PROFILE:
+                SaveGameDescriptor curSave = new SaveGameDescriptor();
+                curSave.setPlayerHealth(male.getHealth());
+                curSave.setNumFinishedChapter(1);
+                curSave.setMapType(getCurrentMapType().toString());
+                curSave.setLastGhostEnergy(ghost.getEnergyLevel());
+                curSave.setLastX(male.getLastCheckpointX());
+                curSave.setLastY(male.getLastCheckpointY());
+                profileManager.setCurrentSave(curSave);
+                break;
+        }
+    }
+
+    public void setHud(Hud hud) {
+        this.hud = hud;
     }
 }
