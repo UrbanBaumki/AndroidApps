@@ -74,7 +74,8 @@ public class MapManager implements ProfileObserver{
 
         CameraEffects.setZooming(true);
 
-
+        setMale((Player) EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+        setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
 
     }
     public void renderCurrentMap(SpriteBatch batch, float dt, OrthogonalTiledMapRenderer mapRenderer){
@@ -141,14 +142,18 @@ public class MapManager implements ProfileObserver{
         switch (event){
             case PROFILE_LOADED:
                 SaveGameDescriptor loadedSave = profileManager.getCurrentSave();
-                loadMap(MapFactory.MapType.valueOf(loadedSave.getMapType()));
-                setMale((Player)EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
-                setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
-                male.setTransform(loadedSave.getLastX(), loadedSave.getLastY(), 0);
-                ghost.setTransform(loadedSave.getLastX() - 0.2f, loadedSave.getLastY(), 0);
-                ghost.setEnergyLevel(loadedSave.getLastGhostEnergy());
-                CameraCoordinates c = new CameraCoordinates(male, ghost, currCamera);
-                hud.setCameraCoordinates(c);
+                if(loadedSave == null)
+                    loadMap(MapFactory.MapType.CHAPTER5);
+                else {
+                    loadMap(MapFactory.MapType.valueOf(loadedSave.getMapType()));
+                    setMale((Player) EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+                    setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
+                    male.setTransform(loadedSave.getLastX(), loadedSave.getLastY(), 0);
+                    ghost.setTransform(loadedSave.getLastX() - 0.2f, loadedSave.getLastY(), 0);
+                    ghost.setEnergyLevel(loadedSave.getLastGhostEnergy());
+                    CameraCoordinates c = new CameraCoordinates(male, ghost, currCamera);
+                    hud.setCameraCoordinates(c);
+                }
                 break;
             case SAVING_PROFILE:
                 SaveGameDescriptor curSave = new SaveGameDescriptor();

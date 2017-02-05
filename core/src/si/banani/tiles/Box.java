@@ -48,6 +48,8 @@ public class Box extends InteractiveTile {
         this.destroyed = false;
         this.destroy = false;
         this.yOffset = 0.5f;
+
+
     }
     @Override
     public void render(SpriteBatch batch, float dt){

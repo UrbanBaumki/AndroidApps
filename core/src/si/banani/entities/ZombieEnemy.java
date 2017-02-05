@@ -151,18 +151,18 @@ public class ZombieEnemy extends BasicPlayer {
 
         switch (currentState){
             case SLEEPING:
-                Gdx.app.log("Spim", "");
+                //Gdx.app.log("Spim", "");
                 currFrame = this.walk.getFirstFrame();
                 this.walk.reset();
                 this.body.setLinearVelocity(0,this.getYvelocity());
                 break;
             case WALKING:
-                Gdx.app.log("Hodim", "");
+                //Gdx.app.log("Hodim", "");
                 currFrame = this.walk.getCurrentFrame();
                 this.walk.update(dt);
                 break;
             case FOLLOWING:
-                Gdx.app.log("SLEDIM", "");
+                //Gdx.app.log("SLEDIM", "");
                 currFrame = this.walk.getCurrentFrame();
                 this.walk.update(dt);
                 break;

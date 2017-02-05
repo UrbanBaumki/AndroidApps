@@ -169,6 +169,8 @@ public class InputController {
                     Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.MAIN_MENU);
                     if (s != null)
                         ScreenManager.getInstance().set(s);
+                    else
+                        ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.MAIN_MENU, batch);
                 }
                 return false;
             }

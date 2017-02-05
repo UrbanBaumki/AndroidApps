@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="49">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="53">
  <tileset firstgid="1" name="ch5_tiles" tilewidth="64" tileheight="64" spacing="2" tilecount="45" columns="15">
   <image source="ch5_tiles.png" width="1024" height="256"/>
  </tileset>
@@ -13,7 +13,7 @@
  </layer>
  <layer name="Fg" width="57" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlssOgyAQRcdq07WP7mnV//9FIUJsDaMBB2FxT3LixuAdBx2IAAAAAAAAACAtXeFKMBYuSIvSVtZP3iinxObrtQ2t+2mQi5OEOneAGwip8al9W+cLz3zZq9K2jJL7P6TGR+D9iv4zTzvNetzMkNxfR2uZjBWje8+/vd17ZS5K1uirw+U3/5WY2eVm91Gf7qzRlyN0fUX+b6qUPn491kxmzhRnOMkac59HUSMAGwvqnBnD
+   eJztlssOgyAQRUdt41qte/rw/39RiJBaw5iAQx2Te5ITNzrOBRSIAAAAAAAAAKAsvXIleCtXgqdQHc00mc8Za+XVPk65GQfrjZb19JBrpwi5Ga9ESsa7dfROB97Z+quxdoyS6z8lY514v6Hfnj8bXT1uz5BcX3u1XI8VYxjn9dxuPbIvSmaM5Qj9u/9Kzt4V9u69efpnxlgfqfUNxb8pLfP4itgwPXOWOMNJZjz7PIqMAHyZAWg/Gck=
   </data>
  </layer>
  <objectgroup name="Floor">
@@ -36,6 +36,7 @@
  <objectgroup name="Boxes">
   <object id="3" x="884.667" y="1254.17" width="30.6666" height="27.6667"/>
   <object id="4" x="1511.33" y="1242.17" width="30.6666" height="27.6667"/>
+  <object id="52" x="1335.5" y="1359.5" width="29" height="27"/>
  </objectgroup>
  <objectgroup name="Switches">
   <object id="9" x="833.333" y="1356.67" width="10.6667" height="26">
@@ -72,7 +73,7 @@
  </objectgroup>
  <objectgroup name="Swings">
   <object id="40" x="1664.5" y="1318">
-   <polygon points="13.5,0.5 -3.31818,-3.54545 163.591,-3.95455 145.75,0.5"/>
+   <polygon points="23,1.75 -3.31818,-3.54545 163.591,-3.95455 142.25,1"/>
   </object>
  </objectgroup>
  <objectgroup name="GhostPath">
@@ -111,5 +112,15 @@
  </objectgroup>
  <objectgroup name="Checkpoints">
   <object id="48" x="1479.65" y="1282.77" width="59.375" height="53.125"/>
+ </objectgroup>
+ <objectgroup name="Enemies">
+  <object id="49" x="824" y="1260.5" width="30.5" height="23">
+   <properties>
+    <property name="Type" value="ZOMBIE"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Water">
+  <object id="51" x="1275.5" y="1374" width="192" height="64"/>
  </objectgroup>
 </map>

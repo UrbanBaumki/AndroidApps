@@ -81,7 +81,7 @@ public class MainMenu extends BaseScreen {
                 if(s != null)
                     ScreenManager.getInstance().set(s);
                 else
-                    ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.LEVELS, batch);
+                    ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.LEVELS, batch);
             }
         });
 
@@ -103,7 +103,7 @@ public class MainMenu extends BaseScreen {
                 if(s != null)
                     ScreenManager.getInstance().set(s);
                 else
-                    ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.SETTINGS, batch);
+                    ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.SETTINGS, batch);
             }
         });
 

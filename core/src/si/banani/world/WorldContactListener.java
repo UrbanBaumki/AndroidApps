@@ -1,13 +1,26 @@
 package si.banani.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.GeometryUtils;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.Array;
 
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import si.banani.entities.BasicPlayer;
 import si.banani.entities.FemalePlayer;
@@ -28,6 +41,10 @@ import si.banani.tiles.Potion;
 import si.banani.tiles.Spikes;
 import si.banani.tiles.Switch;
 import si.banani.tiles.TileStates;
+import si.banani.water.FixturePair;
+import si.banani.water.PolygonClipping;
+import si.banani.water.Water;
+import si.banani.water.WaterHandler;
 
 /**
  * Created by Urban on 2.12.2016.
@@ -35,12 +52,13 @@ import si.banani.tiles.TileStates;
 
 public class WorldContactListener implements ContactListener {
 
-
     @Override
     public void beginContact(Contact contact) {
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
         collideChecker(a, b, true);
+
+
     }
 
     private void collideChecker(Fixture a, Fixture b, boolean reverse){
@@ -50,6 +68,10 @@ public class WorldContactListener implements ContactListener {
 
             Player p = (Player) b.getUserData();
             p.setReset(true);
+        }else if(a.getUserData() instanceof Water && a.isSensor() && b.getBody().getType() == BodyDef.BodyType.DynamicBody){ //any dynamic body and water
+
+            WaterHandler.getInstance().addFixturePair(b, a);
+
         }else if(a.getUserData() instanceof Player && b.getUserData() instanceof EndPoint){
             Play.nextMap = MapFactory.MapType.CHAPTER3;
 
@@ -140,6 +162,9 @@ public class WorldContactListener implements ContactListener {
             }
 
         }
+        if(a.getUserData() instanceof Water && a.isSensor() && b.getBody().getType() == BodyDef.BodyType.DynamicBody){
+            WaterHandler.getInstance().removeFixtureContact(b);
+        }
 
 
 
@@ -152,6 +177,8 @@ public class WorldContactListener implements ContactListener {
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
         decollideChecker(a, b, true);
+
+
     }
 
     @Override

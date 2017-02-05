@@ -68,6 +68,7 @@ public class DrownMap extends Map {
         worldCreator.createTileFixtures("Start", Tiles.START);
         worldCreator.createTileFixtures("End", Tiles.END);
         worldCreator.createTileFixtures("Enemies", Tiles.ENEMIES);
+        worldCreator.createTileFixtures("Water", Tiles.WATER);
 
         CameraEffects.setTarget(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
         PlayerMovementController.getInstance().clearPlayers();

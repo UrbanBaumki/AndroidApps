@@ -39,6 +39,7 @@ import si.banani.tiles.Spikes;
 import si.banani.tiles.Swings;
 import si.banani.tiles.Switch;
 import si.banani.tiles.Tiles;
+import si.banani.water.Water;
 
 /**
  * Created by Urban on 8.12.2016.
@@ -165,6 +166,9 @@ public class WorldCreator {
                     String eType =  object.getProperties().get("Type", String.class);
                     EntityFactory.EntityType enemyType = EntityFactory.EntityType.valueOf(eType);
                     EnemyManager.getInstance().addEnemy(EntityFactory.createEnemy(enemyType, rect, world));
+                    break;
+                case WATER:
+                    new Water(world, rect);
                     break;
             }
 

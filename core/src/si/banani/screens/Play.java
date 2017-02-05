@@ -49,6 +49,7 @@ import si.banani.sound.AudioManager;
 import si.banani.sound.AudioObserver;
 import si.banani.sound.AudioSubject;
 import si.banani.textures.TextureManager;
+import si.banani.water.WaterHandler;
 import si.banani.world.CollisionBits;
 import si.banani.world.WorldCollideListener;
 import si.banani.world.WorldContactListener;
@@ -255,7 +256,7 @@ public class Play extends BaseScreen {
         if(!running) return;
 
         mapManager.updateCurrentMap(delta, mapRenderer);
-
+        WaterHandler.getInstance().update();
 
         //s.update(delta);
 
@@ -351,7 +352,7 @@ public class Play extends BaseScreen {
     public void dispose() {
 
         TextureManager.disposeAll();
-        handler.dispose();
+        //handler.dispose();
         mapManager.dispose();
     }
 

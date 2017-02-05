@@ -73,7 +73,7 @@ public class Levels extends BaseScreen {
                 if(s != null)
                     ScreenManager.getInstance().set(s);
                 else
-                    ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch);
+                    ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.PLAY, batch);
 
 
             }
