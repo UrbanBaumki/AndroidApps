@@ -16,7 +16,10 @@ import si.banani.entities.Player;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
 import si.banani.scenes.Hud;
+import si.banani.serialization.Chapter;
+import si.banani.serialization.ChapterDescriptor;
 import si.banani.serialization.ProfileObserver;
+import si.banani.serialization.ProgressDescriptor;
 import si.banani.serialization.SaveGameDescriptor;
 import si.banani.serialization.Serializer;
 import si.banani.world.WorldCollideListener;
@@ -35,6 +38,15 @@ public class MapManager implements ProfileObserver{
     private FemalePlayer ghost;
     private Hud hud;
 
+
+
+    private int currentLevel;
+    private MapFactory.MapType currentMapType;
+
+    private ChapterDescriptor chapterDescriptor;
+    private Chapter chapter;
+    private boolean finished;
+
     public MapManager(){
 
     }
@@ -48,15 +60,16 @@ public class MapManager implements ProfileObserver{
             clearCurrentMap();
         }
     }
-    public void loadMap(MapFactory.MapType mapType){
+    public void loadMap(MapFactory.MapType mapType, int level){
         EntityFactory.clearEntities();
         MapFactory.clearCurrentWorld();
         EnemyManager.getInstance().clearCachedEnemies();
         if(_currentMap != null){
             _currentMap.unloadMusic();
+            finished = _currentMap.isChapterFinished();
             clearCurrentMap();
         }
-        Map map = MapFactory.getMap(mapType);
+        Map map = MapFactory.getMap(mapType, level);
 
         if(map == null)
             return;
@@ -76,6 +89,9 @@ public class MapManager implements ProfileObserver{
 
         setMale((Player) EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
         setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
+
+        currentMapType = _currentMap.mapType;
+        currentLevel = _currentMap.getLevel();
 
     }
     public void renderCurrentMap(SpriteBatch batch, float dt, OrthogonalTiledMapRenderer mapRenderer){
@@ -108,7 +124,7 @@ public class MapManager implements ProfileObserver{
     }
     public TiledMap getCurrentTiledMap(){
         if( _currentMap == null ) {
-            loadMap(MapFactory.MapType.CHAPTER5);
+            loadMap(MapFactory.MapType.CHAPTER5, currentLevel);
         }
         return _currentMap.get_currentMap();
     }
@@ -142,33 +158,62 @@ public class MapManager implements ProfileObserver{
         switch (event){
             case PROFILE_LOADED:
                 SaveGameDescriptor loadedSave = profileManager.getCurrentSave();
-                if(loadedSave == null)
-                    loadMap(MapFactory.MapType.CHAPTER5);
-                else {
-                    loadMap(MapFactory.MapType.valueOf(loadedSave.getMapType()));
-                    setMale((Player) EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
-                    setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
-                    male.setTransform(loadedSave.getLastX(), loadedSave.getLastY(), 0);
-                    ghost.setTransform(loadedSave.getLastX() - 0.2f, loadedSave.getLastY(), 0);
-                    ghost.setEnergyLevel(loadedSave.getLastGhostEnergy());
-                    CameraCoordinates c = new CameraCoordinates(male, ghost, currCamera);
-                    hud.setCameraCoordinates(c);
+                ProgressDescriptor progressDescriptor = profileManager.getCurrentProgress();
+
+                MapFactory.MapType mt = profileManager.getMapTypeToLoad();
+                Chapter chap = profileManager.getChapter(mt.toString());
+
+                if(chap == null){
+                    chap = new Chapter();
+                    chap.setLastGhostEnergy(100);
+                    chap.setLastPlayerHealth(3);
+                    chap.setLastX(1);
+                    chap.setLastY(5);
+                    chap.setFinished(false);
+                    chap.setLastLevelPlayed(0);
+                    currentLevel = 0;
+                    currentMapType = mt;
+                    profileManager.addChapter(currentMapType.toString(), chap);
+                }else{
+                    currentMapType = mt;
+                    currentLevel = chap.getLastLevelPlayed();
+
                 }
+                loadMap(currentMapType, currentLevel);
+
+
+                setMale((Player) EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
+                setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
+                male.setTransform(chap.getLastX(), chap.getLastY(), 0);
+                ghost.setTransform(chap.getLastX() - 0.2f, chap.getLastY(), 0);
+                ghost.setEnergyLevel(chap.getLastGhostEnergy());
+                //missing loading player health
+                CameraCoordinates c = new CameraCoordinates(male, ghost, currCamera);
+                hud.setCameraCoordinates(c);
+
                 break;
             case SAVING_PROFILE:
-                SaveGameDescriptor curSave = new SaveGameDescriptor();
-                curSave.setPlayerHealth(male.getHealth());
-                curSave.setNumFinishedChapter(1);
-                curSave.setMapType(getCurrentMapType().toString());
-                curSave.setLastGhostEnergy(ghost.getEnergyLevel());
-                curSave.setLastX(male.getLastCheckpointX());
-                curSave.setLastY(male.getLastCheckpointY());
-                profileManager.setCurrentSave(curSave);
+
+                profileManager.getChapter(currentMapType.toString()).setLastPlayerHealth(male.getHealth());
+                profileManager.getChapter(currentMapType.toString()).setLastGhostEnergy(ghost.getEnergyLevel());
+                profileManager.getChapter(currentMapType.toString()).setLastX(male.getLastCheckpointX());
+                profileManager.getChapter(currentMapType.toString()).setLastY(male.getLastCheckpointY());
+                profileManager.getChapter(currentMapType.toString()).setLastLevelPlayed(currentLevel);
+                profileManager.getChapter(currentMapType.toString()).setFinished(finished);
+
                 break;
         }
     }
 
     public void setHud(Hud hud) {
         this.hud = hud;
+    }
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
     }
 }

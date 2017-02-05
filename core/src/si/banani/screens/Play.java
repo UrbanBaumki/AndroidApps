@@ -70,7 +70,8 @@ public class Play extends BaseScreen {
         LOADING
     }
     public static MapFactory.MapType nextMap = null;
-
+    public static Integer nextLevel = null;
+    public static MapFactory.MapType mapToLoad;
 
     public static GameState gameState;
 
@@ -114,11 +115,11 @@ public class Play extends BaseScreen {
     CameraCoordinates c;
     MapProperties properties;
 
-    public Play(SpriteBatch spriteBatch) {
+    public Play(SpriteBatch spriteBatch, MapFactory.MapType typeToLoad) {
         super(spriteBatch);
 
         Scene.setSpriteBatch(batch);
-
+        mapToLoad = typeToLoad;
 
 
         gameState = GameState.RUNNING;
@@ -194,6 +195,7 @@ public class Play extends BaseScreen {
         pointLight.setContactFilter(f);
 
 
+
         //to start with male
         CameraEffects.setTarget(male);
     }
@@ -203,7 +205,8 @@ public class Play extends BaseScreen {
     public void show() {
 
         Serializer.getInstance().addObserver(mapManager);
-        Serializer.getInstance().loadSaveGame();
+        Serializer.getInstance().setMapTypeToLoad(mapToLoad);
+        Serializer.getInstance().loadSaveGameAndProgress();
         //First method called when screen opened
         inputController.resetInputProcessor();
 
@@ -275,8 +278,10 @@ public class Play extends BaseScreen {
 
 
         if(nextMap != null){
-            mapManager.loadMap(nextMap);
+            mapManager.loadMap(nextMap, nextLevel);
             nextMap = null;
+            nextLevel = null;
+
             properties = mapManager.getCurrentTiledMap().getProperties();
             levelW = properties.get("width", Integer.class);
             levelH = properties.get("height", Integer.class);
@@ -351,7 +356,7 @@ public class Play extends BaseScreen {
     @Override
     public void dispose() {
 
-        TextureManager.disposeAll();
+        //TextureManager.disposeAll();
         //handler.dispose();
         mapManager.dispose();
     }

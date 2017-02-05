@@ -43,8 +43,8 @@ public class CutsceneScreen extends Play {
     private Action intro;
 
     public CutsceneScreen(SpriteBatch spriteBatch) {
-        super(spriteBatch);
-        super.gameState = GameState.PAUSED;
+        super(spriteBatch, MapFactory.MapType.CHAPTER5);
+
 
         viewport = mapManager.getCurrentViewport();
         stage = new Stage(viewport);
@@ -97,7 +97,8 @@ public class CutsceneScreen extends Play {
             @Override
             public void run() {
 
-                mapManager.loadMap(MapFactory.MapType.CHAPTER5);
+                mapManager.loadMap(MapFactory.MapType.CHAPTER5, 0);
+
                 mapManager.disableCurrentMapMusic();
 
 

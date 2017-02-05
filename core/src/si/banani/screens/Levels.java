@@ -19,6 +19,7 @@ import aurelienribon.tweenengine.Tween;
 import aurelienribon.tweenengine.TweenManager;
 import box2dLight.RayHandler;
 import si.banani.learning.LearningGdx;
+import si.banani.maps.MapFactory;
 import si.banani.tween.ActorAccessor;
 
 /**
@@ -69,11 +70,8 @@ public class Levels extends BaseScreen {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.PLAY);
-                if(s != null)
-                    ScreenManager.getInstance().set(s);
-                else
-                    ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.PLAY, batch);
+
+                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER5);
 
 
             }

@@ -37,7 +37,6 @@ public abstract class Map implements AudioSubject{
     protected Json _json;
 
     protected TiledMap _currentMap = null;
-    protected Vector2 _playerStart;
 
     protected World world;
     protected WorldCreator worldCreator;
@@ -53,11 +52,13 @@ public abstract class Map implements AudioSubject{
     protected Viewport viewport;
     private String mapPath;
     protected SpriteBatch batch = LearningGdx.getSpriteBatch();
+    protected boolean chapterFinished;
+    protected int level;
 
     public Map(MapFactory.MapType mapType, String mapPath, World world){
         _observers = new Array<AudioObserver>();
         this.mapType = mapType;
-        _playerStart = new Vector2(0,0);
+
         this.world = world;
         this.mapPath = mapPath;
 
@@ -69,7 +70,7 @@ public abstract class Map implements AudioSubject{
             _currentMap = Utility.getMapAsset(mapPath);
         }
 
-        _checkPointLayer = _currentMap.getLayers().get(CHECKPOINT_LAYER);
+
 
         addObserver(AudioManager.getInstance());
     }
@@ -116,4 +117,9 @@ public abstract class Map implements AudioSubject{
         Utility.unloadAsset(mapPath);
         MapFactory.remove(mapType);
     }
+    public boolean isChapterFinished(){ return chapterFinished; }
+    public int getLevel(){
+        return level;
+    }
+
 }

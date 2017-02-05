@@ -264,6 +264,8 @@ public void setCanClimb(boolean can){ canClimb = can;}
     public void setTransform(float x, float y, float z){
         this.body.setTransform(x,y, z);
         this.circleBody.setTransform(x,y,z);
+        lastCheckpointX = x;
+        lastCheckpointY = y;
     }
     public void setReset(boolean b){
         reset = b;

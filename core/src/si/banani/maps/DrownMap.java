@@ -27,14 +27,14 @@ import si.banani.world.WorldCreator;
 
 public class DrownMap extends Map {
 
-    private static String _mapPath = "maps/ch5/ch5_lvl1.tmx";
+    private static String _mapPath [] = {"maps/ch5/ch5_lvl1.tmx", "maps/ch5/ch5_lvl2.tmx"};
     private static int bg[] = {0};
     private static int fg[] = {1};
     private static int paths[] = {11};
 
-    public DrownMap(World world){
-        super(MapFactory.MapType.CHAPTER5, _mapPath, world);
-
+    public DrownMap(World world, int level){
+        super(MapFactory.MapType.CHAPTER5, _mapPath[level], world);
+        super.level = level;
         overlaper = new WorldCollideListener(world);
 
 
@@ -147,6 +147,8 @@ public class DrownMap extends Map {
         //s.render(batch, delta);
 
         batch.end();
+
+        Scene.renderWater(batch,dt, camera);
 
 
         //maps foreground or main layer

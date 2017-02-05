@@ -9,8 +9,6 @@ import com.badlogic.gdx.utils.JsonWriter;
 
 public class SaveGameDescriptor {
 
-    private String mapType;
-    private Integer numFinishedChapter;
     private float lastX, lastY;
     private float lastGhostEnergy;
     private int playerHealth;
@@ -19,21 +17,6 @@ public class SaveGameDescriptor {
 
     }
 
-    public String getMapType() {
-        return mapType;
-    }
-
-    public void setMapType(String mapType) {
-        this.mapType = mapType;
-    }
-
-    public Integer getNumFinishedChapter() {
-        return numFinishedChapter;
-    }
-
-    public void setNumFinishedChapter(Integer numFinishedChapter) {
-        this.numFinishedChapter = numFinishedChapter;
-    }
 
     public float getLastX() {
         return lastX;

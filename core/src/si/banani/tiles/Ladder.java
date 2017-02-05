@@ -49,7 +49,7 @@ public class Ladder extends InteractiveTile {
     }
     @Override
     public void render(SpriteBatch batch, float dt) {
-        batch.draw(textureRegion, x  - dir * width /2/ LearningGdx.PPM + xOffset/LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width*1.2f / LearningGdx.PPM, height*1.2f / LearningGdx.PPM);
+        batch.draw(textureRegion, x  - dir * width /2/ LearningGdx.PPM + xOffset/LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
     }
 
     @Override

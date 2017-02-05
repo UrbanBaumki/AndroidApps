@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.ArrayList;
+
 import si.banani.learning.LearningGdx;
 
 /**
@@ -13,6 +15,8 @@ import si.banani.learning.LearningGdx;
 public class EnemyManager {
     private static Array<BasicPlayer> enemies = new Array<BasicPlayer>();
     private static Array<BasicPlayer> inactiveEnemies = new Array<BasicPlayer>();
+
+    public static ArrayList<BasicPlayer> removables = new ArrayList<BasicPlayer>();
 
     private float activateOffset = 200 / LearningGdx.PPM;
 
@@ -49,8 +53,23 @@ public class EnemyManager {
         activateEnemy(playerX);
 
         for(BasicPlayer enemy : enemies){
-            enemy.update(dt);
+            BasicPlayer pleaseRemove = null;
+            if(enemy instanceof ZombieEnemy)
+            {
+                ZombieEnemy z = (ZombieEnemy) enemy;
+                enemy.update(dt);
+                if(z.isDestroy()){
+                    z.setDestroyed(true);
+                    pleaseRemove = enemy;
+                }
+
+            }
+            removables.add(pleaseRemove);
         }
+        for(BasicPlayer o : removables){
+            enemies.removeValue(o, true);
+        }
+        removables.clear();
     }
     public void renderEnemies(SpriteBatch batch, float dt){
         for(BasicPlayer enemy: enemies){

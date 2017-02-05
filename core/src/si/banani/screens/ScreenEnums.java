@@ -3,6 +3,9 @@ package si.banani.screens;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.sun.prism.PhongMaterial;
+
+import si.banani.maps.MapFactory;
 
 /**
  * Created by Urban on 25.10.2016.
@@ -46,7 +49,7 @@ public enum ScreenEnums {
         public Screen getScreen(Object... params){
             if(params == null)
                 return null;
-            return new Play((SpriteBatch) params[0]);
+            return new Play((SpriteBatch) params[0], (MapFactory.MapType) params[1]);
         }
     },
     CUTSCENE{

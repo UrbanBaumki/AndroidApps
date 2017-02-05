@@ -76,12 +76,7 @@ public class MainMenu extends BaseScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 resetBgColor();
 
-                Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.LEVELS);
-
-                if(s != null)
-                    ScreenManager.getInstance().set(s);
-                else
-                    ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.LEVELS, batch);
+                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.LEVELS, batch);
             }
         });
 
@@ -98,12 +93,7 @@ public class MainMenu extends BaseScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 resetBgColor();
 
-                Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.SETTINGS);
-
-                if(s != null)
-                    ScreenManager.getInstance().set(s);
-                else
-                    ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.SETTINGS, batch);
+                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.SETTINGS, batch);
             }
         });
 

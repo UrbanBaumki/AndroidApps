@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 
 import si.banani.animation.Animation;
@@ -72,6 +75,15 @@ public class FemalePlayer extends BasicPlayer {
 
         floatAnimation = new Animation(sprites, frameSpeed);
         jumpSpeed = 1.6f;
+
+        //defining another sensor for killing
+        FixtureDef circle = new FixtureDef();
+        CircleShape circleShape = new CircleShape();
+        circleShape.setRadius(50f/LearningGdx.PPM);
+        circle.shape = circleShape;
+        circle.isSensor = true;
+        body.createFixture(circle).setUserData("killSensor");
+
 
     }
     @Override

@@ -166,11 +166,7 @@ public class InputController {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if(keycode == Input.Keys.BACK) {
-                    Screen s = ScreenManager.getInstance().doesExist(ScreenEnums.MAIN_MENU);
-                    if (s != null)
-                        ScreenManager.getInstance().set(s);
-                    else
-                        ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.MAIN_MENU, batch);
+                    ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.MAIN_MENU, batch);
                 }
                 return false;
             }

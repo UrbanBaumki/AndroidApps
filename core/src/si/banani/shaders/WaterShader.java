@@ -15,7 +15,7 @@ import si.banani.learning.LearningGdx;
 
 public class WaterShader extends Shader implements ShaderInterface {
 
-    private Texture water, perlin;
+    private Texture perlin;
     private float time;
     public WaterShader(){
 
@@ -26,7 +26,7 @@ public class WaterShader extends Shader implements ShaderInterface {
 
         shaderProgram = new ShaderProgram(Gdx.files.internal(VERTEX_SHADER_PATH) ,Gdx.files.internal(FRAGMENT_SHADER_PATH));
 
-        water = new Texture(Gdx.files.internal("water.png"));
+
         perlin = new Texture(Gdx.files.internal("perlin.jpg"));
 
         time = 0;
@@ -55,11 +55,12 @@ public class WaterShader extends Shader implements ShaderInterface {
         perlin.bind(1);
 
         batch.setShader(shaderProgram);
-        batch.begin();
-        water.bind(0);
+
+        //batch.begin();
+        //water.bind(0);
         //Gdx.gl20.glActiveTexture(GL20.GL_TEXTURE0);
-        batch.draw(water, 200/ LearningGdx.PPM, 80/LearningGdx.PPM, water.getWidth()/LearningGdx.PPM, water.getHeight()/LearningGdx.PPM);
-        batch.end();
+        //batch.draw(water, 200/ LearningGdx.PPM, 80/LearningGdx.PPM, water.getWidth()/LearningGdx.PPM, water.getHeight()/LearningGdx.PPM);
+       // batch.end();
 
     }
 
@@ -71,7 +72,6 @@ public class WaterShader extends Shader implements ShaderInterface {
     @Override
     public void dispose() {
         shaderProgram.dispose();
-        water.dispose();
         perlin.dispose();
     }
 }

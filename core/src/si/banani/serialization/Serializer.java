@@ -14,6 +14,8 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import si.banani.maps.MapFactory;
+
 /**
  * Created by Urban on 11.1.2017.
  */
@@ -28,6 +30,10 @@ public class Serializer extends ProfileSubject{
     private static String filePath = "bin/";
     private static String suffix = ".sav";
     private static Json json;
+    private static ProgressDescriptor currentProgress;
+
+    private static ChapterDescriptor chapterDescriptor;
+    private static MapFactory.MapType mapTypeToLoad;
 
     public Serializer(){
 
@@ -45,6 +51,16 @@ public class Serializer extends ProfileSubject{
         return serializer;
     }
 
+    public static MapFactory.MapType getMapTypeToLoad() {
+        return mapTypeToLoad;
+    }
+
+    public static void setMapTypeToLoad(MapFactory.MapType mapTypeToLoad) {
+        Serializer.mapTypeToLoad = mapTypeToLoad;
+    }
+    public static void addChapter(String mapType, Chapter chapter){
+        chapterDescriptor.addChapter(mapType, chapter);
+    }
     public  void readAndStoreFiles(){
 
         if(Gdx.files.isLocalStorageAvailable()){
@@ -113,17 +129,41 @@ public class Serializer extends ProfileSubject{
         return serializedObject;
     }
     public void setCurrentSave(SaveGameDescriptor save){ currentSave = save;}
-    public void loadSaveGame(){
+    public void loadSaveGameAndProgress(){
         SaveGameDescriptor saveGame = loadDescriptor(SaveGameDescriptor.class, "save");
+        ProgressDescriptor progressDescriptor = loadDescriptor(ProgressDescriptor.class, "progress");
+        ChapterDescriptor chapterDescriptor = loadDescriptor(ChapterDescriptor.class, "chapterProgress");
 
+        if(chapterDescriptor == null)
+            chapterDescriptor = new ChapterDescriptor();
+
+        setChapterDescriptor(chapterDescriptor);
         setCurrentSave(saveGame);
+        setCurrentProgress(progressDescriptor);
+
         notify(this, ProfileObserver.ProfileEvent.PROFILE_LOADED);
     }
+
     public void saveGame(){
         notify(this, ProfileObserver.ProfileEvent.SAVING_PROFILE);
         saveObject("save", currentSave, true);
-
+        saveObject("progress", currentProgress, true);
+        saveObject("chapterProgress", chapterDescriptor, true);
     }
+    public void setCurrentProgress(ProgressDescriptor prog){
+        currentProgress = prog;
+    }
+    public void setChapterDescriptor(ChapterDescriptor chapterDescripto){
+        chapterDescriptor = chapterDescripto;
+    }
+    public ChapterDescriptor getChapterDescriptor(){
+        return chapterDescriptor;
+    }
+    public Chapter getChapter(String mapType){
+        return chapterDescriptor.getChapter(mapType);
+    }
+
+    public ProgressDescriptor getCurrentProgress(){ return currentProgress;}
     public SaveGameDescriptor getCurrentSave(){
         return currentSave;
     }

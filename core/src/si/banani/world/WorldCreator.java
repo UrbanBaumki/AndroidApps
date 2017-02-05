@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.Array;
 import si.banani.entities.EnemyManager;
 import si.banani.entities.EntityFactory;
 import si.banani.learning.LearningGdx;
+import si.banani.maps.MapFactory;
 import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
@@ -80,7 +81,7 @@ public class WorldCreator {
                     new Spikes(world, rect);
                     break;
                 case BOX:
-                    Scene.addObjectToScene( new Box(world, rect, TextureManager.getRegionByName("box").split(32, 32)[0], 0) );
+                    Scene.addObjectToScene( new Box(world, rect, TextureManager.getRegionByName("box").split(32, 32)[0], 0, 7f) );
                     break;
                 case FLOOR:
                     bdef.type = BodyDef.BodyType.StaticBody;
@@ -136,6 +137,7 @@ public class WorldCreator {
                     //Scene.addObjectToScene(new Ladder(world, rect, TextureManager.getRegionByName("ladder").split(33, 64)[0]));
                     Scene.addObjectToScene(new Ladder(world, rect, new TextureRegion(TextureManager.getTexture("ladder.png"))));
                     break;
+
                 case DIALOG:
                     String ss =  object.getProperties().get("Chapter", String.class);
                     new DialogPoint(world, rect, ss);
@@ -148,15 +150,16 @@ public class WorldCreator {
                 case START:
                     float x = rect.getX();
                     float y = rect.getY();
-                    //EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setTransform(x/LearningGdx.PPM, y/LearningGdx.PPM, 0);
+                    EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setTransform(x/LearningGdx.PPM, y/LearningGdx.PPM, 0);
                     EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).setStart(x/LearningGdx.PPM, y/LearningGdx.PPM);
-                    //EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setTransform(x/LearningGdx.PPM - 0.2f, y/LearningGdx.PPM, 0);
+                    EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setTransform(x/LearningGdx.PPM - 0.2f, y/LearningGdx.PPM, 0);
                     EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).setStart(x/LearningGdx.PPM - 0.2f, y/LearningGdx.PPM);
 
                     break;
                 case END:
-
-                    new EndPoint(world, rect);
+                    String chap = (String)object.getProperties().get("Chapter");
+                    Integer lev = Integer.valueOf((String) object.getProperties().get("Level"));
+                    new EndPoint(world, rect, MapFactory.MapType.valueOf(chap), lev);
 
                     break;
                 case CHECKPOINT:
@@ -168,7 +171,7 @@ public class WorldCreator {
                     EnemyManager.getInstance().addEnemy(EntityFactory.createEnemy(enemyType, rect, world));
                     break;
                 case WATER:
-                    new Water(world, rect);
+                    Scene.addObjectToScene(new Water(world, rect));
                     break;
             }
 

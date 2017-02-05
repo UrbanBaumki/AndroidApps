@@ -1,5 +1,6 @@
 package si.banani.scene;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -12,6 +13,7 @@ import si.banani.tiles.Potion;
 import si.banani.tiles.Prop;
 import si.banani.tiles.Swings;
 import si.banani.tiles.Switch;
+import si.banani.water.Water;
 
 /**
  * Created by Urban on 9.12.2016.
@@ -102,6 +104,15 @@ public class Scene {
                 s.render(batch,dt);
             }
 
+        }
+    }
+    public static void renderWater(SpriteBatch batch, float dt, OrthographicCamera camera){
+        for(Object o: sceneObjects){
+            if(o instanceof Water){
+                Water w = (Water)o;
+                w.setCamera(camera);
+                w.render(batch, dt);
+            }
         }
     }
     public static void clearCachedObjects(){

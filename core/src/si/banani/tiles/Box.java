@@ -25,7 +25,7 @@ public class Box extends InteractiveTile {
     private int width, height;
     private float yOffset;
 
-    public Box(World world, Rectangle rectangle, TextureRegion[] sprites, float frameSpeed) {
+    public Box(World world, Rectangle rectangle, TextureRegion[] sprites, float frameSpeed, float density) {
         super(world, rectangle);
         fixture.setUserData(this);
 
@@ -37,7 +37,7 @@ public class Box extends InteractiveTile {
 
         body.setType(BodyDef.BodyType.DynamicBody);
         fixture.setRestitution(0f);
-        fixture.setDensity(7f);
+        fixture.setDensity(density);
 //        fixture.setFriction(0.3f);
         body.resetMassData();
 

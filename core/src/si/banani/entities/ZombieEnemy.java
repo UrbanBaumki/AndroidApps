@@ -24,7 +24,8 @@ public class ZombieEnemy extends BasicPlayer {
     private Animation walk;
     private float yOffset = 5f;
     private float damage = 10f;
-
+    private boolean destroy, destroyed;
+    private boolean dead;
     public ZombieEnemy(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed) {
         super(world, x, y, width, height, bodyType);
 
@@ -54,7 +55,8 @@ public class ZombieEnemy extends BasicPlayer {
         f.maskBits = CollisionBits.SPIKES_BIT |
                 CollisionBits.DEFAULT_BIT |
                 CollisionBits.GHOST_PATH_BIT |
-                CollisionBits.PLAYER_BIT;
+                CollisionBits.PLAYER_BIT |
+                CollisionBits.DOORS_BIT| CollisionBits.SENSOR_BIT;
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
 
@@ -120,6 +122,10 @@ public class ZombieEnemy extends BasicPlayer {
 
     @Override
     public void update(float dt) {
+
+        if(destroy && !destroyed)
+            world.destroyBody(body);
+
         this.x = this.body.getPosition().x;
         this.y = this.body.getPosition().y;
 
@@ -136,13 +142,16 @@ public class ZombieEnemy extends BasicPlayer {
 
         }
 
+
+
     }
 
 
 
     @Override
     public void render(SpriteBatch sb, float dt) {
-        sb.draw(getCurrentFrame(dt), x  - dir * width /2/ LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
+        if(!destroyed)
+            sb.draw(getCurrentFrame(dt), x  - dir * width /2/ LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
     }
 
     private TextureRegion getCurrentFrame(float dt){
@@ -150,6 +159,7 @@ public class ZombieEnemy extends BasicPlayer {
         this.currentState = getState();
 
         switch (currentState){
+            case DEAD:
             case SLEEPING:
                 //Gdx.app.log("Spim", "");
                 currFrame = this.walk.getFirstFrame();
@@ -184,6 +194,8 @@ public class ZombieEnemy extends BasicPlayer {
 
                 state = PlayerState.FOLLOWING;
         }
+        if(destroy)
+            state = PlayerState.DEAD;
         return state;
     }
 
@@ -192,6 +204,9 @@ public class ZombieEnemy extends BasicPlayer {
 
     }
 
+    public void kill(){
+        this.destroy = true;
+    }
     public void setTarget(Player t){
         this.target = t;
     }
@@ -200,5 +215,21 @@ public class ZombieEnemy extends BasicPlayer {
         body.setLinearVelocity(0, getYvelocity());
 
         dir = -dir;
+    }
+
+    public boolean isDestroy() {
+        return destroy;
+    }
+
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
     }
 }

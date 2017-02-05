@@ -27,7 +27,7 @@ public class MapFactory {
         CHAPTER5
     }
 
-    public static Map getMap(MapType mapType){
+    public static Map getMap(MapType mapType, int level){
         Map map = null;
 
         switch (mapType){
@@ -49,7 +49,7 @@ public class MapFactory {
             case CHAPTER5:
                 map = _maps.get(MapType.CHAPTER5);
                 if(map == null){
-                    map = new DrownMap(world);
+                    map = new DrownMap(world, level);
                     _maps.put(MapType.CHAPTER5, map);
                 }
                 break;

@@ -2,6 +2,7 @@ package si.banani.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.GeometryUtils;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -29,6 +30,7 @@ import si.banani.entities.Player;
 import si.banani.entities.RockEnemy;
 import si.banani.entities.SpiderEnemy;
 import si.banani.entities.ZombieEnemy;
+import si.banani.maps.Map;
 import si.banani.maps.MapFactory;
 import si.banani.screens.Play;
 import si.banani.tiles.Box;
@@ -72,9 +74,20 @@ public class WorldContactListener implements ContactListener {
 
             WaterHandler.getInstance().addFixturePair(b, a);
 
-        }else if(a.getUserData() instanceof Player && b.getUserData() instanceof EndPoint){
-            Play.nextMap = MapFactory.MapType.CHAPTER3;
+        }else if(a.getUserData() instanceof String && a.getUserData().equals("killSensor") && b.getUserData() instanceof ZombieEnemy){
+            FemalePlayer female = (FemalePlayer)a.getBody().getFixtureList().get(0).getUserData();
+            ZombieEnemy zombie = (ZombieEnemy) b.getUserData();
+            //check wether zombie is too close and kill him
+            if(Math.abs(female.getPosition().x - zombie.getPosition().x) <= 0.5f && Math.abs(female.getPosition().y - zombie.getPosition().y) <= 0.5f){
+                Gdx.app.log("Kill", "zombie");
+                zombie.kill();
+            }
 
+        }
+        else if(a.getUserData() instanceof Player && b.getUserData() instanceof EndPoint){
+            EndPoint end = (EndPoint) b.getUserData();
+            Play.nextMap = end.getChapter();
+            Play.nextLevel = end.getLevel();
         }else if(a.getUserData() instanceof Player && (b.getUserData() instanceof RockEnemy && b.isSensor() || b.getUserData() instanceof ZombieEnemy && b.isSensor())){
          //"VIDNI" SENZOR ZA ROCK ENEMY in PLAYER KONTAKT
             ((BasicPlayer)b.getUserData()).setTarget((Player)a.getUserData());

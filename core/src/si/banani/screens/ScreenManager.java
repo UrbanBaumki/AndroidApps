@@ -4,10 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.Stack;
 
-import si.banani.learning.LearningGdx;
-import si.banani.si.banani.screens.fades.Tweener;
 
 /**
  * Created by Urban on 25.10.2016.
@@ -18,6 +19,8 @@ public class ScreenManager {
     private static ScreenManager scmInstance;
     private Game game;
     private static Stack<Screen> screens;
+    private static Hashtable<ScreenEnums, Screen> _screens;
+    private static Screen currentScreen, previousScreen;
 
     private ScreenManager(){
         super();
@@ -31,6 +34,7 @@ public class ScreenManager {
         if(scmInstance == null) {
             scmInstance = new ScreenManager();
             screens = new Stack<Screen>();
+            _screens = new Hashtable<ScreenEnums, Screen>();
         }
         return scmInstance;
     }
@@ -52,66 +56,69 @@ public class ScreenManager {
     public Screen peek(){
         return screens.peek();
     }
-    public void resumePreviousAndPause(){
-        Screen curr = screens.pop();
-        Screen prev = screens.pop();
 
-        game.setScreen(prev);
-        push(curr);
-        push(prev);
+    public void resumePreviousAndPause(){
+        if(previousScreen == null)
+            return;
+        Screen prev = previousScreen;
+        Screen curr = currentScreen;
+        Screen tmp = curr;
+
+        curr = prev;
+        prev = tmp;
+
+        tmp = null;
+
+        previousScreen = prev;
+        currentScreen = curr;
+
+        game.setScreen(curr);
+
 
     }
     public void set(Screen screen){
         if(screen == null)
             return;
 
+        if(currentScreen != null)
+            previousScreen = currentScreen;
+        currentScreen = screen;
         game.setScreen(screen);
-        push(screen);
+
     }
     public void disposeAll(){
-        for(Screen s : screens)
-            s.dispose();
-        for(int i = 0; i < screens.size(); i++)
-            screens.pop();
+        Set<ScreenEnums> set = _screens.keySet();
+        Iterator<ScreenEnums> it = set.iterator();
+
+        while (it.hasNext()){
+            ScreenEnums screenEnums = it.next();
+            _screens.get(screenEnums).dispose();
+        }
+        _screens.clear();
     }
     public void quitApplication(){
         disposeAll();
         Gdx.app.exit();
     }
-
-    public Screen doesExist(ScreenEnums enums){
-        Screen scr = null;
-        for( Screen s : screens){
-
-            if(enums == ScreenEnums.LEVELS && s instanceof Levels)
-            {
-                return s;
-            }
-            if(enums == ScreenEnums.SETTINGS && s instanceof Settings)
-            {
-                return s;
-            }
-            if(enums == ScreenEnums.MAIN_MENU && s instanceof MainMenu)
-            {
-                return s;
-            }
-            if(enums == ScreenEnums.PLAY && s instanceof Play)
-            {
-                return s;
-            }
-
-        }
-        return scr;
+    public Screen getScreen(ScreenEnums screenEnums){
+        return _screens.get(screenEnums);
     }
+
     public void changeScreensAndPause(ScreenEnums screenenums, Object... params){
-        Screen curr = game.getScreen();
-        if(curr != null)
-            push(curr);
+        Screen screenToChange = getScreen(screenenums);
 
-        Screen newScreen = screenenums.getScreen(params);
-        game.setScreen(newScreen);
-        push(newScreen);
+        if(screenToChange == null)
+        {
+            screenToChange = screenenums.getScreen(params);
+            _screens.put(screenenums, screenToChange);
+        }
 
+        if(currentScreen != null)
+            previousScreen = currentScreen;
+
+        currentScreen = screenToChange;
+
+        game.setScreen(currentScreen);
 
     }
     public void changeScreensAndDispose(ScreenEnums screenenums, Object... params){
@@ -120,12 +127,17 @@ public class ScreenManager {
         if(curr != null)
             curr.dispose();
 
-        Screen newScreen = screenenums.getScreen(params);
+        Screen newScreen = getScreen(screenenums);
+
+        if(newScreen == null){
+            newScreen = screenenums.getScreen(params);
+            _screens.put(screenenums, newScreen);
+        }
+
+        previousScreen = null;
+        currentScreen = newScreen;
+
         game.setScreen(newScreen);
-
-        screens.pop();
-        push(newScreen);
-
 
     }
 }

@@ -1,6 +1,7 @@
 package si.banani.water;
 
 import com.badlogic.gdx.math.GeometryUtils;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
@@ -9,6 +10,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Set;
 
+import si.banani.entities.BasicPlayer;
 import si.banani.entities.Player;
 
 /**
@@ -64,7 +66,8 @@ public class WaterHandler {
                 Vector2 bouyancyF = grav.cpy().scl(displacedMass);
                 objectFixture.getBody().applyForce(bouyancyF, centroid, true);
 
-                if(!(objectFixture.getUserData() instanceof Player)) {
+
+
                     //applying the drag force
                     Vector2 velocityDirection = objectFixture.getBody().getLinearVelocityFromWorldPoint(centroid);
                     Vector2 normalizedVelocity = velocityDirection.cpy().nor();
@@ -73,12 +76,17 @@ public class WaterHandler {
                     float dragMagnitudeY = density * normalizedVelocity.y * normalizedVelocity.y;
 
                     Vector2 dragForce = new Vector2(velocityDirection.cpy().scl(-1, -1).scl(dragMagnitudeX, dragMagnitudeY));
-                    objectFixture.getBody().applyForce(dragForce, centroid, true);
+                    if((objectFixture.getUserData() instanceof BasicPlayer))
+                        objectFixture.getBody().applyForce(dragForce.scl(0.15f), centroid, true);
+                    else
+                        objectFixture.getBody().applyForce(dragForce, centroid, true);
 
                     //angular drag
                     float angularDrag = area * -objectFixture.getBody().getAngularVelocity() / 2;
                     objectFixture.getBody().applyTorque(angularDrag, true);
-                }
+
+
+
 
             }
         }
