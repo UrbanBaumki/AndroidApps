@@ -157,10 +157,13 @@ public class Hud {
 
 
     }
+    public void updateLives(){
+        for(int i = numLives; i > 0; i--)
+            topTable.getCells().get(4+i).clearActor().setActor(fullHearts.get(i-1));
+    }
     public DialogUI get_dialogUI(){ return _dialogUI; }
     public void showGameOver(){
-        topTable.clear();
-        topTable.add(new Label("GAME OVER!", new Label.LabelStyle(new BitmapFont(), Color.BLACK))).expandX();
+        pauseUI.showGameOver();
 
     }
     public void setEnergyLevel(float level) {

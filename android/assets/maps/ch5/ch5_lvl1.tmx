@@ -125,7 +125,7 @@
   <object id="53" x="2376.37" y="1212.83" width="59.375" height="53.125"/>
  </objectgroup>
  <objectgroup name="Enemies">
-  <object id="49" x="824" y="1260.5" width="30.5" height="23">
+  <object id="49" x="2236.12" y="1205.95" width="30.5" height="23">
    <properties>
     <property name="Type" value="ZOMBIE"/>
    </properties>

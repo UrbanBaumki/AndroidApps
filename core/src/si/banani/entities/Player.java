@@ -72,7 +72,7 @@ public class Player extends BasicPlayer implements AudioSubject {
                 CollisionBits.SENSOR_BIT | CollisionBits.BOX_BIT;
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
-        //((body.getFixtureList()).get(1)).setFilterData(f);
+        ((body.getFixtureList()).get(1)).setFilterData(f);
         ((body.getFixtureList()).get(0)).setDensity(8f);
         ((body.getFixtureList()).get(0)).setFriction(1f);
         ((circleBody.getFixtureList()).get(0)).setFilterData(f);
@@ -112,9 +112,11 @@ public class Player extends BasicPlayer implements AudioSubject {
     }
 
     public void addHealth(int h){
-        health += h;
-        if (health > maxHealth)
-            health = maxHealth;
+        maxHealth += h;
+        if (maxHealth > 3)
+            maxHealth = 3;
+
+        setMaxHealth(maxHealth);
     }
 
     public void setCheckpoint(CheckPoint checkpoint){
@@ -183,19 +185,19 @@ public class Player extends BasicPlayer implements AudioSubject {
 
     public void resetPlayer(){
         hud.decreaseLives();
+        maxHealth--;
         hud.update();
         dir = 1;
-        setXYvelocity(0,0) ;
-        setTransform(lastCheckpointX, lastCheckpointY, 0);
-        //camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM,0);
-
-
         if(hud.getNumLives() == 0){
 
             Play.gameState = Play.GameState.GAME_OVER;
 
-            hud.showGameOver();
+        }else{
+            setXYvelocity(0,0) ;
+            setTransform(lastCheckpointX, lastCheckpointY, 0);
         }
+
+
     }
 
 
@@ -217,7 +219,7 @@ public class Player extends BasicPlayer implements AudioSubject {
         setTransform(startX, startY, 0);
         maxHealth = 3;
         hud.setNumLives(maxHealth);
-        hud.update();
+        hud.updateLives();
         dir = 1;
 
     }
@@ -280,4 +282,10 @@ public class Player extends BasicPlayer implements AudioSubject {
     }
 
     public int getHealth(){ return  health;}
+    public void setMaxHealth(int h){
+        maxHealth = h;
+        hud.setNumLives(maxHealth);
+        hud.updateLives();
+        hud.update();
+    }
 }

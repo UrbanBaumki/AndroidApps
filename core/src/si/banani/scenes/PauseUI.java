@@ -36,10 +36,11 @@ public class PauseUI extends Window {
         setMovable(false);
         getTitleLabel().setFontScale(0.7f);
         getTitleLabel().setAlignment(Align.center);
+        getTitleLabel().setWrap(true);
 
 
         resume = new Label("Resume", Utility.DIALOGUI_SKIN);
-        reset = new Label("Reset", Utility.DIALOGUI_SKIN);
+        reset = new Label("Restart", Utility.DIALOGUI_SKIN);
         toMainMenu = new Label("Main Menu", Utility.DIALOGUI_SKIN);
 
         resume.setFontScale(0.65f);
@@ -116,7 +117,15 @@ public class PauseUI extends Window {
     }
 
     public void showMe(){
+        getTitleLabel().setText("|PAUSE|");
+        resume.setVisible(true);
         Gdx.input.setInputProcessor(this.getStage());
+        setVisible(true);
+    }
+    public void showGameOver(){
+        getTitleLabel().setText("DIED..");
+        Gdx.input.setInputProcessor(this.getStage());
+        resume.setVisible(false);
         setVisible(true);
     }
 

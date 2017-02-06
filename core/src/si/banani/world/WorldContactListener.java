@@ -113,14 +113,20 @@ public class WorldContactListener implements ContactListener {
         }else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof Potion){ //female in energy potion
             Potion p = (Potion) b.getUserData();
             if(p.getPotionType() == Potion.PotionType.ENERGY)
+            {
                 p.pickup();
-            ((FemalePlayer) a.getUserData()).addEnergy(p.getValue());
+                ((FemalePlayer) a.getUserData()).addEnergy(p.getValue());
+            }
+
 
         }else if(a.getUserData() instanceof Player && b.getUserData() instanceof Potion){
             Potion p = (Potion) b.getUserData();
             if(p.getPotionType() == Potion.PotionType.HEALTH)
+            {
                 p.pickup();
-            ((Player) a.getUserData()).addHealth(p.getValue());
+                ((Player) a.getUserData()).addHealth(1);
+            }
+
 
         } else if(a.getUserData() instanceof Player && b.getUserData() instanceof DialogPoint){
             DialogPoint p = (DialogPoint) b.getUserData();
@@ -143,7 +149,7 @@ public class WorldContactListener implements ContactListener {
                     //the collision sensor
                     ((ZombieEnemy) a.getUserData()).switchDirection();
                 }
-            }else{
+            }else if(!b.isSensor()){
                 BasicPlayer p = (BasicPlayer) a.getUserData();
                 p.increaseFootContacts(1);
             }
@@ -158,7 +164,7 @@ public class WorldContactListener implements ContactListener {
             collideChecker(b, a, false);
     }
     private void decollideChecker(Fixture a, Fixture b, boolean reverse){
-       if(a.getUserData() instanceof BasicPlayer && a.isSensor() ){
+       if(a.getUserData() instanceof BasicPlayer && a.isSensor() && !b.isSensor()){
             BasicPlayer p = (BasicPlayer) a.getUserData();
             p.increaseFootContacts(-1);
 

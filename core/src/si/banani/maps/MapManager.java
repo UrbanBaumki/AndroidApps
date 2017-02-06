@@ -185,9 +185,10 @@ public class MapManager implements ProfileObserver{
                 setMale((Player) EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
                 setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
                 male.setTransform(chap.getLastX(), chap.getLastY(), 0);
+                male.setMaxHealth(chap.getLastPlayerHealth());
                 ghost.setTransform(chap.getLastX() - 0.2f, chap.getLastY(), 0);
                 ghost.setEnergyLevel(chap.getLastGhostEnergy());
-                //missing loading player health
+
                 CameraCoordinates c = new CameraCoordinates(male, ghost, currCamera);
                 hud.setCameraCoordinates(c);
 

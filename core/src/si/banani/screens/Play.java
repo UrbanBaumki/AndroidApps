@@ -69,7 +69,8 @@ public class Play extends BaseScreen {
         SAVING,
         LOADING,
         RESUME,
-        RESET
+        RESET,
+        RESTART
     }
     public static MapFactory.MapType nextMap = null;
     public static Integer nextLevel = null;
@@ -227,7 +228,7 @@ public class Play extends BaseScreen {
 
         //should be removed for finished game
 
-        /*if( Gdx.input.isKeyPressed(Input.Keys.D)){
+        if( Gdx.input.isKeyPressed(Input.Keys.D)){
             PlayerMovementController.getInstance().movePlayerRigth(true);
         }else{
             PlayerMovementController.getInstance().movePlayerRigth(false);
@@ -256,7 +257,7 @@ public class Play extends BaseScreen {
         if( Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             PlayerMovementController.getInstance().switchPlayer();
         }
-        */
+
 
     }
     public void update(float delta){
@@ -304,12 +305,17 @@ public class Play extends BaseScreen {
     public void render(float delta) {
 
         if(gameState == GameState.GAME_OVER){
-            //konec igre
+
+            hud.showGameOver();
+            hud.render(delta);
         }
         if(gameState == GameState.RESET){
-            mapManager.getMale().resetLevel();
+            //reset the whole map
+            MapFactory.MapType typ = mapManager.getCurrentMapType();
+            int lvl = mapManager.getCurrentLevel();
+            mapManager.loadMap(typ, lvl);
+            mapManager.getMale().setMaxHealth(3);
             mapManager.getGhost().setEnergyLevel(100);
-            mapManager.getGhost().setTransform(mapManager.getMale().getPosition().x - 0.2f, mapManager.getMale().getPosition().y, 0);
             gameState = GameState.RESUME;
         }
 
@@ -398,7 +404,8 @@ public class Play extends BaseScreen {
 
     @Override
     public void pause() {
-        Serializer.getInstance().saveGame();
+        if(gameState != GameState.GAME_OVER)
+            Serializer.getInstance().saveGame();
     }
 
     @Override
@@ -408,7 +415,9 @@ public class Play extends BaseScreen {
 
     @Override
     public void hide() {
-        Serializer.getInstance().saveGame();
+
+        if(gameState != GameState.GAME_OVER)
+            Serializer.getInstance().saveGame();
     }
 
 
