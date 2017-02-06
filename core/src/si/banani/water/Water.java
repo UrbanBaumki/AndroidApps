@@ -34,6 +34,8 @@ public class Water extends InteractiveTile {
         fixture.setSensor(true);
         fixture.setDensity(10f);
 
+
+
         region = new TextureRegion(new Texture(Gdx.files.internal("water.png")));
         region.getTexture().setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
         region.setRegion(0,0, (int) rectangle.getWidth(), (int)rectangle.getHeight());

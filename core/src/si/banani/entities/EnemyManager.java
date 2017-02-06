@@ -63,6 +63,15 @@ public class EnemyManager {
                     pleaseRemove = enemy;
                 }
 
+            }else if(enemy instanceof RockEnemy)
+            {
+                RockEnemy z = (RockEnemy) enemy;
+                enemy.update(dt);
+                if(z.isDestroy()){
+                    z.setDestroyed(true);
+                    pleaseRemove = enemy;
+                }
+
             }
             removables.add(pleaseRemove);
         }

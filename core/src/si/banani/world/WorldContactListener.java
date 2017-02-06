@@ -79,10 +79,12 @@ public class WorldContactListener implements ContactListener {
             ZombieEnemy zombie = (ZombieEnemy) b.getUserData();
             //check wether zombie is too close and kill him
             if(Math.abs(female.getPosition().x - zombie.getPosition().x) <= 0.5f && Math.abs(female.getPosition().y - zombie.getPosition().y) <= 0.5f){
-                Gdx.app.log("Kill", "zombie");
-                zombie.kill();
+
+                zombie.setDead(true);
             }
 
+        }else if(a.getUserData() instanceof Spikes && b.getUserData() instanceof RockEnemy){
+            ((RockEnemy)b.getUserData()).setDead(true);
         }
         else if(a.getUserData() instanceof Player && b.getUserData() instanceof EndPoint){
             EndPoint end = (EndPoint) b.getUserData();
@@ -149,7 +151,7 @@ public class WorldContactListener implements ContactListener {
                     //the collision sensor
                     ((ZombieEnemy) a.getUserData()).switchDirection();
                 }
-            }else if(!b.isSensor()){
+            }else if(b.getUserData() instanceof Water || !b.isSensor()){
                 BasicPlayer p = (BasicPlayer) a.getUserData();
                 p.increaseFootContacts(1);
             }
@@ -164,9 +166,13 @@ public class WorldContactListener implements ContactListener {
             collideChecker(b, a, false);
     }
     private void decollideChecker(Fixture a, Fixture b, boolean reverse){
-       if(a.getUserData() instanceof BasicPlayer && a.isSensor() && !b.isSensor()){
-            BasicPlayer p = (BasicPlayer) a.getUserData();
-            p.increaseFootContacts(-1);
+       if(a.getUserData() instanceof BasicPlayer && a.isSensor()){
+            if(b.getUserData() instanceof Water || !b.isSensor()){
+
+                BasicPlayer p = (BasicPlayer) a.getUserData();
+                p.increaseFootContacts(-1);
+            }
+
 
         }
         if(a.getUserData() instanceof  BasicPlayer && a.isSensor() && b.getUserData() instanceof  Ladder){

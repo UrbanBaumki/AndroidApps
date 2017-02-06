@@ -118,6 +118,8 @@ public class Hud {
         _dialogUI.setVisible(false);
         _dialogUI.setKeepWithinStage(false);
         pauseUI = new PauseUI();
+        pauseUI.setKeepWithinStage(false);
+        pauseUI.setVisible(false);
 
         pauseUI.setPosition(stage.getWidth()/2 - pauseUI.getWidth()/2,stage.getHeight()/2 - pauseUI.getHeight()/2);
         stage.addActor(_dialogUI);
@@ -197,6 +199,7 @@ public class Hud {
     public void resize(int width, int height){
         stage.getViewport().update(width, height);
         _dialogUI.getStage().getViewport().update(width,height);
+        pauseUI.getStage().getViewport().update(width,height);
 
     }
     public void setCameraCoordinates(CameraCoordinates c){

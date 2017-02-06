@@ -1,6 +1,8 @@
 package si.banani.entities;
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -25,8 +27,9 @@ public class RockEnemy extends BasicPlayer {
     private Animation walk;
     private float yOffset = 5f;
     private float damage = 10f;
-
-
+    private boolean dead = false;
+    private TextureRegion deadTexture;
+    private boolean destroy, destroyed;
 
     public RockEnemy(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed) {
         super(world, x, y, width, height, bodyType);
@@ -87,7 +90,7 @@ public class RockEnemy extends BasicPlayer {
         radar.setFilterData(f);
         radar.setUserData(this);
 
-
+        deadTexture = new TextureRegion(new Texture(Gdx.files.internal("textures/props/dead_rock.png")));
 
     }
     public void dealDamageToTarget(){
@@ -96,6 +99,9 @@ public class RockEnemy extends BasicPlayer {
 
     @Override
     public void update(float dt) {
+        if(destroy && !destroyed)
+            world.destroyBody(body);
+
         this.x = this.body.getPosition().x;
         this.y = this.body.getPosition().y;
 
@@ -124,6 +130,9 @@ public class RockEnemy extends BasicPlayer {
         this.currentState = getState();
 
         switch (currentState){
+            case DEAD:
+                currFrame = deadTexture;
+                break;
             case SLEEPING:
                 currFrame = this.walk.getFirstFrame();
                 this.walk.reset();
@@ -142,8 +151,13 @@ public class RockEnemy extends BasicPlayer {
     @Override
     public  PlayerState getState() {
         PlayerState state = PlayerState.SLEEPING;
-
-        if(target != null) {
+        if(dead && timeInCurrentState >= 1.5f){
+            state = PlayerState.DEAD;
+            destroy = true;
+        }else if(dead){
+            state = PlayerState.DEAD;
+        }
+        else if(target != null) {
             if (this.x <= target.getPosition().x)
                 dir = 1;
             else
@@ -165,7 +179,27 @@ public class RockEnemy extends BasicPlayer {
     }
 
 
+    public boolean isDead() {
+        return dead;
+    }
 
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
 
+    public boolean isDestroy() {
+        return destroy;
+    }
 
+    public void setDestroy(boolean destroy) {
+        this.destroy = destroy;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+    }
 }

@@ -99,7 +99,7 @@ public class Levels extends BaseScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
-                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER1);
+                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER5);
 
 
             }

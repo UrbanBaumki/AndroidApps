@@ -307,7 +307,7 @@ public class Play extends BaseScreen {
         if(gameState == GameState.GAME_OVER){
 
             hud.showGameOver();
-            hud.render(delta);
+            //hud.render(delta);
         }
         if(gameState == GameState.RESET){
             //reset the whole map
@@ -326,13 +326,14 @@ public class Play extends BaseScreen {
         }
         if(gameState == GameState.PAUSED){
             hud.showPause();
-            hud.render(delta);
-            return;
+            //hud.render(delta);
+
         }
-        update(delta);
+        if(gameState == GameState.RUNNING)
+            update(delta);
+
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         if(mapManager.hasMapChanged()){
             mapRenderer.setMap(mapManager.getCurrentTiledMap());
             camera = mapManager.getCurrentCamera();

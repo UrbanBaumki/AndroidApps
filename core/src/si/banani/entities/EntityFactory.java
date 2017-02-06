@@ -25,7 +25,6 @@ public class EntityFactory {
         PLAYER,
         FEMALE,
         ROCK,
-        GHOST,
         ZOMBIE,
         SPIDER
     }
@@ -60,6 +59,7 @@ public class EntityFactory {
 
         switch (entityType){
             case ROCK:
+                p = new RockEnemy(world, (int)rect.getX(), (int)rect.getY(), 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f);
                 break;
             case ZOMBIE:
                 p = new ZombieEnemy(world, (int)rect.getX(), (int)rect.getY(), 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f);

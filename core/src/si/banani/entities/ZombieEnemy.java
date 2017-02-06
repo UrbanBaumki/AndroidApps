@@ -150,7 +150,7 @@ public class ZombieEnemy extends BasicPlayer {
 
     @Override
     public void render(SpriteBatch sb, float dt) {
-        if(!destroyed)
+
             sb.draw(getCurrentFrame(dt), x  - dir * width /2/ LearningGdx.PPM, y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , dir * width / LearningGdx.PPM, height / LearningGdx.PPM);
     }
 
@@ -160,6 +160,8 @@ public class ZombieEnemy extends BasicPlayer {
 
         switch (currentState){
             case DEAD:
+                currFrame = this.walk.getFirstFrame();;
+                break;
             case SLEEPING:
                 //Gdx.app.log("Spim", "");
                 currFrame = this.walk.getFirstFrame();
@@ -185,8 +187,13 @@ public class ZombieEnemy extends BasicPlayer {
     @Override
     public  PlayerState getState() {
         PlayerState state = PlayerState.WALKING;
-
-        if(target != null) {
+        if(dead && timeInCurrentState >= 0.8f){
+            state = PlayerState.DEAD;
+            destroy = true;
+        }else if(dead){
+            state = PlayerState.DEAD;
+        }
+        else if(target != null) {
             if (this.x <= target.getPosition().x)
                 dir = 1;
             else
@@ -194,8 +201,7 @@ public class ZombieEnemy extends BasicPlayer {
 
                 state = PlayerState.FOLLOWING;
         }
-        if(destroy)
-            state = PlayerState.DEAD;
+
         return state;
     }
 
@@ -231,5 +237,13 @@ public class ZombieEnemy extends BasicPlayer {
 
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 }

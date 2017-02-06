@@ -23,21 +23,16 @@ import si.banani.sound.Utility;
 public class PauseUI extends Window {
 
     private Label resume, toMainMenu, reset;
-    private String full;
+
 
     public PauseUI() {
         super("|PAUSE|", Utility.DIALOGUI_SKIN);
 
-        full = "";
-
-
-
-
         setMovable(false);
         getTitleLabel().setFontScale(0.7f);
         getTitleLabel().setAlignment(Align.center);
-        getTitleLabel().setWrap(true);
 
+        setKeepWithinStage(false);
 
         resume = new Label("Resume", Utility.DIALOGUI_SKIN);
         reset = new Label("Restart", Utility.DIALOGUI_SKIN);
@@ -94,7 +89,7 @@ public class PauseUI extends Window {
             }
         });
 
-
+        bottom();
         defaults().expand().fill();
         add();
         row();
@@ -117,10 +112,11 @@ public class PauseUI extends Window {
     }
 
     public void showMe(){
+        setVisible(true);
         getTitleLabel().setText("|PAUSE|");
         resume.setVisible(true);
         Gdx.input.setInputProcessor(this.getStage());
-        setVisible(true);
+
     }
     public void showGameOver(){
         getTitleLabel().setText("DIED..");

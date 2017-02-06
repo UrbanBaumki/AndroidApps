@@ -37,7 +37,7 @@ public class Box extends InteractiveTile {
 
         Filter f = new Filter();
         f.categoryBits = CollisionBits.BOX_BIT;
-        f.maskBits = CollisionBits.PLAYER_BIT | CollisionBits.GHOST_BIT | CollisionBits.GHOST_PATH_BIT | CollisionBits.DEFAULT_BIT | CollisionBits.DOORS_BIT | CollisionBits.BOX_BIT;
+        f.maskBits = CollisionBits.PLAYER_BIT | CollisionBits.GHOST_BIT | CollisionBits.GHOST_PATH_BIT | CollisionBits.DEFAULT_BIT | CollisionBits.DOORS_BIT | CollisionBits.BOX_BIT | CollisionBits.WATER_BIT;
 
 
         body.setType(BodyDef.BodyType.DynamicBody);
