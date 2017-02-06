@@ -15,13 +15,15 @@ public class EndPoint extends InteractiveTile {
 
     private MapFactory.MapType chapter;
     private int level;
+    private boolean finished;
 
-    public EndPoint(World world, Rectangle rect, MapFactory.MapType chapter, int level){
+    public EndPoint(World world, Rectangle rect, MapFactory.MapType chapter, int level, boolean finished){
         super(world, rect);
         fixture.setUserData(this);
         fixture.setSensor(true);
         this.chapter = chapter;
         this.level = level;
+        this.finished = finished;
     }
     @Override
     public void render(SpriteBatch batch, float dt) {
@@ -39,5 +41,13 @@ public class EndPoint extends InteractiveTile {
 
     public int getLevel() {
         return level;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

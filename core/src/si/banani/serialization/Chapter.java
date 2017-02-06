@@ -5,8 +5,8 @@ package si.banani.serialization;
  */
 
 public class Chapter {
-    private boolean finished;
-    private int lastLevelPlayed;
+    private Integer isFinished;
+    private Integer lastLevelPlayed;
     private float lastX, lastY;
     private int lastPlayerHealth;
     private float lastGhostEnergy;
@@ -14,12 +14,12 @@ public class Chapter {
 
     }
 
-    public boolean isFinished() {
-        return finished;
+    public int isFinished() {
+        return isFinished;
     }
 
-    public void setFinished(boolean finished) {
-        this.finished = finished;
+    public void setFinished(int finished) {
+        this.isFinished = finished;
     }
 
     public int getLastLevelPlayed() {

@@ -28,7 +28,9 @@ public class WaterHandler {
             handler = new WaterHandler();
         return handler;
     }
-
+    public void clearPairs(){
+        contactingFixtures.clear();
+    }
     public void addFixturePair(Fixture objectFixture, Fixture waterFixture){
         contactingFixtures.put(objectFixture, waterFixture);
     }

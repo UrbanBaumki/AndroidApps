@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 
@@ -33,11 +34,16 @@ public class Box extends InteractiveTile {
         this.height = sprites[0].getRegionHeight();
 
 
-        setCategoryFilter(CollisionBits.OBJECT_BIT);
+
+        Filter f = new Filter();
+        f.categoryBits = CollisionBits.BOX_BIT;
+        f.maskBits = CollisionBits.PLAYER_BIT | CollisionBits.GHOST_BIT | CollisionBits.GHOST_PATH_BIT | CollisionBits.DEFAULT_BIT | CollisionBits.DOORS_BIT | CollisionBits.BOX_BIT;
+
 
         body.setType(BodyDef.BodyType.DynamicBody);
         fixture.setRestitution(0f);
         fixture.setDensity(density);
+        fixture.setFilterData(f);
 //        fixture.setFriction(0.3f);
         body.resetMassData();
 

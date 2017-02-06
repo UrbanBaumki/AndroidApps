@@ -146,7 +146,7 @@ public abstract class BasicPlayer {
                 CollisionBits.SPIKES_BIT |
                 CollisionBits.DEFAULT_BIT |
                 CollisionBits.OBJECT_BIT |
-                CollisionBits.GHOST_PATH_BIT;
+                CollisionBits.GHOST_PATH_BIT| CollisionBits.BOX_BIT;
 
 
         footFixture = body.createFixture(footSensor);

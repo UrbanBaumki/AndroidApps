@@ -10,25 +10,35 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.AfterAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.camera.CameraEffects;
+import si.banani.conversations.ConversationHolder;
 import si.banani.entities.EntityFactory;
 import si.banani.learning.LearningGdx;
 import si.banani.maps.MapFactory;
+import si.banani.scenes.DialogUI;
+import si.banani.sound.AudioObserver;
+import si.banani.sound.AudioSubject;
+import si.banani.textures.TextureManager;
 
 /**
  * Created by Urban on 3.2.2017.
  */
 
-public class CutsceneScreen extends Play {
+public class CutsceneScreen extends Play implements AudioSubject {
 
     private Image transitionImage;
     private Stage stage;
@@ -42,16 +52,28 @@ public class CutsceneScreen extends Play {
 
     private Action intro;
 
+    private Array<AudioObserver> observers;
+
+    private CutSceneAnimated playerWalking;
+
+    private DialogUI dialogUI;
+    private boolean dialogRunning = false;
+
     public CutsceneScreen(SpriteBatch spriteBatch) {
         super(spriteBatch, MapFactory.MapType.CHAPTER5);
+
+        TextureManager.addAtlas("content.pack", "contentAtlas");
+        //TextureManager.splitAtlasIntoRegions();
 
 
         viewport = mapManager.getCurrentViewport();
         stage = new Stage(viewport);
 
 
+        playerWalking = new CutSceneAnimated("playerMale", 15, 48, 1/7f);
 
-
+        dialogUI = new DialogUI();
+        dialogUI.setScale(1/LearningGdx.PPM, 1/LearningGdx.PPM);
 
         //creating a black transition image from pixmap
         Pixmap pixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
@@ -109,17 +131,28 @@ public class CutsceneScreen extends Play {
 
                 CameraEffects.setCamera(camera);
 
-                camera.position.set(2,20,0);
+
+
+                playerWalking.setVisible(true);
+                playerWalking.setPosition(1,4.5f);
+                playerWalking.setAnimate(false);
+
+                dialogUI.setVisible(false);
+
+                ConversationHolder.getInstance().setCurrent_chapter("21");
+
+                camera.position.set(playerWalking.getX(),playerWalking.getY(),0);
                 camera.update();
+
                 //here we set initial things, positioning of images, camera etc...
 
             }
         };
 
-
+        stage.addActor(playerWalking);
         stage.addActor(transitionImage);
+        stage.addActor(dialogUI);
         transitionImage.toFront();
-
 
 
     }
@@ -145,19 +178,48 @@ public class CutsceneScreen extends Play {
         if(mapManager.hasMapChanged()){
             mapRenderer.setMap(mapManager.getCurrentTiledMap());
             camera = mapManager.getCurrentCamera();
-            mapRenderer.setView(camera);
+
 
             mapManager.set_mapChanged(false);
 
             resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         }
+        mapRenderer.setView(camera);
+        mapManager.renderCurrentMapForCutscene(batch, delta, mapRenderer);
 
-       mapManager.renderCurrentMapForCutscene(batch, delta, mapRenderer);
-        camera.position.y -= 2f * delta;
+
+
+        //playerWalking.setPosition(camera.position.x- LearningGdx.V_WIDTH/2/LearningGdx.PPM, camera.position.y- LearningGdx.V_HEIGHT/2/LearningGdx.PPM);
+        camera.position.y = playerWalking.getY();
+        camera.position.x = playerWalking.getX();
+        transitionImage.setPosition(camera.position.x- LearningGdx.V_WIDTH/2/LearningGdx.PPM, camera.position.y- LearningGdx.V_HEIGHT/2/LearningGdx.PPM);
         camera.update();
 
         stage.act(delta);
         stage.draw();
+
+        if(dialogRunning){
+
+
+            dialogUI.setPosition(playerWalking.getX(), playerWalking.getY()+0.5f);
+
+            if(dialogUI.render(delta)){
+
+                String next = ConversationHolder.getInstance().getCurrentText();
+
+                if (next == null)
+                    enableDialog(false);
+                else
+                    dialogUI.setNextText(next, next.length()/10f);
+            }
+
+        }
+
+    }
+
+    public void enableDialog(boolean b){
+        dialogUI.setVisible(b);
+        dialogRunning = b;
 
     }
     @Override
@@ -174,14 +236,34 @@ public class CutsceneScreen extends Play {
 
         return Actions.sequence( Actions.addAction(setupScene1),
                                 Actions.addAction(screenFadeInAction),
-                                Actions.delay(3f),
+                                Actions.delay(1f),
                                 Actions.run(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Gdx.app.log("Teče tole ljiepo", "");
+
+                                        enableDialog(true);
+
                                     }
                                 }),
-                                Actions.addAction(switchScreenAction)
+                                Actions.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        playerWalking.setAnimate(true);
+                                    }
+                                }),
+                                Actions.addAction(Actions.moveBy(2f, 0f, 5, Interpolation.linear), playerWalking),
+                                Actions.delay(5),
+                                Actions.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        playerWalking.setAnimate(false);
+                                    }
+                                }),
+                                Actions.delay(5f),
+                                Actions.addAction(screenFadeOutAction),
+                                Actions.delay(3f)
+
+
                 );
     }
     @Override
@@ -191,4 +273,30 @@ public class CutsceneScreen extends Play {
 
     @Override
     public void hide(){}
+    @Override
+    public void pause(){
+
+    }
+
+    @Override
+    public void addObserver(AudioObserver audioObserver) {
+        observers.add(audioObserver);
+    }
+
+    @Override
+    public void removeObserver(AudioObserver audioObserver) {
+        observers.removeValue(audioObserver, true);
+    }
+
+    @Override
+    public void removeAllObservers() {
+        observers.removeAll(observers, true);
+    }
+
+    @Override
+    public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
+        for(AudioObserver observer: observers){
+            observer.onNotify(command, event);
+        }
+    }
 }

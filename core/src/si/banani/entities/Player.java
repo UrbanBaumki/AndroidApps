@@ -69,7 +69,7 @@ public class Player extends BasicPlayer implements AudioSubject {
                 CollisionBits.SWITCH_BIT |
                 CollisionBits.DOORS_BIT  |
                 CollisionBits.GHOST_PATH_BIT|
-                CollisionBits.SENSOR_BIT;
+                CollisionBits.SENSOR_BIT | CollisionBits.BOX_BIT;
 
         ((body.getFixtureList()).get(0)).setFilterData(f);
         //((body.getFixtureList()).get(1)).setFilterData(f);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="60">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="61">
  <tileset firstgid="1" name="ch5_tiles" tilewidth="64" tileheight="64" spacing="2" tilecount="45" columns="15">
   <image source="ch5_tiles.png" width="1024" height="256"/>
  </tileset>
@@ -133,5 +133,15 @@
  </objectgroup>
  <objectgroup name="Water">
   <object id="51" x="2474.17" y="1292.79" width="1146.55" height="279.152"/>
+ </objectgroup>
+ <objectgroup name="Platforms">
+  <object id="60" x="383.667" y="1358.33" width="64" height="30">
+   <properties>
+    <property name="Dir" value="1"/>
+    <property name="OffsetX" value="128"/>
+    <property name="OffsetY" value="0"/>
+    <property name="Speed" value="1f"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

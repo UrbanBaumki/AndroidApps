@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="58">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="59">
  <tileset firstgid="1" name="ch5_tiles" tilewidth="64" tileheight="64" spacing="2" tilecount="45" columns="15">
   <image source="ch5_tiles.png" width="1024" height="256"/>
  </tileset>
@@ -41,6 +41,7 @@
   <object id="55" x="2700.67" y="1151.5" width="30.6666" height="27.6667"/>
   <object id="56" x="2750" y="1187.5" width="30.6666" height="27.6667"/>
   <object id="57" x="2678" y="1107.5" width="30.6666" height="27.6667"/>
+  <object id="58" x="316" y="1378" width="39" height="38"/>
  </objectgroup>
  <objectgroup name="Switches">
   <object id="9" x="833.333" y="1356.67" width="10.6667" height="26">
@@ -112,7 +113,13 @@
   </object>
  </objectgroup>
  <objectgroup name="End">
-  <object id="43" x="244.667" y="1221.33" width="17.3333" height="60.6667"/>
+  <object id="43" x="677.667" y="1339.33" width="17.3333" height="60.6667">
+   <properties>
+    <property name="Chapter" value="CHAPTER3"/>
+    <property name="FinishedChapter" value="true"/>
+    <property name="Level" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="Checkpoints">
   <object id="48" x="185.408" y="1404.68" width="59.375" height="53.125"/>

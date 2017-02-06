@@ -34,6 +34,7 @@ import si.banani.tiles.DialogPoint;
 import si.banani.tiles.Door;
 import si.banani.tiles.EndPoint;
 import si.banani.tiles.Ladder;
+import si.banani.tiles.MovingPlatform;
 import si.banani.tiles.Potion;
 import si.banani.tiles.Prop;
 import si.banani.tiles.Spikes;
@@ -132,6 +133,13 @@ public class WorldCreator {
                     Texture t = TextureManager.getTexture("box.png");
                     Scene.addObjectToScene( new Prop(world, rect, t) );
                     break;
+                case PLATFORM:
+                    int dir = Integer.valueOf((String) object.getProperties().get("Dir"));
+                    int offX = Integer.valueOf((String) object.getProperties().get("OffsetX"));
+                    int offY = Integer.valueOf((String) object.getProperties().get("OffsetY"));
+                    float speed = Float.valueOf((String) object.getProperties().get("Speed"));
+                    Scene.addObjectToScene(new MovingPlatform(world, rect, offX, offY, dir, speed));
+                    break;
                 case LADDERS:
 
                     //Scene.addObjectToScene(new Ladder(world, rect, TextureManager.getRegionByName("ladder").split(33, 64)[0]));
@@ -159,7 +167,8 @@ public class WorldCreator {
                 case END:
                     String chap = (String)object.getProperties().get("Chapter");
                     Integer lev = Integer.valueOf((String) object.getProperties().get("Level"));
-                    new EndPoint(world, rect, MapFactory.MapType.valueOf(chap), lev);
+                    boolean finished = Boolean.parseBoolean((String) object.getProperties().get("FinishedChapter"));
+                    new EndPoint(world, rect, MapFactory.MapType.valueOf(chap), lev, finished);
 
                     break;
                 case CHECKPOINT:

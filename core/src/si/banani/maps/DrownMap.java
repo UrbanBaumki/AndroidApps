@@ -2,6 +2,7 @@ package si.banani.maps;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.shaders.DefaultShader;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -17,6 +18,7 @@ import si.banani.shaders.OpacityShader;
 import si.banani.shaders.ShaderFactory;
 import si.banani.sound.AudioObserver;
 import si.banani.tiles.Tiles;
+import si.banani.water.WaterHandler;
 import si.banani.world.WorldCollideListener;
 import si.banani.world.WorldContactListener;
 import si.banani.world.WorldCreator;
@@ -69,12 +71,15 @@ public class DrownMap extends Map {
         worldCreator.createTileFixtures("End", Tiles.END);
         worldCreator.createTileFixtures("Enemies", Tiles.ENEMIES);
         worldCreator.createTileFixtures("Water", Tiles.WATER);
+        worldCreator.createTileFixtures("Platforms", Tiles.PLATFORM);
 
         CameraEffects.setTarget(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
         PlayerMovementController.getInstance().clearPlayers();
         PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
         PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
         PlayerMovementController.getInstance().setPlayer(0);
+
+        WaterHandler.getInstance().clearPairs();
 
 
     }
@@ -84,6 +89,8 @@ public class DrownMap extends Map {
     public void update(float dt, OrthogonalTiledMapRenderer mapRenderer) {
         world.step(1/60f, 6, 2);
         overlaper.update();
+
+        WaterHandler.getInstance().update();
 
         mapRenderer.setView(camera);
 
@@ -112,13 +119,15 @@ public class DrownMap extends Map {
 
         //tiled map background images
         mapRenderer.getBatch().setProjectionMatrix(camera.combined);
-        mapRenderer.render(bg);
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Bg"));
 
         batch.setProjectionMatrix(camera.combined);
 
 
         //maps foreground or main layer
-        mapRenderer.render(fg);
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Fg"));
+        mapRenderer.getBatch().end();
     }
 
     @Override
@@ -129,7 +138,7 @@ public class DrownMap extends Map {
 
         //tiled map background images
         mapRenderer.getBatch().setProjectionMatrix(camera.combined);
-        mapRenderer.render(bg);
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Bg"));
 
 
         batch.setProjectionMatrix(camera.combined);
@@ -152,7 +161,9 @@ public class DrownMap extends Map {
 
 
         //maps foreground or main layer
-        mapRenderer.render(fg);
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Fg"));
+        mapRenderer.getBatch().end();
 
         if(PlayerMovementController.getInstance().getCurrent_player() == 1)
         {
@@ -163,11 +174,15 @@ public class DrownMap extends Map {
 
         }
 
-
-        mapRenderer.getBatch().setShader((ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER)).getShaderProgram());
         ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER).render(batch, camera, dt);
-        mapRenderer.render(paths);
+        mapRenderer.getBatch().begin();
+        mapRenderer.getBatch().setShader((ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER)).getShaderProgram());
+
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Paths"));
+        mapRenderer.getBatch().end();
+
         mapRenderer.getBatch().setShader(  (ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).getShaderProgram());
+
     }
 
     @Override

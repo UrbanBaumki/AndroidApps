@@ -71,6 +71,7 @@ public class Play extends BaseScreen {
     }
     public static MapFactory.MapType nextMap = null;
     public static Integer nextLevel = null;
+    public static boolean chapFinished = false;
     public static MapFactory.MapType mapToLoad;
 
     public static GameState gameState;
@@ -253,13 +254,15 @@ public class Play extends BaseScreen {
         if( Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             PlayerMovementController.getInstance().switchPlayer();
         }
+
+
     }
     public void update(float delta){
         input();
         if(!running) return;
 
         mapManager.updateCurrentMap(delta, mapRenderer);
-        WaterHandler.getInstance().update();
+
 
         //s.update(delta);
 
@@ -278,6 +281,9 @@ public class Play extends BaseScreen {
 
 
         if(nextMap != null){
+            mapManager.setFinished(chapFinished);
+            chapFinished = false;
+            Serializer.getInstance().saveGame();
             mapManager.loadMap(nextMap, nextLevel);
             nextMap = null;
             nextLevel = null;
@@ -377,7 +383,7 @@ public class Play extends BaseScreen {
 
     @Override
     public void pause() {
-
+        Serializer.getInstance().saveGame();
     }
 
     @Override

@@ -3,6 +3,8 @@ package si.banani.scenes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -86,5 +88,8 @@ public class DialogUI extends Window {
 
 
         return full.substring(0, indexPercent);
+    }
+    public Vector3 getPosition(){
+        return new Vector3(super.getX(), super.getY(), 0);
     }
 }

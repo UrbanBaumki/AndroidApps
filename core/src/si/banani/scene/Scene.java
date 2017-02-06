@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import si.banani.tiles.Box;
 import si.banani.tiles.Door;
 import si.banani.tiles.Ladder;
+import si.banani.tiles.MovingPlatform;
 import si.banani.tiles.Potion;
 import si.banani.tiles.Prop;
 import si.banani.tiles.Swings;
@@ -47,7 +48,11 @@ public class Scene {
                     b.setDestroyed(true);
                     pleaseRemove = b;
                 }
-            }else if(object instanceof Potion){
+            }else if(object instanceof MovingPlatform){
+                MovingPlatform m = (MovingPlatform) object;
+                m.update(dt);
+            }
+            else if(object instanceof Potion){
                 Potion b = (Potion) object;
                 b.update(dt);
                 if(b.isSetForDestruction()){

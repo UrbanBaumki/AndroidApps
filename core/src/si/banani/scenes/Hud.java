@@ -54,6 +54,7 @@ public class Hud {
     private CameraCoordinates cameraCoordinates;
 
     private boolean dialogRunning = false;
+    private boolean dialogCutscene = false;
 
     public Hud(SpriteBatch batch){
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
@@ -114,6 +115,7 @@ public class Hud {
 
         _dialogUI = new DialogUI();
         _dialogUI.setVisible(false);
+        _dialogUI.setKeepWithinStage(false);
         stage.addActor(_dialogUI);
 
     }
@@ -137,7 +139,9 @@ public class Hud {
                 else
                     _dialogUI.setNextText(next, next.length()/10f);
             }
+
         }
+
 
 
     }
@@ -148,6 +152,7 @@ public class Hud {
 
 
     }
+    public DialogUI get_dialogUI(){ return _dialogUI; }
     public void showGameOver(){
         topTable.clear();
         topTable.add(new Label("GAME OVER!", new Label.LabelStyle(new BitmapFont(), Color.BLACK))).expandX();
@@ -170,6 +175,13 @@ public class Hud {
         _dialogUI.setVisible(b);
         dialogRunning = b;
 
+    }
+    public void enableDialogForCutscene(boolean b){
+        for(Actor a : stage.getActors()){
+            a.setVisible(false);
+        }
+        _dialogUI.setVisible(b);
+        dialogRunning = b;
     }
     public void resize(int width, int height){
         stage.getViewport().update(width, height);

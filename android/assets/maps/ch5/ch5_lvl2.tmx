@@ -113,11 +113,11 @@
   </object>
  </objectgroup>
  <objectgroup name="End">
-  <object id="43" x="244.667" y="1221.33" width="17.3333" height="60.6667">
+  <object id="43" x="677.667" y="1339.33" width="17.3333" height="60.6667">
    <properties>
-    <property name="Chapter" value="CHAPTER5"/>
+    <property name="Chapter" value="CHAPTER3"/>
     <property name="FinishedChapter" value="true"/>
-    <property name="Level" value="1"/>
+    <property name="Level" value="0"/>
    </properties>
   </object>
  </objectgroup>

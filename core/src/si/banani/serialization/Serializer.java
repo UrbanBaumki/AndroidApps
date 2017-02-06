@@ -130,16 +130,13 @@ public class Serializer extends ProfileSubject{
     }
     public void setCurrentSave(SaveGameDescriptor save){ currentSave = save;}
     public void loadSaveGameAndProgress(){
-        SaveGameDescriptor saveGame = loadDescriptor(SaveGameDescriptor.class, "save");
-        ProgressDescriptor progressDescriptor = loadDescriptor(ProgressDescriptor.class, "progress");
+
         ChapterDescriptor chapterDescriptor = loadDescriptor(ChapterDescriptor.class, "chapterProgress");
 
         if(chapterDescriptor == null)
             chapterDescriptor = new ChapterDescriptor();
 
         setChapterDescriptor(chapterDescriptor);
-        setCurrentSave(saveGame);
-        setCurrentProgress(progressDescriptor);
 
         notify(this, ProfileObserver.ProfileEvent.PROFILE_LOADED);
     }

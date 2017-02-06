@@ -60,6 +60,7 @@ public class LoneMap extends Map {
         worldCreator.createTileFixtures("Ladders", Tiles.LADDERS);
         worldCreator.createTileFixtures("Dialogs", Tiles.DIALOG);
         //worldCreator.createTileFixtures("Potions", Tiles.POTION);
+        worldCreator.createTileFixtures("End", Tiles.END);
 
 
         CameraEffects.setTarget(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));

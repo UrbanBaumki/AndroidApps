@@ -61,6 +61,7 @@ public class SadMap extends Map {
         worldCreator.createTileFixtures("Ladders", Tiles.LADDERS);
         worldCreator.createTileFixtures("Dialogs", Tiles.DIALOG);
         worldCreator.createTileFixtures("Potions", Tiles.POTION);
+        worldCreator.createTileFixtures("Checkpoints", Tiles.CHECKPOINT);
 
         worldCreator.createTileFixtures("Start", Tiles.START);
         worldCreator.createTileFixtures("End", Tiles.END);

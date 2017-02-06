@@ -45,7 +45,7 @@ public class MapManager implements ProfileObserver{
 
     private ChapterDescriptor chapterDescriptor;
     private Chapter chapter;
-    private boolean finished;
+    private boolean finished = false;
 
     public MapManager(){
 
@@ -66,7 +66,8 @@ public class MapManager implements ProfileObserver{
         EnemyManager.getInstance().clearCachedEnemies();
         if(_currentMap != null){
             _currentMap.unloadMusic();
-            finished = _currentMap.isChapterFinished();
+
+            //finished = _currentMap.isChapterFinished();
             clearCurrentMap();
         }
         Map map = MapFactory.getMap(mapType, level);
@@ -157,8 +158,7 @@ public class MapManager implements ProfileObserver{
     public void onNotify(Serializer profileManager, ProfileEvent event) {
         switch (event){
             case PROFILE_LOADED:
-                SaveGameDescriptor loadedSave = profileManager.getCurrentSave();
-                ProgressDescriptor progressDescriptor = profileManager.getCurrentProgress();
+
 
                 MapFactory.MapType mt = profileManager.getMapTypeToLoad();
                 Chapter chap = profileManager.getChapter(mt.toString());
@@ -169,7 +169,7 @@ public class MapManager implements ProfileObserver{
                     chap.setLastPlayerHealth(3);
                     chap.setLastX(1);
                     chap.setLastY(5);
-                    chap.setFinished(false);
+                    chap.setFinished(0);
                     chap.setLastLevelPlayed(0);
                     currentLevel = 0;
                     currentMapType = mt;
@@ -194,12 +194,20 @@ public class MapManager implements ProfileObserver{
                 break;
             case SAVING_PROFILE:
 
+                //another check if we are in a new chapter so save doesn't exist yet.
+                Chapter cc = profileManager.getChapter(currentMapType.toString());
+                if(cc == null){
+                    cc = new Chapter();
+                    profileManager.addChapter(currentMapType.toString(), cc);
+                    finished = false;
+                }
+
                 profileManager.getChapter(currentMapType.toString()).setLastPlayerHealth(male.getHealth());
                 profileManager.getChapter(currentMapType.toString()).setLastGhostEnergy(ghost.getEnergyLevel());
                 profileManager.getChapter(currentMapType.toString()).setLastX(male.getLastCheckpointX());
                 profileManager.getChapter(currentMapType.toString()).setLastY(male.getLastCheckpointY());
                 profileManager.getChapter(currentMapType.toString()).setLastLevelPlayed(currentLevel);
-                profileManager.getChapter(currentMapType.toString()).setFinished(finished);
+                profileManager.getChapter(currentMapType.toString()).setFinished(finished ? 1 : 0);
 
                 break;
         }
@@ -215,5 +223,9 @@ public class MapManager implements ProfileObserver{
 
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

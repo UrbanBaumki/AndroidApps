@@ -52,7 +52,7 @@ public abstract class Map implements AudioSubject{
     protected Viewport viewport;
     private String mapPath;
     protected SpriteBatch batch = LearningGdx.getSpriteBatch();
-    protected boolean chapterFinished;
+    protected boolean chapterFinished = false;
     protected int level;
 
     public Map(MapFactory.MapType mapType, String mapPath, World world){
