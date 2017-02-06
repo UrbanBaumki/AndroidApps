@@ -67,7 +67,9 @@ public class Play extends BaseScreen {
         PAUSED,
         GAME_OVER,
         SAVING,
-        LOADING
+        LOADING,
+        RESUME,
+        RESET
     }
     public static MapFactory.MapType nextMap = null;
     public static Integer nextLevel = null;
@@ -225,7 +227,7 @@ public class Play extends BaseScreen {
 
         //should be removed for finished game
 
-        if( Gdx.input.isKeyPressed(Input.Keys.D)){
+        /*if( Gdx.input.isKeyPressed(Input.Keys.D)){
             PlayerMovementController.getInstance().movePlayerRigth(true);
         }else{
             PlayerMovementController.getInstance().movePlayerRigth(false);
@@ -254,7 +256,7 @@ public class Play extends BaseScreen {
         if( Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             PlayerMovementController.getInstance().switchPlayer();
         }
-
+        */
 
     }
     public void update(float delta){
@@ -304,8 +306,21 @@ public class Play extends BaseScreen {
         if(gameState == GameState.GAME_OVER){
             //konec igre
         }
+        if(gameState == GameState.RESET){
+            mapManager.getMale().resetLevel();
+            mapManager.getGhost().setEnergyLevel(100);
+            mapManager.getGhost().setTransform(mapManager.getMale().getPosition().x - 0.2f, mapManager.getMale().getPosition().y, 0);
+            gameState = GameState.RESUME;
+        }
 
+        if(gameState == GameState.RESUME){
+            gameState = GameState.RUNNING;
+            hud.hidePause();
+            inputController.resetInputProcessor();
+        }
         if(gameState == GameState.PAUSED){
+            hud.showPause();
+            hud.render(delta);
             return;
         }
         update(delta);

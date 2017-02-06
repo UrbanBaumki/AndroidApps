@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.learning.LearningGdx;
+import si.banani.screens.Play;
 import si.banani.screens.ScreenEnums;
 import si.banani.screens.ScreenManager;
 import si.banani.textures.TextureManager;
@@ -155,7 +156,8 @@ public class InputController {
 
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                PlayerMovementController.getInstance().doSwitch();
+                //PlayerMovementController.getInstance().doSwitch();
+                Play.gameState = Play.GameState.PAUSED;
                 image.setScale(1f,1f);
             }
         });
@@ -166,7 +168,7 @@ public class InputController {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if(keycode == Input.Keys.BACK) {
-                    ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.MAIN_MENU, batch);
+                    Play.gameState = Play.GameState.PAUSED;
                 }
                 return false;
             }

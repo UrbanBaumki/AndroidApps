@@ -228,4 +228,12 @@ public class MapManager implements ProfileObserver{
     public void setFinished(boolean finished) {
         this.finished = finished;
     }
+
+    public FemalePlayer getGhost() {
+        return ghost;
+    }
+
+    public Player getMale() {
+        return male;
+    }
 }

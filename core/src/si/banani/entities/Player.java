@@ -192,7 +192,7 @@ public class Player extends BasicPlayer implements AudioSubject {
 
         if(hud.getNumLives() == 0){
 
-            Play.setRunning(false);
+            Play.gameState = Play.GameState.GAME_OVER;
 
             hud.showGameOver();
         }
@@ -212,6 +212,15 @@ public class Player extends BasicPlayer implements AudioSubject {
     public Vector2 getPosition(){ return this.body.getPosition(); }
 
 
+    public void resetLevel(){
+        setXYvelocity(0,0) ;
+        setTransform(startX, startY, 0);
+        maxHealth = 3;
+        hud.setNumLives(maxHealth);
+        hud.update();
+        dir = 1;
+
+    }
 
     public void setMovementSpeed(float speed){this.movementSpeed = speed; }
     public void setMaxMovSpeed(float cap){this.maxMovSpeed = cap;}

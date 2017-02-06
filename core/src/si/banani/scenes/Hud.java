@@ -51,6 +51,7 @@ public class Hud {
     private float energyBarWidth;
 
     private DialogUI _dialogUI;
+    private PauseUI pauseUI;
     private CameraCoordinates cameraCoordinates;
 
     private boolean dialogRunning = false;
@@ -116,7 +117,11 @@ public class Hud {
         _dialogUI = new DialogUI();
         _dialogUI.setVisible(false);
         _dialogUI.setKeepWithinStage(false);
+        pauseUI = new PauseUI();
+
+        pauseUI.setPosition(stage.getWidth()/2 - pauseUI.getWidth()/2,stage.getHeight()/2 - pauseUI.getHeight()/2);
         stage.addActor(_dialogUI);
+        stage.addActor(pauseUI);
 
     }
     public void render(float dt){
@@ -168,6 +173,9 @@ public class Hud {
     public void decreaseLives(){
         this.numLives-=1;
     }
+    public void setNumLives(int num){
+        numLives = num;
+    }
     public Integer getNumLives(){
         return numLives;
     }
@@ -190,5 +198,11 @@ public class Hud {
     }
     public void setCameraCoordinates(CameraCoordinates c){
         this.cameraCoordinates = c;
+    }
+    public void showPause(){
+        pauseUI.showMe();
+    }
+    public void hidePause(){
+        pauseUI.setVisible(false);
     }
 }
