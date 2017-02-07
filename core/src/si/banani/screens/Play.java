@@ -77,6 +77,7 @@ public class Play extends BaseScreen {
     public static boolean chapFinished = false;
     public static MapFactory.MapType mapToLoad;
     public static boolean switchToCutscene= false;
+    public static boolean switchToDialogScreen = false;
     public static Integer cutsceneNumber;
 
     public static GameState gameState;
@@ -229,7 +230,7 @@ public class Play extends BaseScreen {
 
 
         //should be removed for finished game
-
+        /*
         if( Gdx.input.isKeyPressed(Input.Keys.D)){
             PlayerMovementController.getInstance().movePlayerRigth(true);
         }else{
@@ -259,6 +260,7 @@ public class Play extends BaseScreen {
         if( Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             PlayerMovementController.getInstance().switchPlayer();
         }
+        */
 
 
     }
@@ -284,12 +286,8 @@ public class Play extends BaseScreen {
         //point handler
         handler.setCombinedMatrix(mapManager.getCurrentCamera());
 
-        if(switchToCutscene){
-            switchToCutscene = false;
-            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.CUTSCENE, batch);
-            return;
-        }
-        if(nextMap != null){
+
+        if(nextMap != null && !switchToCutscene){
             mapManager.setFinished(chapFinished);
             chapFinished = false;
             Serializer.getInstance().saveGame();
@@ -383,6 +381,15 @@ public class Play extends BaseScreen {
 
         //debuger
        box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
+        if(switchToCutscene){
+            switchToCutscene = false;
+            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.CUTSCENE, batch, cutsceneNumber);
+            return;
+        }else if(switchToDialogScreen){
+            switchToDialogScreen = false;
+            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.DIALOG, batch, cutsceneNumber, nextMap);
+            return;
+        }
 
     }
     public static void setRunning(boolean b){ running = b; }

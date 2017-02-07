@@ -1,7 +1,6 @@
 package si.banani.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,12 +10,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.AfterAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -52,7 +48,7 @@ public class CutsceneScreen extends Play implements AudioSubject {
     private Action switchScreenAction;
     private Action setupScene1;
 
-    private Action intro;
+    private Action cutscene;
 
     private Array<AudioObserver> observers;
 
@@ -61,8 +57,12 @@ public class CutsceneScreen extends Play implements AudioSubject {
     private DialogUI dialogUI;
     private boolean dialogRunning = false;
 
-    public CutsceneScreen(SpriteBatch spriteBatch) {
+    private int cutsceneNum;
+
+    public CutsceneScreen(SpriteBatch spriteBatch, int cutsceneNum) {
         super(spriteBatch, MapFactory.MapType.CHAPTER5);
+
+        this.cutsceneNum = cutsceneNum;
 
         TextureManager.addAtlas("content.pack", "contentAtlas");
         //TextureManager.splitAtlasIntoRegions();
@@ -170,8 +170,8 @@ public class CutsceneScreen extends Play implements AudioSubject {
     @Override
     public void show(){
 
-        intro = getCutsceneAction();
-        stage.addAction(intro);
+        cutscene = getCutsceneAction(cutsceneNum);
+        stage.addAction(cutscene);
 
 
         if(mapRenderer == null){
@@ -244,14 +244,15 @@ public class CutsceneScreen extends Play implements AudioSubject {
         //CameraEffects.updateCamera(delta);
     }
 
-    private Action getCutsceneAction(){
+    private Action getCutsceneAction(int cutsceneNum){
+        Array<Action> allActions = new Array<Action>();
         //reset
         screenFadeInAction.reset();
         screenFadeOutAction.reset();
         switchScreenAction.reset();
         setupScene1.reset();
 
-        return Actions.sequence( Actions.addAction(setupScene1),
+        Action intro = Actions.sequence( Actions.addAction(setupScene1),
                                 Actions.addAction(screenFadeInAction),
                                 Actions.delay(1f),
                                 Actions.run(new Runnable() {
@@ -288,6 +289,12 @@ public class CutsceneScreen extends Play implements AudioSubject {
 
 
                 );
+
+        allActions.add(intro);
+
+
+        return allActions.get(cutsceneNum);
+
     }
     @Override
     public void dispose(){

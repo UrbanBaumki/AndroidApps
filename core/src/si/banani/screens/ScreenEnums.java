@@ -56,7 +56,7 @@ public enum ScreenEnums {
                 public Screen getScreen(Object... params){
                 if(params == null)
                     return null;
-                return new CutsceneScreen((SpriteBatch) params[0]);
+                return new CutsceneScreen((SpriteBatch) params[0], (Integer) params[1]);
             }
     },
 
@@ -64,7 +64,7 @@ public enum ScreenEnums {
         public Screen getScreen(Object... params){
             if(params == null)
                 return null;
-            return new DialogScreen((SpriteBatch) params[0]);
+            return new DialogScreen((SpriteBatch) params[0], (Integer) params[1], (MapFactory.MapType) params[2]);
         }
     };
 

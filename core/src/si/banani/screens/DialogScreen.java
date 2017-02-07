@@ -12,9 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import si.banani.learning.LearningGdx;
+import si.banani.maps.MapFactory;
 
 /**
  * Created by Urban on 1.1.2017.
@@ -29,11 +31,17 @@ public class DialogScreen extends BaseScreen {
     private Table displayTable;
     private Stage stage;
     private Label displayLabel;
+    private int textNum;
+    Array<String> dialogs ;
+    private MapFactory.MapType mapToChange;
 
-
-    public DialogScreen(SpriteBatch spriteBatch){
+    public DialogScreen(SpriteBatch spriteBatch, int textNum, MapFactory.MapType mapType){
         super(spriteBatch);
 
+        this.textNum = textNum;
+        mapToChange = mapType;
+
+        dialogs = new Array<String>();
 
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
 
@@ -50,6 +58,8 @@ public class DialogScreen extends BaseScreen {
         full = "Ljubila ga je kljub storjenim napakam, kljub temu, da je zopet opit sedel za volan in ju jezno odpeljal proti domu." +
                 "Ljubila ga je z vsem srcem, ceprav je postal agresiven in zacel glasen prepir." +
                 "Nikdar ga ni nehala ljubiti, cetudi je zdaj peljal proti nevarnemu ovinku z mocno preveliko hitrostjo.";
+
+        dialogs.add(full);
 
         timeDisplayed = 0f;
         timeToAnimate = 8f;
@@ -75,13 +85,13 @@ public class DialogScreen extends BaseScreen {
             if(pauseTime >= endPauseTime)
                 finished = true;
             pauseTime += dt;
-            return full;
+            return dialogs.get(textNum);
         }
-        int indexPercent = (int)Math.floor((timeDisplayed/timeToAnimate) * full.length());
+        int indexPercent = (int)Math.floor((timeDisplayed/timeToAnimate) * dialogs.get(textNum).length());
         timeDisplayed += dt;
 
 
-        return full.substring(0, indexPercent);
+        return dialogs.get(textNum).substring(0, indexPercent);
     }
     @Override
     public void render(float delta) {
@@ -91,7 +101,7 @@ public class DialogScreen extends BaseScreen {
         if(finished){
             finished = false;
             timeDisplayed = 0;
-            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.MAIN_MENU, batch);
+            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.PLAY, batch, mapToChange);
         }
 
         updateLabelString( getCurrentString(delta) );
@@ -115,7 +125,7 @@ public class DialogScreen extends BaseScreen {
 
     @Override
     public void hide() {
-        Gdx.app.log("Dialog zaslon", "skrivamse");
+
     }
 
     @Override

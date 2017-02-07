@@ -15,12 +15,14 @@ public class CutscenePoint extends InteractiveTile {
     private MapFactory.MapType nextChap;
     private int nextLevel;
     private boolean finished;
-    public CutscenePoint(World world, Rectangle rectangle, int cutsceneNum, String nextChap, int nextLevel, boolean finished) {
+    private boolean dialogScreen;
+    public CutscenePoint(World world, Rectangle rectangle, int cutsceneNum, String nextChap, int nextLevel, boolean finished, boolean dialogScreen) {
         super(world, rectangle);
         this.cutsceneNum = cutsceneNum;
         this.nextChap = MapFactory.MapType.valueOf(nextChap);
         this.nextLevel = nextLevel;
         this.finished = finished;
+        this.dialogScreen = dialogScreen;
         fixture.setSensor(true);
         fixture.setUserData(this);
     }
@@ -65,5 +67,13 @@ public class CutscenePoint extends InteractiveTile {
 
     public void setNextLevel(int nextLevel) {
         this.nextLevel = nextLevel;
+    }
+
+    public boolean isDialogScreen() {
+        return dialogScreen;
+    }
+
+    public void setDialogScreen(boolean dialogScreen) {
+        this.dialogScreen = dialogScreen;
     }
 }

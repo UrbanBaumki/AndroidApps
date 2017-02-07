@@ -113,7 +113,7 @@
   </object>
  </objectgroup>
  <objectgroup name="End">
-  <object id="43" x="677.667" y="1339.33" width="17.3333" height="60.6667">
+  <object id="43" x="483.667" y="1154.33" width="17.3333" height="60.6667">
    <properties>
     <property name="Chapter" value="CHAPTER3"/>
     <property name="FinishedChapter" value="true"/>
@@ -125,13 +125,7 @@
   <object id="48" x="185.408" y="1404.68" width="59.375" height="53.125"/>
   <object id="53" x="2376.37" y="1212.83" width="59.375" height="53.125"/>
  </objectgroup>
- <objectgroup name="Enemies">
-  <object id="49" x="654.667" y="1560.5" width="30.5" height="23">
-   <properties>
-    <property name="Type" value="ZOMBIE"/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup name="Enemies"/>
  <objectgroup name="Water">
   <object id="51" x="2474.17" y="1292.79" width="1146.55" height="279.152"/>
  </objectgroup>

@@ -157,7 +157,7 @@ public class InputController {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 PlayerMovementController.getInstance().doSwitch();
-
+                //Play.gameState = Play.GameState.PAUSED;
                 image.setScale(1f,1f);
             }
         });

@@ -43,8 +43,7 @@ public class MapManager implements ProfileObserver{
     private int currentLevel;
     private MapFactory.MapType currentMapType;
 
-    private ChapterDescriptor chapterDescriptor;
-    private Chapter chapter;
+
     private boolean finished = false;
 
     public MapManager(){
