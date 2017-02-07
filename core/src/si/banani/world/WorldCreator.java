@@ -30,6 +30,7 @@ import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
 import si.banani.tiles.Box;
 import si.banani.tiles.CheckPoint;
+import si.banani.tiles.CutscenePoint;
 import si.banani.tiles.DialogPoint;
 import si.banani.tiles.Door;
 import si.banani.tiles.EndPoint;
@@ -181,6 +182,13 @@ public class WorldCreator {
                     break;
                 case WATER:
                     Scene.addObjectToScene(new Water(world, rect));
+                    break;
+                case CUTSCENE:
+                    String chapp = (String)object.getProperties().get("NextChapter");
+                    int level = Integer.valueOf((String)object.getProperties().get("Level"));
+                    boolean fin = Boolean.getBoolean((String)object.getProperties().get("Finished"));
+                    int cutscene = Integer.valueOf((String)object.getProperties().get("Cutscene"));
+                    new CutscenePoint(world, rect, cutscene , chapp, level, fin);
                     break;
             }
 

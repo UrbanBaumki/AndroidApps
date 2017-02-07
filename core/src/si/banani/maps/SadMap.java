@@ -1,6 +1,7 @@
 package si.banani.maps;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
@@ -12,6 +13,7 @@ import si.banani.entities.EntityFactory;
 import si.banani.entities.Player;
 import si.banani.learning.LearningGdx;
 import si.banani.scene.Scene;
+import si.banani.shaders.OpacityShader;
 import si.banani.shaders.ShaderFactory;
 import si.banani.shaders.WaterShader;
 import si.banani.sound.AudioObserver;
@@ -27,12 +29,11 @@ import si.banani.world.WorldCreator;
 public class SadMap extends Map {
 
 
-    private static String _mapPath = "maps/ch3/ch3_lvl1.tmx";
-    private static int bg[] = {0};
-    private static int fg[] = {1};
-    private static int paths[] = {11};
-    public SadMap(World world) {
-        super(MapFactory.MapType.CHAPTER3, _mapPath, world);
+    private static String _mapPath[] = {"maps/ch3/ch3_lvl0.tmx", "maps/ch3/ch3_lvl1.tmx"};
+
+    public SadMap(World world, int level) {
+        super(MapFactory.MapType.CHAPTER3, _mapPath[level], world);
+        super.level = level;
 
         overlaper = new WorldCollideListener(world);
 
@@ -62,6 +63,8 @@ public class SadMap extends Map {
         worldCreator.createTileFixtures("Dialogs", Tiles.DIALOG);
         worldCreator.createTileFixtures("Potions", Tiles.POTION);
         worldCreator.createTileFixtures("Checkpoints", Tiles.CHECKPOINT);
+        worldCreator.createTileFixtures("Cutscene", Tiles.CUTSCENE);
+
 
         worldCreator.createTileFixtures("Start", Tiles.START);
         worldCreator.createTileFixtures("End", Tiles.END);
@@ -108,7 +111,9 @@ public class SadMap extends Map {
 
         //tiled map background images
         mapRenderer.getBatch().setProjectionMatrix(camera.combined);
-        mapRenderer.render(bg);
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Bg"));
+        mapRenderer.getBatch().end();
 
 
         batch.setProjectionMatrix(camera.combined);
@@ -127,17 +132,50 @@ public class SadMap extends Map {
         batch.end();
 
 
-        //maps foreground or main layer
-        mapRenderer.render(fg);
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Fg"));
+        mapRenderer.getBatch().end();
 
         if(PlayerMovementController.getInstance().getCurrent_player() == 1)
-            mapRenderer.render(paths);
+        {
+            ((OpacityShader)ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER)).setDirection(1);
 
+        }else{
+            ((OpacityShader)ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER)).setDirection(-1);
+
+        }
+
+        ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER).render(batch, camera, dt);
+        mapRenderer.getBatch().begin();
+        mapRenderer.getBatch().setShader((ShaderFactory.getShader(ShaderFactory.ShaderType.OPACITY_SHADER)).getShaderProgram());
+
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Paths"));
+        mapRenderer.getBatch().end();
+
+        mapRenderer.getBatch().setShader(  (ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).getShaderProgram());
 
     }
 
     @Override
     public void renderForCutscene(SpriteBatch batch, float dt, OrthogonalTiledMapRenderer mapRenderer) {
+        mapRenderer.setView(camera);
+        //maps parallaxed bg texture
+        renderBackground(batch, dt);
+
+        //tiled map background images
+        mapRenderer.getBatch().setProjectionMatrix(camera.combined);
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Bg"));
+        mapRenderer.getBatch().end();
+        batch.setProjectionMatrix(camera.combined);
+
+
+        //maps foreground or main layer
+        mapRenderer.getBatch().begin();
+        mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Fg"));
+        mapRenderer.getBatch().end();
+
+
 
     }
 
@@ -148,12 +186,12 @@ public class SadMap extends Map {
 
     @Override
     public void unloadMusic() {
-        notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_CHAPTER_ONE);
+        notify(AudioObserver.AudioCommand.MUSIC_STOP, AudioObserver.AudioTypeEvent.MUSIC_CHAPTER_TWO);
     }
 
     @Override
     public void loadMusic() {
-        notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_CHAPTER_ONE);
-        notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_CHAPTER_ONE);
+        notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_CHAPTER_TWO);
+        notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_CHAPTER_TWO);
     }
 }

@@ -1,4 +1,4 @@
-#Tue Feb 07 11:26:14 CET 2017
+#Tue Feb 07 16:06:45 CET 2017
 base.0=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main
 renamed.0=classes.dex
 file.0=C\:\\Users\\Urban\\Desktop\\BtsProjectTest\\android\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\1f\\main\\classes.dex

@@ -21,5 +21,6 @@ public enum Tiles {
     CHECKPOINT,
     ENEMIES,
     WATER,
-    PLATFORM
+    PLATFORM,
+    CUTSCENE
 }

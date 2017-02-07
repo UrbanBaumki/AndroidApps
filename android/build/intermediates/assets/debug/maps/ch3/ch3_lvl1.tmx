@@ -114,7 +114,7 @@
   <object id="60" x="448.333" y="813.667" width="127" height="18"/>
   <object id="62" x="384.333" y="493.333" width="191.667" height="17.6667"/>
  </objectgroup>
- <layer name="Path" width="20" height="15">
+ <layer name="Paths" width="20" height="15">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2BkAkUoVqKSecpUMmcU4AYA3hgAiA==
   </data>

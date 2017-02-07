@@ -123,7 +123,7 @@ public class CutsceneScreen extends Play implements AudioSubject {
             @Override
             public void run() {
 
-                mapManager.loadMap(MapFactory.MapType.CHAPTER5, 0);
+                mapManager.loadMap(MapFactory.MapType.CHAPTER3, 1);
 
                 mapManager.disableCurrentMapMusic();
 
@@ -138,7 +138,7 @@ public class CutsceneScreen extends Play implements AudioSubject {
 
 
                 playerWalking.setVisible(true);
-                playerWalking.setPosition(1,4.5f);
+                playerWalking.setPosition(1, 5);
                 playerWalking.setAnimate(false);
 
                 dialogUI.setVisible(false);
@@ -278,7 +278,13 @@ public class CutsceneScreen extends Play implements AudioSubject {
                                 }),
                                 Actions.delay(5f),
                                 Actions.addAction(screenFadeOutAction),
-                                Actions.delay(3f)
+                                Actions.delay(3f),
+                                Actions.run(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER3);
+                                    }
+                                })
 
 
                 );

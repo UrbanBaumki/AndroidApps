@@ -36,6 +36,7 @@ import si.banani.screens.Play;
 import si.banani.tiles.Box;
 
 import si.banani.tiles.CheckPoint;
+import si.banani.tiles.CutscenePoint;
 import si.banani.tiles.DialogPoint;
 import si.banani.tiles.EndPoint;
 import si.banani.tiles.Ladder;
@@ -83,6 +84,13 @@ public class WorldContactListener implements ContactListener {
                 zombie.setDead(true);
             }
 
+        }else if(a.getUserData() instanceof Player && b.getUserData() instanceof CutscenePoint){
+            CutscenePoint cutscenePoint = (CutscenePoint) b.getUserData();
+            Play.switchToCutscene = true;
+            Play.cutsceneNumber = cutscenePoint.getCutsceneNum();
+            Play.nextMap = cutscenePoint.getNextChap();
+            Play.nextLevel = cutscenePoint.getNextLevel();
+            Play.chapFinished = cutscenePoint.isFinished();
         }else if(a.getUserData() instanceof Spikes && b.getUserData() instanceof RockEnemy){
             ((RockEnemy)b.getUserData()).setDead(true);
         }

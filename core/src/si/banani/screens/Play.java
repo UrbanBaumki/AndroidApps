@@ -76,6 +76,8 @@ public class Play extends BaseScreen {
     public static Integer nextLevel = null;
     public static boolean chapFinished = false;
     public static MapFactory.MapType mapToLoad;
+    public static boolean switchToCutscene= false;
+    public static Integer cutsceneNumber;
 
     public static GameState gameState;
 
@@ -282,7 +284,11 @@ public class Play extends BaseScreen {
         //point handler
         handler.setCombinedMatrix(mapManager.getCurrentCamera());
 
-
+        if(switchToCutscene){
+            switchToCutscene = false;
+            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.CUTSCENE, batch);
+            return;
+        }
         if(nextMap != null){
             mapManager.setFinished(chapFinished);
             chapFinished = false;

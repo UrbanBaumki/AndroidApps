@@ -66,6 +66,7 @@ public class DrownMap extends Map {
         worldCreator.createTileFixtures("Dialogs", Tiles.DIALOG);
         worldCreator.createTileFixtures("Potions", Tiles.POTION);
         worldCreator.createTileFixtures("Checkpoints", Tiles.CHECKPOINT);
+        worldCreator.createTileFixtures("Cutscene", Tiles.CUTSCENE);
 
         worldCreator.createTileFixtures("Start", Tiles.START);
         worldCreator.createTileFixtures("End", Tiles.END);

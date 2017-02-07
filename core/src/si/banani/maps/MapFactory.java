@@ -41,7 +41,7 @@ public class MapFactory {
             case CHAPTER3:
                 map = _maps.get(MapType.CHAPTER3);
                 if(map == null){
-                    map = new SadMap(world);
+                    map = new SadMap(world, level);
                     _maps.put(MapType.CHAPTER3, map);
                 }
                 break;

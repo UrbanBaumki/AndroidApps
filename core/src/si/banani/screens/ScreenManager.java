@@ -125,7 +125,10 @@ public class ScreenManager {
         Screen curr = game.getScreen();
 
         if(curr != null)
+        {
+            screens.remove(curr);
             curr.dispose();
+        }
 
         Screen newScreen = getScreen(screenenums);
 
