@@ -108,7 +108,7 @@
  <objectgroup name="Dialogs">
   <object id="41" x="264.667" y="1371.34" width="7" height="96.3333">
    <properties>
-    <property name="Chapter" value="11"/>
+    <property name="Chapter" value="21"/>
    </properties>
   </object>
  </objectgroup>

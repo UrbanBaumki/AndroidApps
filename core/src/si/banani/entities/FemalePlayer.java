@@ -18,6 +18,7 @@ import si.banani.controller.PlayerMovementController;
 import si.banani.learning.LearningGdx;
 import si.banani.scenes.Hud;
 import si.banani.screens.Play;
+import si.banani.tiles.CheckPoint;
 import si.banani.world.CollisionBits;
 
 /**
@@ -35,7 +36,7 @@ public class FemalePlayer extends BasicPlayer {
     private Hud hud;
     private OrthographicCamera camera;
     private boolean switching = false;
-
+    private float lastCheckpointX, lastCheckpointY;
 
     public FemalePlayer(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud, OrthographicCamera camera) {
         super(world, x, y, width, height, bodyType);
@@ -45,6 +46,9 @@ public class FemalePlayer extends BasicPlayer {
 
         startX = x;
         startY = y;
+        lastCheckpointX = x;
+        lastCheckpointY = y;
+
 
         Filter f = new Filter();
         f.categoryBits = CollisionBits.GHOST_BIT;
@@ -106,19 +110,18 @@ public class FemalePlayer extends BasicPlayer {
         //Gdx.app.log("Falling", String.format("%d", numFootContants));
     }
 
+    public void setCheckpoint(CheckPoint checkpoint){
+        this.lastCheckpointX = checkpoint.spawnX;
+        this.lastCheckpointY = checkpoint.spawnY;
+    }
     public void resetPlayer(){
 
         setXYvelocity(0,0) ;
-        setTransform(startX, startY, 0);
+        setTransform(lastCheckpointX, lastCheckpointY, 0);
         //camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2 + 150/ LearningGdx.PPM,0);
 
 
-        if(hud.getNumLives() == 0){
 
-            Play.setRunning(false);
-
-            hud.showGameOver();
-        }
     }
     public void addEnergy(float energy){
         this.energyLevel +=energy;

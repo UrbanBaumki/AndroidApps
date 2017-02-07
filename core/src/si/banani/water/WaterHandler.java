@@ -66,7 +66,7 @@ public class WaterHandler {
 
                 float displacedMass = density * area;
                 Vector2 bouyancyF = grav.cpy().scl(displacedMass);
-                objectFixture.getBody().applyForce(bouyancyF, centroid, true);
+                if(!(objectFixture.getUserData() instanceof Player))objectFixture.getBody().applyForce(bouyancyF, centroid, true);
 
 
 

@@ -30,9 +30,6 @@ import si.banani.world.WorldCreator;
 public class DrownMap extends Map {
 
     private static String _mapPath [] = {"maps/ch5/ch5_lvl1.tmx", "maps/ch5/ch5_lvl2.tmx"};
-    private static int bg[] = {0};
-    private static int fg[] = {1};
-    private static int paths[] = {11};
 
     public DrownMap(World world, int level){
         super(MapFactory.MapType.CHAPTER5, _mapPath[level], world);
@@ -139,8 +136,9 @@ public class DrownMap extends Map {
 
         //tiled map background images
         mapRenderer.getBatch().setProjectionMatrix(camera.combined);
+        mapRenderer.getBatch().begin();
         mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Bg"));
-
+        mapRenderer.getBatch().end();
 
         batch.setProjectionMatrix(camera.combined);
         //render the map also

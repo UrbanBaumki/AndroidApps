@@ -26,7 +26,7 @@ public class DialogScreen extends BaseScreen {
 
     private BitmapFont font;
     private String full;
-    private float timeDisplayed, timeToAnimate,pauseTime, endPauseTime;
+    private float timeDisplayed,pauseTime, endPauseTime;
     boolean finished;
     private Table displayTable;
     private Stage stage;
@@ -60,9 +60,12 @@ public class DialogScreen extends BaseScreen {
                 "Nikdar ga ni nehala ljubiti, cetudi je zdaj peljal proti nevarnemu ovinku z mocno preveliko hitrostjo.";
 
         dialogs.add(full);
+        full = "Bla bla bla bla bla bla bla.....";
+        dialogs.add(full);
+
 
         timeDisplayed = 0f;
-        timeToAnimate = 8f;
+
         endPauseTime = 3.5f;
 
         displayLabel = new Label("", new Label.LabelStyle(font, Color.WHITE));
@@ -81,13 +84,13 @@ public class DialogScreen extends BaseScreen {
     }
     private String getCurrentString(float dt){
 
-        if(timeDisplayed >= timeToAnimate){
+        if(timeDisplayed >= dialogs.get(textNum).length()/10f){
             if(pauseTime >= endPauseTime)
                 finished = true;
             pauseTime += dt;
             return dialogs.get(textNum);
         }
-        int indexPercent = (int)Math.floor((timeDisplayed/timeToAnimate) * dialogs.get(textNum).length());
+        int indexPercent = (int)Math.floor((timeDisplayed/(dialogs.get(textNum).length()/10f)) * dialogs.get(textNum).length());
         timeDisplayed += dt;
 
 

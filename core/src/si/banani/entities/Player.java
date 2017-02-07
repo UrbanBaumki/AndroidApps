@@ -297,7 +297,7 @@ public class Player extends BasicPlayer implements AudioSubject {
         hud.enableDialog(true);
     }
 
-    public int getHealth(){ return  health;}
+    public int getHealth(){ return  maxHealth;}
     public void setMaxHealth(int h){
         maxHealth = h;
         hud.setNumLives(maxHealth);

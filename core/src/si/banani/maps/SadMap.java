@@ -1,5 +1,7 @@
 package si.banani.maps;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -30,7 +32,10 @@ public class SadMap extends Map {
 
 
     private static String _mapPath[] = {"maps/ch3/ch3_lvl0.tmx", "maps/ch3/ch3_lvl1.tmx"};
-
+    private Texture [] rain = {new Texture(Gdx.files.internal("textures/ch3/rain1.png")),new Texture(Gdx.files.internal("textures/ch3/rain2.png")), new Texture(Gdx.files.internal("textures/ch3/rain3.png")), new Texture(Gdx.files.internal("textures/ch3/rain4.png"))};
+    private float rainTimer = 0f;
+    private float rainAnimate=0.1f;
+    private int currRain = 0;
     public SadMap(World world, int level) {
         super(MapFactory.MapType.CHAPTER3, _mapPath[level], world);
         super.level = level;
@@ -74,6 +79,8 @@ public class SadMap extends Map {
         PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
         PlayerMovementController.getInstance().addPlayer(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
         PlayerMovementController.getInstance().setPlayer(0);
+
+
     }
 
     @Override
@@ -106,6 +113,7 @@ public class SadMap extends Map {
 
         //here we render everything, but each map renders in specific order or specific shader
 
+        ShaderFactory.getShader(ShaderFactory.ShaderType.BLACK_AND_WHITE_SHADER).render(batch, camera, dt);
         //maps parallaxed bg texture
         renderBackground(batch, dt);
 
@@ -152,8 +160,20 @@ public class SadMap extends Map {
         mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Paths"));
         mapRenderer.getBatch().end();
 
-        mapRenderer.getBatch().setShader(  (ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER)).getShaderProgram());
+        mapRenderer.getBatch().setShader(  (ShaderFactory.getShader(ShaderFactory.ShaderType.BLACK_AND_WHITE_SHADER)).getShaderProgram());
 
+
+        //drawing the rain
+        rainTimer += dt;
+        if(rainTimer >= rainAnimate)
+        {
+            rainTimer -= rainAnimate;
+            currRain = (currRain+1)% rain.length;
+        }
+
+        batch.begin();
+        batch.draw(rain[currRain], camera.position.x - rain[currRain].getWidth()/2/LearningGdx.PPM,camera.position.y - rain[currRain].getHeight()/2/LearningGdx.PPM, rain[currRain].getWidth()/LearningGdx.PPM, rain[currRain].getHeight()/LearningGdx.PPM);
+        batch.end();
     }
 
     @Override

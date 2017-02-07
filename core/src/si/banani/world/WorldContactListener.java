@@ -113,7 +113,12 @@ public class WorldContactListener implements ContactListener {
         else if(a.getUserData() instanceof Player && b.getUserData() instanceof CheckPoint){
             Player p = (Player) a.getUserData();
             p.setCheckpoint((CheckPoint)b.getUserData());
-            ((CheckPoint)b.getUserData()).setAlreadyActivated();
+            //((CheckPoint)b.getUserData()).setAlreadyActivated();
+
+        } else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof CheckPoint){
+            FemalePlayer p = (FemalePlayer) a.getUserData();
+            p.setCheckpoint((CheckPoint)b.getUserData());
+            //((CheckPoint)b.getUserData()).setAlreadyActivated();
 
         }
         else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof Spikes){
@@ -168,9 +173,16 @@ public class WorldContactListener implements ContactListener {
                     //the collision sensor
                     ((ZombieEnemy) a.getUserData()).switchDirection();
                 }
-            }else if(b.getUserData() instanceof Water || !b.isSensor()){
-                BasicPlayer p = (BasicPlayer) a.getUserData();
-                p.increaseFootContacts(1);
+            }else if(a.getUserData() instanceof Player){
+                 if(!b.isSensor() ){
+                    BasicPlayer p = (BasicPlayer) a.getUserData();
+                    p.increaseFootContacts(1);
+                }
+            }else if(a.getUserData() instanceof FemalePlayer){
+                if(b.getUserData() instanceof Water || !b.isSensor()){
+                    BasicPlayer p = (BasicPlayer) a.getUserData();
+                    p.increaseFootContacts(1);
+                }
             }
 
 
@@ -184,11 +196,16 @@ public class WorldContactListener implements ContactListener {
     }
     private void decollideChecker(Fixture a, Fixture b, boolean reverse){
        if(a.getUserData() instanceof BasicPlayer && a.isSensor()){
-            if(b.getUserData() instanceof Water || !b.isSensor()){
+
+
+           if(a.getUserData() instanceof FemalePlayer && (b.getUserData() instanceof Water || !b.isSensor())){
 
                 BasicPlayer p = (BasicPlayer) a.getUserData();
                 p.increaseFootContacts(-1);
-            }
+            }else if(a.getUserData() instanceof Player && !b.isSensor()){
+               BasicPlayer p = (BasicPlayer) a.getUserData();
+               p.increaseFootContacts(-1);
+           }
 
 
         }

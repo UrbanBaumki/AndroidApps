@@ -131,8 +131,9 @@ public class WorldCreator {
                     break;
 
                 case PROPS:
-                    Texture t = TextureManager.getTexture("box.png");
-                    Scene.addObjectToScene( new Prop(world, rect, t) );
+                    float density = Float.valueOf((String)object.getProperties().get("Density"));
+
+                    Scene.addObjectToScene( new Prop(world, rect, density) );
                     break;
                 case PLATFORM:
                     int dir = Integer.valueOf((String) object.getProperties().get("Dir"));

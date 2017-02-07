@@ -25,7 +25,7 @@ public class Prop extends InteractiveTile {
     private float yOffset;
     private TextureRegion region;
 
-    public Prop(World world, Rectangle rect, Texture t){
+    public Prop(World world, Rectangle rect, float density){
         super(world, rect);
 
         fixture.setUserData(this);
@@ -34,16 +34,16 @@ public class Prop extends InteractiveTile {
 
         body.setType(BodyDef.BodyType.DynamicBody);
         fixture.setRestitution(0f);
-        fixture.setDensity(0.8f);
+        fixture.setDensity(density);
         fixture.setFriction(0.3f);
         body.resetMassData();
 
 
 
 
-        t.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 
-         region = new TextureRegion(t, 0,0, (int)rect.getWidth(),(int)rect.getHeight());
+
+         region = new TextureRegion(new Texture(Gdx.files.internal("textures/props/swings.png")));
 
 
         this.width = region.getRegionWidth();

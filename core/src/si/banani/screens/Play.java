@@ -230,7 +230,7 @@ public class Play extends BaseScreen {
 
 
         //should be removed for finished game
-        /*
+
         if( Gdx.input.isKeyPressed(Input.Keys.D)){
             PlayerMovementController.getInstance().movePlayerRigth(true);
         }else{
@@ -260,7 +260,7 @@ public class Play extends BaseScreen {
         if( Gdx.input.isKeyJustPressed(Input.Keys.Q)){
             PlayerMovementController.getInstance().switchPlayer();
         }
-        */
+
 
 
     }
@@ -375,6 +375,7 @@ public class Play extends BaseScreen {
         //sets the correct projection matrix for hud
         batch.setProjectionMatrix(this.hud.stage.getCamera().combined);
 
+        ShaderFactory.getShader(ShaderFactory.ShaderType.DEFAULT_SHADER).render(batch,camera,delta);
         hud.render(delta);
 
         this.inputController.draw();

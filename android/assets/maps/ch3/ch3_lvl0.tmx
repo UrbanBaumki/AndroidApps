@@ -21,7 +21,7 @@
  <objectgroup name="Cutscene">
   <object id="2" x="1" y="1" width="317" height="3214">
    <properties>
-    <property name="Cutscene" value="0"/>
+    <property name="Cutscene" value="1"/>
     <property name="DialogScreen" value="true"/>
     <property name="Finished" value="false"/>
     <property name="Level" value="1"/>
