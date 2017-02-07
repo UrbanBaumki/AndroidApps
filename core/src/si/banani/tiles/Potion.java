@@ -5,15 +5,49 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import si.banani.learning.LearningGdx;
+import si.banani.sound.AudioManager;
+import si.banani.sound.AudioObserver;
+import si.banani.sound.AudioSubject;
 import si.banani.world.CollisionBits;
 
 /**
  * Created by Urban on 27.1.2017.
  */
 
-public class Potion extends InteractiveTile {
+public class Potion extends InteractiveTile implements AudioSubject{
+
+    Array<AudioObserver> _observers = new Array<AudioObserver>();
+
+    public void loadSounds(){
+
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_POTION);
+    }
+    @Override
+    public void addObserver(AudioObserver observer) {
+        _observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(AudioObserver observer) {
+        _observers.removeValue(observer, true);
+    }
+
+    @Override
+    public void removeAllObservers() {
+        _observers.removeAll(_observers, true);
+    }
+
+    @Override
+    public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
+        for(AudioObserver observer : _observers)
+            observer.onNotify(command, event);
+    }
+    public void playGulp(){
+        notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_POTION);
+    }
 
     public enum PotionType{
         HEALTH,
@@ -46,6 +80,9 @@ public class Potion extends InteractiveTile {
         x = body.getPosition().x;
         y = body.getPosition().y;
 
+        this.addObserver(AudioManager.getInstance());
+        loadSounds();
+
     }
 
     public int getValue(){return this.value; }
@@ -76,6 +113,7 @@ public class Potion extends InteractiveTile {
     }
     public void pickup(){
         this.destroy = true;
+        playGulp();
     }
     public PotionType getPotionType(){
         return type;

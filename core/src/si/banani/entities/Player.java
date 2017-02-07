@@ -4,6 +4,7 @@ package si.banani.entities;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -48,8 +49,11 @@ public class Player extends BasicPlayer implements AudioSubject {
     private float stepTime = 0f;
     private float stepTimer = 0f;
     private AudioObserver.AudioTypeEvent steps[] = {AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_1, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_2, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_3, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_4};
+    private AudioObserver.AudioTypeEvent hurt[] = {AudioObserver.AudioTypeEvent.SOUND_HURT_1, AudioObserver.AudioTypeEvent.SOUND_HURT_2};
+
     Random r = new Random();
     OrthographicCamera camera;
+
     public Player(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed, Hud hud, OrthographicCamera camera) {
         super(world, x, y, width, height, bodyType);
         ((body.getFixtureList()).get(0)).setUserData(this);
@@ -80,6 +84,7 @@ public class Player extends BasicPlayer implements AudioSubject {
         body.resetMassData();
 
         footFixture.setUserData(this);
+        circleFixture.setUserData(this);
 
         this.currentState = PlayerState.STANDING;
         this.previousState = PlayerState.STANDING;
@@ -129,6 +134,9 @@ public class Player extends BasicPlayer implements AudioSubject {
         if(reset){
             resetPlayer();
             reset = false;
+        }else if(maxHealth == 0){
+            Play.gameState = Play.GameState.GAME_OVER;
+            return;
         }
         this.switching = false;
         super.update(dt);
@@ -186,9 +194,10 @@ public class Player extends BasicPlayer implements AudioSubject {
     public void resetPlayer(){
         hud.decreaseLives();
         maxHealth--;
+        playHurtSounds();
         hud.update();
         dir = 1;
-        if(hud.getNumLives() == 0){
+        if(hud.getNumLives() <= 0){
 
             Play.gameState = Play.GameState.GAME_OVER;
 
@@ -200,11 +209,16 @@ public class Player extends BasicPlayer implements AudioSubject {
 
     }
 
+    public void playHurtSounds(){
+        notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE,hurt[r.nextInt(hurt.length)] );
+    }
 
-
-    public void recieveDamage(float dmg, int dir){
-        this.health -= dmg;
-        float force = dir * dmg * 15;
+    public void recieveDamage(int dmg, int dir){
+        this.maxHealth -= dmg;
+        maxHealth = MathUtils.clamp(maxHealth, 0, 3);
+        setMaxHealth(maxHealth);
+        playHurtSounds();
+        float force = dir  * 100;
         body.applyForceToCenter(force, Math.abs(force/3), true);
     }
     public float getX(){return this.x;}
@@ -252,6 +266,8 @@ public class Player extends BasicPlayer implements AudioSubject {
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_2);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_3);
         notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_STEP_GRASS_4);
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_HURT_1);
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_HURT_2);
     }
     @Override
     public void addObserver(AudioObserver observer) {

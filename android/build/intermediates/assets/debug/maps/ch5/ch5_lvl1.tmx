@@ -102,7 +102,7 @@
   </data>
  </layer>
  <objectgroup name="Spikes">
-  <object id="39" x="1728" y="1382.67" width="254.667" height="25.3333"/>
+  <object id="39" x="1728.67" y="1344.17" width="254.667" height="18.8333"/>
  </objectgroup>
  <objectgroup name="Dialogs">
   <object id="41" x="264.667" y="1371.34" width="7" height="96.3333">
@@ -125,7 +125,7 @@
   <object id="53" x="2376.37" y="1212.83" width="59.375" height="53.125"/>
  </objectgroup>
  <objectgroup name="Enemies">
-  <object id="49" x="2236.12" y="1205.95" width="30.5" height="23">
+  <object id="49" x="2084.12" y="1232.62" width="30.5" height="23">
    <properties>
     <property name="Type" value="ZOMBIE"/>
    </properties>

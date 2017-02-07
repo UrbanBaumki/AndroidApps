@@ -108,10 +108,7 @@ public class WorldContactListener implements ContactListener {
         else if(a.getUserData() != null && a.getUserData() instanceof Spikes && b.getUserData() != null && b.getUserData() instanceof Box){
             //spikes and a box
 
-        }else if(a.getUserData() != null && a.getUserData() instanceof Player && b.getUserData() != null && b.getUserData().equals("stairs")){
-            Player p = (Player)a.getUserData();
 
-            Gdx.app.log("Stairs", "Stairs");
         }else if(a.getUserData() instanceof FemalePlayer && b.getUserData() instanceof Potion){ //female in energy potion
             Potion p = (Potion) b.getUserData();
             if(p.getPotionType() == Potion.PotionType.ENERGY)
@@ -138,9 +135,14 @@ public class WorldContactListener implements ContactListener {
 
         } else if(a.getUserData() instanceof Player &&  b.getUserData() instanceof RockEnemy ){
             RockEnemy p = (RockEnemy) b.getUserData();
-            p.dealDamageToTarget();
-            Gdx.app.log("Dotik", "");
+            p.setTarget((Player)a.getUserData());
+            p.setDoAttack(true);
 
+
+        }else if(a.getUserData() instanceof Player &&  b.getUserData() instanceof ZombieEnemy){
+            ZombieEnemy p = (ZombieEnemy) b.getUserData();
+            p.setTarget((Player)a.getUserData());
+            p.setDoAttack(true);
         }else if(a.getUserData() instanceof  BasicPlayer && a.isSensor() && b.getUserData() instanceof  Ladder){
             ((BasicPlayer)a.getUserData()).setCanClimb(true);
 

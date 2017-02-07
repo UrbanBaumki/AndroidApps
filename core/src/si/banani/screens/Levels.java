@@ -35,7 +35,7 @@ public class Levels extends BaseScreen {
 
     private Stage stage;
     private Table layout;
-    private Label ch1, ch2, ch3, ch4, ch5;
+    private Label selectChapter, ch1, ch2, ch3, ch4, ch5;
     private BitmapFont font;
     private Label.LabelStyle style;
     private TweenManager tweenManager;
@@ -80,6 +80,7 @@ public class Levels extends BaseScreen {
         font.getData().setScale(0.35f);
         style = new Label.LabelStyle(font, Color.WHITE);
 
+        selectChapter = new Label("Select a chapter:", style);
         ch1 = new Label("Chapter 1: Loneliness", style);
         ch2 = new Label("Chapter 2: Fear", style);
         ch3 = new Label("Chapter 3: Sadness", style);
@@ -87,6 +88,7 @@ public class Levels extends BaseScreen {
         ch5 = new Label("Chapter 5: The End", style);
 
 
+        layout.add(selectChapter).expandX();
         //listeners
 
         ch1.addListener(new InputListener(){
@@ -99,7 +101,7 @@ public class Levels extends BaseScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
-                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER5);
+                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER1);
 
 
             }

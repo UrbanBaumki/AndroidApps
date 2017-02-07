@@ -113,10 +113,10 @@ public final class Utility {
 
 
             _assetManager.finishLoadingAsset(soundFilenamePath);
-            Gdx.app.debug(TAG, "Sound loaded!: " + soundFilenamePath);
+            Gdx.app.log(TAG, "Sound loaded!: " + soundFilenamePath);
         }
         else{
-            Gdx.app.debug(TAG, "Sound doesn't exist!: " + soundFilenamePath );
+            Gdx.app.log(TAG, "Sound doesn't exist!: " + soundFilenamePath );
         }
     }
 
@@ -128,7 +128,7 @@ public final class Utility {
         if( _assetManager.isLoaded(soundFilenamePath) ){
             sound = _assetManager.get(soundFilenamePath,Sound.class);
         } else {
-            Gdx.app.debug(TAG, "Sound is not loaded: " + soundFilenamePath );
+            Gdx.app.log(TAG, "Sound is not loaded: " + soundFilenamePath );
         }
 
         return sound;
@@ -150,10 +150,10 @@ public final class Utility {
 
 
             _assetManager.finishLoadingAsset(musicFilenamePath);
-            Gdx.app.debug(TAG, "Music loaded!: " + musicFilenamePath);
+            Gdx.app.log(TAG, "Music loaded!: " + musicFilenamePath);
         }
         else{
-            Gdx.app.debug(TAG, "Music doesn't exist!: " + musicFilenamePath );
+            Gdx.app.log(TAG, "Music doesn't exist!: " + musicFilenamePath );
         }
     }
 

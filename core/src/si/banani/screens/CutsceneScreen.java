@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.camera.CameraEffects;
@@ -42,6 +43,7 @@ public class CutsceneScreen extends Play implements AudioSubject {
 
     private Image transitionImage;
     private Stage stage;
+    private Stage dialogStage;
     private Viewport viewport;
     private OrthographicCamera camera;
 
@@ -69,11 +71,13 @@ public class CutsceneScreen extends Play implements AudioSubject {
         viewport = mapManager.getCurrentViewport();
         stage = new Stage(viewport);
 
+        dialogStage = new Stage(new FitViewport(LearningGdx.V_WIDTH,LearningGdx.V_HEIGHT));
+
 
         playerWalking = new CutSceneAnimated("playerMale", 15, 48, 1/7f);
 
         dialogUI = new DialogUI();
-        dialogUI.setScale(1/LearningGdx.PPM, 1/LearningGdx.PPM);
+
 
         //creating a black transition image from pixmap
         Pixmap pixmap = new Pixmap(1,1, Pixmap.Format.RGBA8888);
@@ -139,7 +143,7 @@ public class CutsceneScreen extends Play implements AudioSubject {
 
                 dialogUI.setVisible(false);
 
-                ConversationHolder.getInstance().setCurrent_chapter("21");
+                ConversationHolder.getInstance().setCurrent_chapter("11");
 
                 camera.position.set(playerWalking.getX(),playerWalking.getY(),0);
                 camera.update();
@@ -150,9 +154,16 @@ public class CutsceneScreen extends Play implements AudioSubject {
         };
 
         stage.addActor(playerWalking);
-        stage.addActor(transitionImage);
-        stage.addActor(dialogUI);
+
+
+        dialogStage.addActor(dialogUI);
+        dialogUI.setVisible(false);
+        dialogUI.setKeepWithinStage(false);
+        dialogStage.addActor(transitionImage);
+       // stage.addActor(dialogUI);
         transitionImage.toFront();
+
+
 
 
     }
@@ -192,17 +203,20 @@ public class CutsceneScreen extends Play implements AudioSubject {
         //playerWalking.setPosition(camera.position.x- LearningGdx.V_WIDTH/2/LearningGdx.PPM, camera.position.y- LearningGdx.V_HEIGHT/2/LearningGdx.PPM);
         camera.position.y = playerWalking.getY();
         camera.position.x = playerWalking.getX();
-        transitionImage.setPosition(camera.position.x- LearningGdx.V_WIDTH/2/LearningGdx.PPM, camera.position.y- LearningGdx.V_HEIGHT/2/LearningGdx.PPM);
+        //transitionImage.setPosition(camera.position.x- LearningGdx.V_WIDTH/2/LearningGdx.PPM, camera.position.y- LearningGdx.V_HEIGHT/2/LearningGdx.PPM);
+        transitionImage.setPosition(0,0);
         camera.update();
 
         stage.act(delta);
         stage.draw();
 
+
         if(dialogRunning){
 
 
-            dialogUI.setPosition(playerWalking.getX(), playerWalking.getY()+0.5f);
 
+            //dialogUI.setPosition(playerWalking.getX(), playerWalking.getY()+0.5f);
+            dialogUI.setPosition(dialogUI.getStage().getWidth()/2 - dialogUI.getWidth()/2, dialogUI.getStage().getHeight() - dialogUI.getHeight());
             if(dialogUI.render(delta)){
 
                 String next = ConversationHolder.getInstance().getCurrentText();
@@ -214,6 +228,9 @@ public class CutsceneScreen extends Play implements AudioSubject {
             }
 
         }
+
+        dialogStage.act(delta);
+        dialogStage.draw();
 
     }
 

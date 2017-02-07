@@ -12,25 +12,29 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 
 import si.banani.animation.Animation;
 import si.banani.learning.LearningGdx;
+import si.banani.sound.AudioManager;
+import si.banani.sound.AudioObserver;
+import si.banani.sound.AudioSubject;
 import si.banani.world.CollisionBits;
 
 /**
  * Created by Urban on 15.12.2016.
  */
 
-public class RockEnemy extends BasicPlayer {
+public class RockEnemy extends BasicPlayer implements AudioSubject {
 
     private TextureRegion[] sprites;
-    private Animation walk;
+    private Animation walk, attack;
     private float yOffset = 5f;
-    private float damage = 10f;
     private boolean dead = false;
     private TextureRegion deadTexture;
     private boolean destroy, destroyed;
-
+    private boolean doAttack = false;
+    Array<AudioObserver> _observers = new Array<AudioObserver>();
     public RockEnemy(World world, int x, int y, int width, int height, BodyDef.BodyType bodyType, TextureRegion[] sprites, float frameSpeed) {
         super(world, x, y, width, height, bodyType);
 
@@ -46,7 +50,7 @@ public class RockEnemy extends BasicPlayer {
         this.sprites = sprites;
 
         this.dir = 1;
-        this.movementSpeed = 0.1f;
+        this.movementSpeed = 0.7f;
         this.maxMovSpeed = 0.95f;
         this.jumpSpeed = 4f;
 
@@ -69,6 +73,7 @@ public class RockEnemy extends BasicPlayer {
 
 
         body.destroyFixture(footFixture);
+        world.destroyJoint(body.getJointList().get(0).joint);
         circleBody.destroyFixture(circleFixture);
 
         //creating a sensor as a radar to detect our target
@@ -91,10 +96,17 @@ public class RockEnemy extends BasicPlayer {
         radar.setUserData(this);
 
         deadTexture = new TextureRegion(new Texture(Gdx.files.internal("textures/props/dead_rock.png")));
-
+        TextureRegion[] attacks = new TextureRegion(new Texture(Gdx.files.internal("textures/props/rock_attack.png"))).split(45,37)[0];
+        attack = new Animation(attacks, 1/3f);
+        this.addObserver(AudioManager.getInstance());
+        loadSounds();
     }
     public void dealDamageToTarget(){
-        target.recieveDamage(damage, dir);
+        if(target == null)
+            return;
+        if(Math.abs(target.getPosition().x - x) <= 0.5f && Math.abs(target.getPosition().y - y) <= 0.5f)
+            target.recieveDamage(1, dir);
+        doAttack = false;
     }
 
     @Override
@@ -107,12 +119,12 @@ public class RockEnemy extends BasicPlayer {
 
         if(dir == -1 && getXvelocity() >= -maxMovSpeed && currentState == PlayerState.FOLLOWING)
         {
-            this.body.applyLinearImpulse(new Vector2(-movementSpeed, 0), body.getWorldCenter(), true);
+            this.body.applyForceToCenter(new Vector2(-movementSpeed, 0), true);
 
         }
         if(dir == 1 && getXvelocity() <= maxMovSpeed  && currentState == PlayerState.FOLLOWING)
         {
-            this.body.applyLinearImpulse(new Vector2(movementSpeed, 0), body.getWorldCenter(), true);
+            this.body.applyForceToCenter(new Vector2(movementSpeed, 0), true);
 
         }
 
@@ -142,6 +154,10 @@ public class RockEnemy extends BasicPlayer {
                 currFrame = this.walk.getCurrentFrame();
                 this.walk.update(dt);
                 break;
+            case ATTACKING:
+                currFrame = attack.getCurrentFrame();
+                attack.update(dt);
+                break;
         }
         timeInCurrentState = currentState == previousState ? timeInCurrentState + dt : 0;
         previousState = currentState;
@@ -156,6 +172,10 @@ public class RockEnemy extends BasicPlayer {
             destroy = true;
         }else if(dead){
             state = PlayerState.DEAD;
+        }else if(doAttack && timeInCurrentState >= 0.7f){
+            dealDamageToTarget();
+        }else if(doAttack ){
+            state = PlayerState.ATTACKING;
         }
         else if(target != null) {
             if (this.x <= target.getPosition().x)
@@ -184,7 +204,8 @@ public class RockEnemy extends BasicPlayer {
     }
 
     public void setDead(boolean dead) {
-        this.dead = dead;
+        this.dead = dead; timeInCurrentState = 0f;
+        playDeadSound();
     }
 
     public boolean isDestroy() {
@@ -201,5 +222,43 @@ public class RockEnemy extends BasicPlayer {
 
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
+    }
+
+    public boolean isDoAttack() {
+
+        return doAttack;
+    }
+
+    public void setDoAttack(boolean doAttack) {
+        this.doAttack = doAttack;
+        timeInCurrentState = 0f;
+    }
+
+    public void playDeadSound(){
+        notify(AudioObserver.AudioCommand.SOUND_PLAY_ONCE, AudioObserver.AudioTypeEvent.SOUND_ZOMBIE_DIE);
+    }
+    public void loadSounds(){
+
+        notify(AudioObserver.AudioCommand.SOUND_LOAD, AudioObserver.AudioTypeEvent.SOUND_ZOMBIE_DIE);
+    }
+    @Override
+    public void addObserver(AudioObserver observer) {
+        _observers.add(observer);
+    }
+
+    @Override
+    public void removeObserver(AudioObserver observer) {
+        _observers.removeValue(observer, true);
+    }
+
+    @Override
+    public void removeAllObservers() {
+        _observers.removeAll(_observers, true);
+    }
+
+    @Override
+    public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
+        for(AudioObserver observer : _observers)
+            observer.onNotify(command, event);
     }
 }
