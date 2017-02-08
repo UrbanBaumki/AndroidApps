@@ -85,18 +85,8 @@ public class WorldContactListener implements ContactListener {
             }
 
         }else if(a.getUserData() instanceof Player && b.getUserData() instanceof CutscenePoint){
-            CutscenePoint cutscenePoint = (CutscenePoint) b.getUserData();
-            boolean switchToDialogScreen = cutscenePoint.isDialogScreen();
-            if(switchToDialogScreen){
-                Play.switchToDialogScreen = true;
-            }else{
-                Play.switchToCutscene = true;
-            }
+            Play.switchToCutscene = true;
 
-            Play.cutsceneNumber = cutscenePoint.getCutsceneNum();
-            Play.nextMap = cutscenePoint.getNextChap();
-            Play.nextLevel = cutscenePoint.getNextLevel();
-            Play.chapFinished = cutscenePoint.isFinished();
 
         }else if(a.getUserData() instanceof Spikes && b.getUserData() instanceof RockEnemy){
             ((RockEnemy)b.getUserData()).setDead(true);

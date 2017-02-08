@@ -56,7 +56,7 @@ public class LearningGdx extends Game {
 		ScreenManager.getInstance().disposeAll();
 		TextureManager.getInstance().disposeAll();
 		Utility._assetManager.dispose();
-		super.dispose();
+
 
 	}
 	@Override

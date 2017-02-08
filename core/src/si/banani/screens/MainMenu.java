@@ -61,7 +61,7 @@ public class MainMenu extends BaseScreen {
 
         play = new TextButton("Play",buttonStyle );
 
-        settings = new TextButton("Settings", buttonStyle);
+        settings = new TextButton("Credits", buttonStyle);
         exit = new TextButton("Exit", buttonStyle);
 
         //adding listeners
@@ -93,7 +93,7 @@ public class MainMenu extends BaseScreen {
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
                 resetBgColor();
 
-                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.SETTINGS, batch);
+                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.CREDITS, batch, null);
             }
         });
 

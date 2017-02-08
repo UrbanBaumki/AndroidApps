@@ -17,14 +17,18 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import si.banani.learning.LearningGdx;
+import si.banani.maps.Map;
 import si.banani.maps.MapFactory;
+import si.banani.sound.AudioManager;
+import si.banani.sound.AudioObserver;
+import si.banani.sound.AudioSubject;
 
 /**
  * Created by Urban on 1.1.2017.
  */
 
-public class DialogScreen extends BaseScreen {
-
+public class DialogScreen extends BaseScreen implements AudioSubject{
+    private Array<AudioObserver> _observers;
     private BitmapFont font;
     private float timeDisplayed,pauseTime, endPauseTime;
     boolean finished;
@@ -35,9 +39,11 @@ public class DialogScreen extends BaseScreen {
     Array<String> dialogs ;
 
 
-    public DialogScreen(SpriteBatch spriteBatch, int textNum){
+    public DialogScreen(SpriteBatch spriteBatch, int textNum) {
         super(spriteBatch);
 
+        _observers = new Array<AudioObserver>();
+        addObserver(AudioManager.getInstance());
         this.textNum = textNum;
         dialogs = new Array<String>();
 
@@ -79,11 +85,22 @@ public class DialogScreen extends BaseScreen {
         //displayLabel.setWrap(true);
         stage.addActor(displayTable);
 
+        loadMusic();
+
+        if(textNum == 1)
+            startEndMusic();
     }
 
+    public void loadMusic(){
+        notify(AudioObserver.AudioCommand.MUSIC_LOAD, AudioObserver.AudioTypeEvent.MUSIC_ENDING);
+    }
+    public void startEndMusic(){
+
+        notify(AudioObserver.AudioCommand.MUSIC_PLAY_LOOP, AudioObserver.AudioTypeEvent.MUSIC_ENDING);
+    }
     @Override
     public void show() {
-
+        Gdx.input.setInputProcessor(null);
     }
     private String getCurrentString(float dt){
 
@@ -107,8 +124,10 @@ public class DialogScreen extends BaseScreen {
         if(finished){
             finished = false;
             timeDisplayed = 0;
-
-            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER1);
+            if(textNum == 1){
+                ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.CREDITS, batch);
+            }else
+                ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER1);
         }
 
         updateLabelString( getCurrentString(delta) );
@@ -119,6 +138,7 @@ public class DialogScreen extends BaseScreen {
     private void updateLabelString(String string){
         ((Label) displayTable.getCells().get(0).getActor()).setText(string);
     }
+
 
     @Override
     public void pause() {
@@ -139,5 +159,27 @@ public class DialogScreen extends BaseScreen {
     public void dispose() {
 
         font.dispose();
+    }
+
+    @Override
+    public void addObserver(AudioObserver audioObserver) {
+        _observers.add(audioObserver);
+    }
+
+    @Override
+    public void removeObserver(AudioObserver audioObserver) {
+        _observers.removeValue(audioObserver, true);
+    }
+
+    @Override
+    public void removeAllObservers() {
+        _observers.removeAll(_observers, true);
+    }
+
+    @Override
+    public void notify(AudioObserver.AudioCommand command, AudioObserver.AudioTypeEvent event) {
+        for(AudioObserver observer: _observers){
+            observer.onNotify(command, event);
+        }
     }
 }

@@ -238,4 +238,11 @@ public class MapManager implements ProfileObserver{
     public Player getMale() {
         return male;
     }
+    public void unloadMusic(){
+        _currentMap.unloadMusic();
+    }
+
+    public Map get_currentMap() {
+        return _currentMap;
+    }
 }

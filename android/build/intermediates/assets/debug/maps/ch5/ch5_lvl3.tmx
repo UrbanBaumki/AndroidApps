@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="100">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="104">
  <tileset firstgid="1" name="ch5_tiles" tilewidth="64" tileheight="64" spacing="2" tilecount="45" columns="15">
   <image source="ch5_tiles.png" width="1024" height="256"/>
  </tileset>
  <tileset firstgid="46" name="her_path" tilewidth="64" tileheight="64" spacing="2" tilecount="7" columns="7">
   <image source="../ch3/her_path.png" width="512" height="128"/>
+ </tileset>
+ <tileset firstgid="53" name="lying" tilewidth="64" tileheight="64" spacing="2" tilecount="1" columns="1">
+  <image source="../../textures/ch5/lying.png" width="128" height="128"/>
  </tileset>
  <layer name="Bg" width="57" height="30">
   <data encoding="base64" compression="zlib">
@@ -13,13 +16,14 @@
  </layer>
  <layer name="Fg" width="57" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt1jESgCAQQ9EVTyAnQL3/HZUWKShwwfjfTPrNUBAzAAAAAHhX7JhZnR0zq330AQ7W0Qc4oKMGOmr4Q8d0Zymi9p8Ee+4Vtbc9Kskdt4Z8heI+LSlvcWi5ABRdCDs=
+   eJzt1sENgCAQRNFVKsAKVGqg/9bUK3LwAAtO/kvmvpOQMGYAAAAA0NfWMLNKDTOrY/QBDsLoAxzQUQMdNdQ6Zvcr+trvLEXU/pPV3ntF7f2elTwd44f8heI+LSlvcWi5AInoCHA=
   </data>
  </layer>
  <objectgroup name="Floor">
   <object id="20" x="2.66667" y="1473.33" width="384" height="192"/>
   <object id="37" x="1.33333" y="1028" width="64" height="448"/>
-  <object id="99" x="384" y="1024" width="64" height="448"/>
+  <object id="99" x="380" y="1545" width="358" height="81"/>
+  <object id="103" x="896" y="1024" width="64" height="576"/>
  </objectgroup>
  <objectgroup name="Boxes"/>
  <objectgroup name="Switches"/>
@@ -54,4 +58,10 @@
  </objectgroup>
  <objectgroup name="Platforms"/>
  <objectgroup name="Props"/>
+ <objectgroup name="Blocker">
+  <object id="101" x="256" y="1152" width="64" height="320"/>
+ </objectgroup>
+ <objectgroup name="Cutscene">
+  <object id="102" x="382.667" y="1530.67" width="540" height="64"/>
+ </objectgroup>
 </map>

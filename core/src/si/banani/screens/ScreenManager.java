@@ -118,6 +118,7 @@ public class ScreenManager {
 
         currentScreen = screenToChange;
 
+
         game.setScreen(currentScreen);
 
     }

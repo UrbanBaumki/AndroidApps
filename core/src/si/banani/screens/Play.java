@@ -290,7 +290,8 @@ public class Play extends BaseScreen {
 
         if(switchToCutscene){
             switchToCutscene = false;
-            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.CUTSCENE, batch, cutsceneNumber);
+            mapManager.unloadMusic();
+            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.DIALOG, batch, 1);
             return;
         }
         if(nextMap != null && !switchToCutscene){

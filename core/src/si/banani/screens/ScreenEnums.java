@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.sun.prism.PhongMaterial;
 
+import si.banani.maps.Map;
 import si.banani.maps.MapFactory;
 
 /**
@@ -58,6 +59,13 @@ public enum ScreenEnums {
                     return null;
                 return new CutsceneScreen((SpriteBatch) params[0], (Integer) params[1]);
             }
+    },
+    CREDITS{
+        public Screen getScreen(Object... params){
+            if(params == null)
+                return null;
+            return new CreditsScreen((SpriteBatch) params[0]);
+        }
     },
 
     DIALOG{

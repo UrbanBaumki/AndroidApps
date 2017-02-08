@@ -193,14 +193,8 @@ public class WorldCreator {
                     Scene.addObjectToScene(new Water(world, rect));
                     break;
                 case CUTSCENE:
-                    String chapp = (String)object.getProperties().get("NextChapter");
-                    int level = Integer.valueOf((String)object.getProperties().get("Level"));
-                    boolean fin = Boolean.parseBoolean((String)object.getProperties().get("Finished"));
-                    boolean dialogScreen = Boolean.parseBoolean((String)object.getProperties().get("DialogScreen"));
 
-                    System.out.println(dialogScreen);
-                    int cutscene = Integer.valueOf((String)object.getProperties().get("Cutscene"));
-                    new CutscenePoint(world, rect, cutscene , chapp, level, fin, dialogScreen);
+                    new CutscenePoint(world, rect);
                     break;
             }
 
