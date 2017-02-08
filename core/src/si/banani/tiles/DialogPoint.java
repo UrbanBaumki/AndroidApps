@@ -41,4 +41,12 @@ public class DialogPoint extends InteractiveTile {
     public void update(float dt) {
 
     }
+
+    public String getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(String chapter) {
+        this.chapter = chapter;
+    }
 }

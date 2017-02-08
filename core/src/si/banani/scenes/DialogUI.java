@@ -92,4 +92,12 @@ public class DialogUI extends Window {
     public Vector3 getPosition(){
         return new Vector3(super.getX(), super.getY(), 0);
     }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
 }

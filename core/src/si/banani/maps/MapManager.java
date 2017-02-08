@@ -174,14 +174,12 @@ public class MapManager implements ProfileObserver{
                     currentMapType = mt;
                     profileManager.addChapter(currentMapType.toString(), chap);
                     loadMap(currentMapType, currentLevel);
-                    setMale((Player) EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
-                    setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
+
                 }else{
                     currentMapType = mt;
                     currentLevel = chap.getLastLevelPlayed();
                     loadMap(currentMapType, currentLevel);
-                    setMale((Player) EntityFactory.getEntity(EntityFactory.EntityType.PLAYER));
-                    setGhost((FemalePlayer) EntityFactory.getEntity(EntityFactory.EntityType.FEMALE));
+
                     male.setTransform(chap.getLastX(), chap.getLastY(), 0);
                     ghost.setTransform(chap.getLastX() - 0.2f, chap.getLastY(), 0);
                 }
@@ -192,7 +190,7 @@ public class MapManager implements ProfileObserver{
 
                 ghost.setEnergyLevel(chap.getLastGhostEnergy());
 
-                CameraCoordinates c = new CameraCoordinates(male, ghost, currCamera);
+                CameraCoordinates c = new CameraCoordinates(male, ghost, _currentMap.getCamera());
                 hud.setCameraCoordinates(c);
 
                 break;

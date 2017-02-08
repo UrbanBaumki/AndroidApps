@@ -13,7 +13,6 @@ import si.banani.serialization.Serializer;
 
 public class ConversationHolder {
 
-    private static final String CONVERSATIONS_FILE_NAME = "conversations";
     private static ChapterConversation CHAPTER_CONVERSATION;
 
     private static String current_chapter = "11";
@@ -21,7 +20,7 @@ public class ConversationHolder {
 
     public static int currentSpeaker = 0;
     public static int currentIndex = 0;
-    public static float textDisplayTime = 0;
+
 
     private static ConversationHolder conversationHolder;
 
@@ -40,7 +39,7 @@ public class ConversationHolder {
 
     public static String getCurrentText(){
         String s =  current_conversation.getDialogOfIndex(currentIndex);
-        next();
+
         return s;
     }
     public static void next(){

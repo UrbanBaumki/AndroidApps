@@ -168,6 +168,7 @@ public class Play extends BaseScreen {
 
          c = new CameraCoordinates(male, female, mapManager.getCurrentCamera());
         hud.setCameraCoordinates(c);
+        hud.setGivenCamera(mapManager.getCurrentCamera());
 
 
         //s = new SpiderEnemy(world, 355, 150, 10, 28, BodyDef.BodyType.KinematicBody, TextureManager.getRegionByName("spiderEnemy").split(14,61)[0],  TextureManager.getRegionByName("spiderAttacking").split(23,61)[0] , 1/6f,1/3f, male);
@@ -300,6 +301,7 @@ public class Play extends BaseScreen {
             levelH = properties.get("height", Integer.class);
 
 
+
             //we give both players to the map manager, so it could create SaveDescriptor
 
         }
@@ -352,6 +354,8 @@ public class Play extends BaseScreen {
             pointLight.attachToBody(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).getBody());
 
             resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            EntityFactory.giveHud(hud);
+            hud.setGivenCamera(mapManager.getCurrentCamera());
         }
 
 

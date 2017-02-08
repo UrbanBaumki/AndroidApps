@@ -149,9 +149,17 @@ public class WorldContactListener implements ContactListener {
 
         } else if(a.getUserData() instanceof Player && b.getUserData() instanceof DialogPoint){
             DialogPoint p = (DialogPoint) b.getUserData();
-            p.setDialogToDisplay();
-            p.setExecuted();
-            ((Player)a.getUserData()).startDialog();
+            if(p.getChapter().equals("21")){
+                p.setDialogToDisplay();
+                p.setExecuted();
+                ((Player)a.getUserData()).startDialog();
+            }else{
+                p.setDialogToDisplay();
+                p.setExecuted();
+                ((Player)a.getUserData()).startDialog();
+            }
+
+
 
         } else if(a.getUserData() instanceof Player &&  b.getUserData() instanceof RockEnemy ){
             RockEnemy p = (RockEnemy) b.getUserData();

@@ -20,9 +20,11 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import si.banani.camera.CameraEffects;
+import si.banani.conversations.Conversation;
 import si.banani.conversations.ConversationHolder;
 import si.banani.entities.BasicPlayer;
 import si.banani.entities.CameraCoordinates;
+import si.banani.entities.EntityFactory;
 import si.banani.entities.FemalePlayer;
 import si.banani.entities.Player;
 import si.banani.learning.LearningGdx;
@@ -56,6 +58,8 @@ public class Hud {
 
     private boolean dialogRunning = false;
     private boolean dialogCutscene = false;
+
+    private OrthographicCamera givenCamera;
 
     public Hud(SpriteBatch batch){
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
@@ -131,14 +135,22 @@ public class Hud {
 
         if(dialogRunning){
 
+            int currSpeaker = ConversationHolder.getCurrentSpeaker();
+            Vector3 pPos;
+            if(currSpeaker == 0){
+                pPos = new Vector3(EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).getPosition().x, EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).getPosition().y, 0);
 
-            Vector3 windowCoords = cameraCoordinates.getProjectedPositionFromCamera(1-ConversationHolder.getInstance().getCurrentSpeaker());
+            }else{
+                pPos = new Vector3(EntityFactory.getEntity(EntityFactory.EntityType.FEMALE).getPosition().x, EntityFactory.getEntity(EntityFactory.EntityType.PLAYER).getPosition().y, 0);
+            }
+            Vector3 windowCoords = givenCamera.project(pPos);
             viewport.unproject(windowCoords);
 
             _dialogUI.setPosition(windowCoords.x - CameraEffects.offsetX, 150 );
 
             if(_dialogUI.render(dt)){
 
+                ConversationHolder.getInstance().next();
                 String next = ConversationHolder.getInstance().getCurrentText();
 
                 if (next == null)
@@ -185,17 +197,17 @@ public class Hud {
         return numLives;
     }
     public void enableDialog(boolean b){
+
+        if(b){
+            String next = ConversationHolder.getInstance().getCurrentText();
+            _dialogUI.setNextText(next, next.length()/10f);
+            _dialogUI.setFinished(false);
+        }
         _dialogUI.setVisible(b);
         dialogRunning = b;
 
     }
-    public void enableDialogForCutscene(boolean b){
-        for(Actor a : stage.getActors()){
-            a.setVisible(false);
-        }
-        _dialogUI.setVisible(b);
-        dialogRunning = b;
-    }
+
     public void resize(int width, int height){
         stage.getViewport().update(width, height);
         _dialogUI.getStage().getViewport().update(width,height);
@@ -210,5 +222,13 @@ public class Hud {
     }
     public void hidePause(){
         pauseUI.setVisible(false);
+    }
+
+    public OrthographicCamera getGivenCamera() {
+        return givenCamera;
+    }
+
+    public void setGivenCamera(OrthographicCamera givenCamera) {
+        this.givenCamera = givenCamera;
     }
 }
