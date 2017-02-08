@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="299">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="300">
  <tileset firstgid="1" name="her_path" tilewidth="64" tileheight="64" spacing="2" tilecount="7" columns="7">
   <image source="../ch3/her_path.png" width="512" height="128"/>
  </tileset>
@@ -147,6 +147,7 @@
  <objectgroup name="Checkpoints">
   <object id="247" x="2048" y="851" width="64" height="300"/>
   <object id="248" x="1540" y="1041" width="64" height="300"/>
+  <object id="299" x="360.333" y="1199" width="181.333" height="24"/>
  </objectgroup>
  <objectgroup name="Enemies">
   <object id="284" x="1654.45" y="1476.38" width="30.5" height="23">

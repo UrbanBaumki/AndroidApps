@@ -34,6 +34,7 @@ import si.banani.tiles.CutscenePoint;
 import si.banani.tiles.DialogPoint;
 import si.banani.tiles.Door;
 import si.banani.tiles.EndPoint;
+import si.banani.tiles.GhostBridge;
 import si.banani.tiles.Ladder;
 import si.banani.tiles.MovingPlatform;
 import si.banani.tiles.Potion;
@@ -111,6 +112,9 @@ public class WorldCreator {
                     Door door = new Door(world, rect, TextureManager.getRegionByName("doors").split(32, 64)[0], 0f);
                     Scene.addObjectToScene( door );
                     addDoorToSwitchWithIndex(currSwitch, door);
+                    break;
+                case GHOSTBRIDGE:
+                    Scene.addObjectToScene(new GhostBridge(world, rect));
                     break;
                 case GHOST_PATH:
                     bdef.type = BodyDef.BodyType.StaticBody;

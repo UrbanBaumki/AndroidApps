@@ -22,5 +22,6 @@ public enum Tiles {
     ENEMIES,
     WATER,
     PLATFORM,
-    CUTSCENE
+    CUTSCENE,
+    GHOSTBRIDGE
 }

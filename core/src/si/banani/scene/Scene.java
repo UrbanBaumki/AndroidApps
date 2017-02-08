@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import si.banani.tiles.Box;
 import si.banani.tiles.Door;
+import si.banani.tiles.GhostBridge;
 import si.banani.tiles.Ladder;
 import si.banani.tiles.MovingPlatform;
 import si.banani.tiles.Potion;
@@ -120,6 +121,16 @@ public class Scene {
                 Water w = (Water)o;
                 w.setCamera(camera);
                 w.render(batch, dt);
+            }
+        }
+    }
+    public static void showBridge(boolean show){
+        for( Object o : sceneObjects){
+            if(o instanceof GhostBridge){
+                if(show)
+                ((GhostBridge)o).setTouchable();
+                else
+                    ((GhostBridge)o).setUntouchable();
             }
         }
     }

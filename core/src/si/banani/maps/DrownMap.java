@@ -117,7 +117,9 @@ public class DrownMap extends Map {
 
         //tiled map background images
         mapRenderer.getBatch().setProjectionMatrix(camera.combined);
+        mapRenderer.getBatch().begin();
         mapRenderer.renderTileLayer((TiledMapTileLayer)_currentMap.getLayers().get("Bg"));
+        mapRenderer.getBatch().end();
 
         batch.setProjectionMatrix(camera.combined);
 

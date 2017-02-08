@@ -130,7 +130,7 @@
   </object>
  </objectgroup>
  <objectgroup name="Checkpoints">
-  <object id="79" x="322.667" y="396" width="53.3333" height="49.3333"/>
+  <object id="79" x="322.667" y="362.667" width="53.3333" height="82.6666"/>
  </objectgroup>
  <objectgroup name="Cutscene">
   <object id="80" x="334.591" y="-151.182" width="39.6667" height="117.879">
