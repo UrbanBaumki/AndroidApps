@@ -1,0 +1,3 @@
+Files: All image files and tilesets regarding game graphics.
+Author: Urban Baumkirher
+License: ©Urban Baumkirher

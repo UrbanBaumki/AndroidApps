@@ -1,20 +1,3 @@
-Credits
-
-Game Design
-Urban Baumkirher
-
-Programming
-Urban Baumkirher
-
-
-Art Copyright Notice
-
-Files: All image files and tilesets regarding game graphics.
-Author: Urban Baumkirher
-License: ©Urban Baumkirher
-
-Music Copyright Notice
-
 Title: "ambience1"
 Author:  InspectorJ
 Website: http://freesound.org/people/InspectorJ/
@@ -91,5 +74,3 @@ Website: https://www.youtube.com/watch?v=_JYHk_D5A44
 Date: /
 License: Royalty free license
 Filename: ending.ogg
-
-Special thanks to Kaja Udovc for helping me with level and some graphical design and for all the moral support.
