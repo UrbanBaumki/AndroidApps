@@ -27,7 +27,7 @@ import si.banani.world.WorldCreator;
 
 public class SuicMap extends Map {
 
-    private static String _mapPath [] = {"maps/ch4/ch4_lvl1.tmx", "maps/ch5/ch5_lvl2.tmx"};
+    private static String _mapPath [] = {"maps/ch4/ch4_lvl1.tmx", "maps/ch4/ch4_lvl2.tmx"};
 
     public SuicMap(World world, int level) {
         super(MapFactory.MapType.CHAPTER4, _mapPath[level], world);
@@ -86,7 +86,7 @@ public class SuicMap extends Map {
         world.step(1/60f, 6, 2);
         overlaper.update();
 
-        //WaterHandler.getInstance().update();
+        WaterHandler.getInstance().update();
 
         mapRenderer.setView(camera);
 
@@ -133,7 +133,7 @@ public class SuicMap extends Map {
 
         batch.end();
 
-        //Scene.renderWater(batch,dt, camera);
+        Scene.renderWater(batch,dt, camera);
 
 
         //maps foreground or main layer

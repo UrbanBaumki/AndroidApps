@@ -16,6 +16,7 @@ public class CheckPoint extends InteractiveTile {
     public CheckPoint(World world, Rectangle rectangle) {
         super(world, rectangle);
         fixture.setUserData(this);
+
         fixture.setSensor(true);
         spawnX = body.getPosition().x;
         spawnY = body.getPosition().y;

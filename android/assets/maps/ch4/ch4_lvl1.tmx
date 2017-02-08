@@ -11,12 +11,12 @@
  </tileset>
  <layer name="Bg" width="57" height="30">
   <data encoding="base64" compression="zlib">
-   eJztzwENADAIwDAS/Hu+C+DQKtgiAAAAAObI7oACHnfwuMOFR4CfPKd8ABM=
+   eJztzwENADAIBLFP8O8ZFxuQVsFdAgAAADBH/Q54wOMNHver3H8E2KYBuFAAFg==
   </data>
  </layer>
  <layer name="Fg" width="57" height="30">
   <data encoding="base64" compression="zlib">
-   eJztl90OgyAMhUl2s59k1+oyrp3ZnmHv/1aDrE1YUxQEBWdPctKogP2k1qiUSCQSxUmD/117YOxKJ7CChLEOaZXWO4QxPIclVQPjLcMaY9oiY2t8jhgvjNPaAuPT+G78irwPaguMqSrBaPcldE+Oxg34FHkfVO19FesUa7Uhptz4THo4tjHHt03DWg0Tx3JwY+g+0RrQZF6rfvtTrn8rXOfCxAHGXNWXT8M5vPaAOMC12Jqk+XdqWcbBE0PkPn9kpfvLvZtrM/pM3yGuNimjT7Qnl2J0e8TUPC63sZzsOLfH0bE4/0COU+XmNrfH0n10e5Kvn/WKrxvOqaLr9Y59fZU6NNe5zs1IbTnf4KVZSjHWYNF+9QEnryZ4
+   eJztl90OgjAMhXfpT+I1YNw1En0G3/+t3GKbzJMNNhhsaE9y0ijb6EdLjUqJRCJRmjT51/UPjF3pBDaQMNYhrZbNDmGMz2FN1cB4zXDGmPbI2BqfEtYL47T2wPgwvhk/E+/D2gPjUpVgtHWJrcnBuCEfE+/Dqn2ucp9yrzZg5OZn0tNnG3P8tmk6q/HEsRzcGFsn7AEN+1r1PZ9y/bfic86eONCai/rwafqOr90pDnQttScx/06tyzgEYozc58+sWF/fu7k1Y8j4Dvl6ExlDwplcitGdEVP7fLmN5WTXuTMO1+L+NRjnzlisozuTQvOsV/6+8Xmp8LzecWiuomNznevcjGjL+SKvzVKKsQaL/ldvFtsmdQ==
   </data>
  </layer>
  <objectgroup name="Floor">
@@ -51,7 +51,7 @@
   <object id="277" x="384" y="1536" width="64" height="64"/>
   <object id="289" x="2432" y="1152" width="192" height="320"/>
   <object id="290" x="2688" y="1152" width="128" height="384"/>
-  <object id="292" x="2240" y="1216" width="64" height="64"/>
+  <object id="292" x="2240" y="1216" width="70.5" height="64"/>
   <object id="294" x="2240" y="1536" width="576" height="64"/>
  </objectgroup>
  <objectgroup name="Boxes">
@@ -59,7 +59,7 @@
   <object id="252" x="707.333" y="1362.5" width="30.6666" height="27.6667"/>
   <object id="253" x="1159.33" y="1465.17" width="30.6666" height="27.6667"/>
   <object id="256" x="963.667" y="1547.17" width="30.6666" height="27.6667"/>
-  <object id="263" x="2530.27" y="1081.17" width="30.6666" height="27.6667"/>
+  <object id="263" x="2540.77" y="1096.67" width="30.6666" height="27.6667"/>
  </objectgroup>
  <objectgroup name="Switches">
   <object id="276" x="480" y="1556" width="14" height="36">

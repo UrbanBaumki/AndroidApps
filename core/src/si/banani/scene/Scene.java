@@ -88,6 +88,9 @@ public class Scene {
             if(object instanceof Box){
                 Box b = (Box) object;
                 b.render(batch, dt);
+            }else if(object instanceof MovingPlatform){
+                MovingPlatform b = (MovingPlatform) object;
+                b.render(batch, dt);
             }
             else if(object instanceof Switch){
                 Switch s = (Switch) object;

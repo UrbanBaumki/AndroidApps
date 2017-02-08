@@ -1,5 +1,7 @@
 package si.banani.tiles;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -15,9 +17,10 @@ import si.banani.learning.LearningGdx;
 public class MovingPlatform extends InteractiveTile {
 
     private  int dir;
-    private float startX, startY;
+    private float startX, startY, width, height, yOffset;
     private float offsetX, offsetY;
     private float movingSpeed;
+    private Texture platform;
     public MovingPlatform(World world, Rectangle rectangle, int offsetX, int offsetY, int dir, float movingSpeed) {
         super(world, rectangle);
         body.setType(BodyDef.BodyType.KinematicBody);
@@ -29,11 +32,16 @@ public class MovingPlatform extends InteractiveTile {
         this.offsetY = offsetY/ LearningGdx.PPM;
         this.movingSpeed = movingSpeed;
         fixture.setUserData(this);
+        platform = new Texture(Gdx.files.internal("textures/ch4/platform.png"));
+
+        this.width = platform.getWidth();
+        this.height = platform.getHeight();
+        yOffset = 0;
     }
 
     @Override
     public void render(SpriteBatch batch, float dt) {
-
+        batch.draw(platform, body.getPosition().x  -  width /2/ LearningGdx.PPM, body.getPosition().y - height/2/LearningGdx.PPM  + yOffset / LearningGdx.PPM , width / LearningGdx.PPM, height / LearningGdx.PPM);
     }
 
     @Override

@@ -107,7 +107,7 @@ public class ZombieEnemy extends BasicPlayer implements AudioSubject{
         frontCollisionFixture.setUserData(this);
         f = new Filter();
         f.categoryBits = CollisionBits.SENSOR_BIT;
-        f.maskBits = CollisionBits.OBJECT_BIT | CollisionBits.DEFAULT_BIT | CollisionBits.DOORS_BIT;
+        f.maskBits = CollisionBits.OBJECT_BIT | CollisionBits.DEFAULT_BIT | CollisionBits.DOORS_BIT | CollisionBits.GHOST_PATH_BIT;
         frontCollisionFixture.setFilterData(f);
 
         frontCollisionRadar = new PolygonShape();
