@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="64" tileheight="64" nextobjectid="81">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="20" height="15" tilewidth="64" tileheight="64" nextobjectid="84">
  <tileset firstgid="1" name="ch3_tileset" tilewidth="64" tileheight="64" spacing="2" tilecount="15" columns="15">
   <image source="ch3_tileset.png" width="1024" height="128"/>
  </tileset>
@@ -43,6 +43,8 @@
   <object id="69" x="962" y="575.333" width="190.667" height="30.6667"/>
   <object id="70" x="1152" y="448" width="128" height="64"/>
   <object id="71" x="1024" y="320" width="192" height="64"/>
+  <object id="81" x="0" y="320" width="64" height="128"/>
+  <object id="82" x="1216" y="256" width="64" height="192"/>
  </objectgroup>
  <objectgroup name="Ladders">
   <object id="1" x="897.667" y="432.5" width="35.3333" height="332.167"/>
@@ -66,7 +68,7 @@
   </object>
  </objectgroup>
  <objectgroup name="Start">
-  <object id="24" x="60" y="374"/>
+  <object id="24" x="132" y="385"/>
  </objectgroup>
  <objectgroup name="Switches">
   <object id="37" x="61.8333" y="193.833" width="10" height="36">
@@ -120,10 +122,10 @@
   </data>
  </layer>
  <objectgroup name="End">
-  <object id="77" x="1228" y="284" width="34" height="88">
+  <object id="77" x="1162" y="376" width="34" height="69">
    <properties>
     <property name="Chapter" value="CHAPTER3"/>
-    <property name="Level" value="0"/>
+    <property name="Level" value="2"/>
    </properties>
   </object>
  </objectgroup>
@@ -131,7 +133,7 @@
   <object id="79" x="322.667" y="396" width="53.3333" height="49.3333"/>
  </objectgroup>
  <objectgroup name="Cutscene">
-  <object id="80" x="262.591" y="326.818" width="39.6667" height="117.879">
+  <object id="80" x="334.591" y="-151.182" width="39.6667" height="117.879">
    <properties>
     <property name="Cutscene" value="0"/>
     <property name="DialogScreen" value="false"/>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="57" height="30" tilewidth="64" tileheight="64" nextobjectid="299">
+ <tileset firstgid="1" name="her_path" tilewidth="64" tileheight="64" spacing="2" tilecount="7" columns="7">
+  <image source="../ch3/her_path.png" width="512" height="128"/>
+ </tileset>
+ <tileset firstgid="8" name="ch4_tileset" tilewidth="64" tileheight="64" spacing="2" tilecount="45" columns="15">
+  <image source="ch4_tileset.png" width="1024" height="256"/>
+ </tileset>
+ <tileset firstgid="53" name="ch3_half_tilesets" tilewidth="64" tileheight="64" spacing="2" tilecount="15" columns="15">
+  <image source="../ch3/ch3_half_tilesets.png" width="1024" height="128"/>
+ </tileset>
+ <layer name="Bg" width="57" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztzwENADAIwDAS/Hu+C+DQKtgiAAAAAObI7oACHnfwuMOFR4CfPKd8ABM=
+  </data>
+ </layer>
+ <layer name="Fg" width="57" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztl90OgyAMhUl2s59k1+oyrp3ZnmHv/1aDrE1YUxQEBWdPctKogP2k1qiUSCQSxUmD/117YOxKJ7CChLEOaZXWO4QxPIclVQPjLcMaY9oiY2t8jhgvjNPaAuPT+G78irwPaguMqSrBaPcldE+Oxg34FHkfVO19FesUa7Uhptz4THo4tjHHt03DWg0Tx3JwY+g+0RrQZF6rfvtTrn8rXOfCxAHGXNWXT8M5vPaAOMC12Jqk+XdqWcbBE0PkPn9kpfvLvZtrM/pM3yGuNimjT7Qnl2J0e8TUPC63sZzsOLfH0bE4/0COU+XmNrfH0n10e5Kvn/WKrxvOqaLr9Y59fZU6NNe5zs1IbTnf4KVZSjHWYNF+9QEnryZ4
+  </data>
+ </layer>
+ <objectgroup name="Floor">
+  <object id="221" x="192" y="703" width="64" height="704"/>
+  <object id="222" x="256" y="1215" width="448" height="192"/>
+  <object id="223" x="768" y="1309" width="64" height="34"/>
+  <object id="224" x="897" y="1215" width="511" height="128"/>
+  <object id="225" x="640" y="1407" width="512" height="64"/>
+  <object id="226" x="1088" y="1471" width="64" height="64"/>
+  <object id="227" x="1152" y="1500" width="64" height="35"/>
+  <object id="228" x="1280" y="1343" width="128" height="320"/>
+  <object id="229" x="896" y="1599" width="384" height="128"/>
+  <object id="230" x="191" y="1599" width="513" height="128"/>
+  <object id="231" x="192" y="1407" width="448" height="128"/>
+  <object id="232" x="192" y="1535" width="64" height="64"/>
+  <object id="233" x="960" y="831" width="128" height="320"/>
+  <object id="234" x="704" y="1727" width="192" height="64"/>
+  <object id="235" x="1408" y="1279" width="128" height="448"/>
+  <object id="236" x="1536" y="1343" width="256" height="64"/>
+  <object id="237" x="1536" y="1535" width="704" height="64"/>
+  <object id="238" x="2176" y="1215" width="64" height="320"/>
+  <object id="239" x="1856" y="1343" width="256" height="64"/>
+  <object id="241" x="1664" y="1089" width="256" height="126"/>
+  <object id="242" x="1730" y="575" width="192" height="448"/>
+  <object id="243" x="1920" y="1151" width="320" height="64"/>
+  <object id="245" x="2176" y="1599" width="384" height="64"/>
+  <object id="255" x="704" y="1663.5" width="64" height="29"/>
+  <object id="258" x="832" y="1280" width="64" height="64"/>
+  <object id="264" x="2752" y="256" width="64" height="896"/>
+  <object id="265" x="192" y="256" width="2560" height="64"/>
+  <object id="273" x="1920" y="1216" width="128" height="64"/>
+  <object id="277" x="384" y="1536" width="64" height="64"/>
+  <object id="289" x="2432" y="1152" width="192" height="320"/>
+  <object id="290" x="2688" y="1152" width="128" height="384"/>
+  <object id="292" x="2240" y="1216" width="64" height="64"/>
+  <object id="294" x="2240" y="1536" width="576" height="64"/>
+ </objectgroup>
+ <objectgroup name="Boxes">
+  <object id="251" x="1163" y="1568.5" width="30.6666" height="27.6667"/>
+  <object id="252" x="707.333" y="1362.5" width="30.6666" height="27.6667"/>
+  <object id="253" x="1159.33" y="1465.17" width="30.6666" height="27.6667"/>
+  <object id="256" x="963.667" y="1547.17" width="30.6666" height="27.6667"/>
+  <object id="263" x="2530.27" y="1081.17" width="30.6666" height="27.6667"/>
+ </objectgroup>
+ <objectgroup name="Switches">
+  <object id="276" x="480" y="1556" width="14" height="36">
+   <properties>
+    <property name="Dir" value="-1"/>
+    <property name="Type" value="player"/>
+   </properties>
+  </object>
+  <object id="279" x="1536.32" y="1470.59" width="14" height="36">
+   <properties>
+    <property name="Dir" value="-1"/>
+    <property name="Type" value="player"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Doors">
+  <object id="278" x="962.667" y="1152" width="28" height="64"/>
+  <object id="280" x="1748" y="1024" width="18" height="64"/>
+  <object id="282" x="1974" y="1283" width="21" height="60"/>
+ </objectgroup>
+ <objectgroup name="Start">
+  <object id="246" x="412.848" y="1140.09" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Ladders">
+  <object id="270" x="1630.67" y="1085" width="33.3333" height="256"/>
+  <object id="271" x="1792.83" y="1344.33" width="36.8333" height="187"/>
+  <object id="272" x="2113.58" y="1342.5" width="36.8333" height="187"/>
+  <object id="287" x="2624" y="1152" width="33" height="384"/>
+ </objectgroup>
+ <objectgroup name="Swings"/>
+ <objectgroup name="GhostPath">
+  <object id="240" x="1920" y="1407" width="128" height="128"/>
+  <object id="286" x="2432" y="1472" width="64" height="64"/>
+  <object id="291" x="2624" y="1152" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="Potions">
+  <object id="274" x="574.5" y="1559.5" width="31" height="33">
+   <properties>
+    <property name="Type" value="health"/>
+   </properties>
+  </object>
+  <object id="275" x="530.5" y="1559.5" width="31" height="33">
+   <properties>
+    <property name="Type" value="health"/>
+   </properties>
+  </object>
+  <object id="281" x="2057.23" y="1298.65" width="31" height="33">
+   <properties>
+    <property name="Type" value="energy"/>
+   </properties>
+  </object>
+  <object id="296" x="2581.47" y="1489.56" width="31" height="33">
+   <properties>
+    <property name="Type" value="energy"/>
+   </properties>
+  </object>
+  <object id="297" x="2699.65" y="1101.68" width="31" height="33">
+   <properties>
+    <property name="Type" value="energy"/>
+   </properties>
+  </object>
+  <object id="298" x="1202.68" y="1168.35" width="31" height="33">
+   <properties>
+    <property name="Type" value="energy"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="Paths" width="57" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztz7ENACAMA7AK+v/NwAWIoTBgS5myJBEAAAAAwC/aTL4eUWz3cfX90hYAzgyBSAAS
+  </data>
+ </layer>
+ <objectgroup name="Spikes">
+  <object id="267" x="704" y="1694.67" width="192" height="33.3333"/>
+ </objectgroup>
+ <objectgroup name="Dialogs"/>
+ <objectgroup name="End">
+  <object id="268" x="2546.52" y="985.682" width="174" height="159.667">
+   <properties>
+    <property name="Chapter" value="CHAPTER4"/>
+    <property name="Level" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Checkpoints">
+  <object id="247" x="2048" y="851" width="64" height="300"/>
+  <object id="248" x="1540" y="1041" width="64" height="300"/>
+ </objectgroup>
+ <objectgroup name="Enemies">
+  <object id="284" x="1654.45" y="1476.38" width="30.5" height="23">
+   <properties>
+    <property name="Type" value="ZOMBIE"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Water"/>
+ <objectgroup name="Props">
+  <object id="249" x="860.292" y="1577.71" width="170.083" height="13.25">
+   <properties>
+    <property name="Density" value="1f"/>
+   </properties>
+  </object>
+  <object id="261" x="2402.96" y="1128.38" width="170.083" height="13.25">
+   <properties>
+    <property name="Density" value="2f"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

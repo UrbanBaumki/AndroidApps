@@ -45,6 +45,13 @@ public class MapFactory {
                     _maps.put(MapType.CHAPTER3, map);
                 }
                 break;
+            case CHAPTER4:
+                map = _maps.get(MapType.CHAPTER4);
+                if(map == null){
+                    map = new SuicMap(world, level);
+                    _maps.put(MapType.CHAPTER4, map);
+                }
+                break;
 
             case CHAPTER5:
                 map = _maps.get(MapType.CHAPTER5);

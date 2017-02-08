@@ -197,7 +197,11 @@ public class MapManager implements ProfileObserver{
             case SAVING_PROFILE:
 
                 //another check if we are in a new chapter so save doesn't exist yet.
+                System.out.println(currentMapType.toString());
                 Chapter cc = profileManager.getChapter(currentMapType.toString());
+                if(currentMapType.toString().equals("CHAPTER4")){
+                    int i = 0;
+                }
                 if(cc == null){
                     cc = new Chapter();
                     profileManager.addChapter(currentMapType.toString(), cc);

@@ -385,7 +385,7 @@ public class Play extends BaseScreen {
         this.inputController.draw();
 
         //debuger
-       box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
+       //box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
         if(switchToCutscene){
             switchToCutscene = false;
             ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.CUTSCENE, batch, cutsceneNumber);
