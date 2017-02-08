@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 
+import si.banani.tiles.BlockerBlock;
 import si.banani.tiles.Box;
 import si.banani.tiles.Door;
 import si.banani.tiles.GhostBridge;
@@ -131,6 +132,16 @@ public class Scene {
                 ((GhostBridge)o).setTouchable();
                 else
                     ((GhostBridge)o).setUntouchable();
+            }
+        }
+    }
+    public static  void unblock(boolean b){
+        for( Object o : sceneObjects){
+            if(o instanceof BlockerBlock){
+                if(b)
+                    ((BlockerBlock)o).unblock();
+                else
+                    ((BlockerBlock)o).block();
             }
         }
     }

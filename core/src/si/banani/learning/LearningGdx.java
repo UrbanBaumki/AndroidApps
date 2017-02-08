@@ -36,7 +36,7 @@ public class LearningGdx extends Game {
 		if(batch == null)
 			batch = new SpriteBatch();
 		ScreenManager.getInstance().bindWithMainGameClass(this);
-		ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER1);
+		ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.MAIN_MENU, batch);
 	}
 
 	public static SpriteBatch getSpriteBatch(){

@@ -31,7 +31,7 @@ import si.banani.world.WorldCreator;
 public class SadMap extends Map {
 
 
-    private static String _mapPath[] = {"maps/ch3/ch3_lvl0.tmx", "maps/ch3/ch3_lvl1.tmx", "maps/ch3/ch3_lvl2.tmx"};
+    private static String _mapPath[] = {"maps/ch3/ch3_lvl1.tmx", "maps/ch3/ch3_lvl2.tmx"};
     private Texture [] rain = {new Texture(Gdx.files.internal("textures/ch3/rain1.png")),new Texture(Gdx.files.internal("textures/ch3/rain2.png")), new Texture(Gdx.files.internal("textures/ch3/rain3.png")), new Texture(Gdx.files.internal("textures/ch3/rain4.png"))};
     private float rainTimer = 0f;
     private float rainAnimate=0.1f;

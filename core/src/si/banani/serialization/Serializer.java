@@ -143,8 +143,7 @@ public class Serializer extends ProfileSubject{
 
     public void saveGame(){
         notify(this, ProfileObserver.ProfileEvent.SAVING_PROFILE);
-        saveObject("save", currentSave, true);
-        saveObject("progress", currentProgress, true);
+
         saveObject("chapterProgress", chapterDescriptor, true);
     }
     public void setCurrentProgress(ProgressDescriptor prog){

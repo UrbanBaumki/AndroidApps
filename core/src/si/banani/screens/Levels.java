@@ -40,14 +40,14 @@ public class Levels extends BaseScreen {
     private Label.LabelStyle style;
     private TweenManager tweenManager;
 
-    private int numOfCompletedChapters = 0;
+    private int numOfCompletedChapters = 5;
     public Levels(SpriteBatch sb) {
         super(sb);
 
         ChapterDescriptor progress = Serializer.getInstance().loadDescriptor(ChapterDescriptor.class, "chapterProgress");
         MapFactory.MapType [] types = MapFactory.MapType.values();
 
-        if(progress!= null){
+        /*if(progress!= null){
 
             for(int i = 0; i < types.length; i++){
                 MapFactory.MapType type = types[i];
@@ -65,7 +65,7 @@ public class Levels extends BaseScreen {
 
             }
 
-        }
+        }*/
 
         viewport = new FitViewport(LearningGdx.V_WIDTH, LearningGdx.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, batch);
@@ -82,10 +82,10 @@ public class Levels extends BaseScreen {
 
         selectChapter = new Label("Select a chapter:", style);
         ch1 = new Label("Chapter 1: Loneliness", style);
-        ch2 = new Label("Chapter 2: Fear", style);
-        ch3 = new Label("Chapter 3: Sadness", style);
-        ch4 = new Label("Chapter 4: Suicide", style);
-        ch5 = new Label("Chapter 5: The End", style);
+        //ch2 = new Label("Chapter 2: Fear", style);
+        ch3 = new Label("Chapter 2: Sadness", style);
+        ch4 = new Label("Chapter 3: Fear", style);
+        ch5 = new Label("Chapter 4: Drowning", style);
 
 
         layout.add(selectChapter).expandX();
@@ -101,7 +101,7 @@ public class Levels extends BaseScreen {
             @Override
             public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 
-                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER1);
+                ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.DIALOG, batch, 1);
 
 
             }
@@ -111,22 +111,7 @@ public class Levels extends BaseScreen {
         layout.add(ch1).expandX();
 
 
-        if(numOfCompletedChapters >= 1) {
-            ch2.addListener(new InputListener() {
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 
-                    return true;
-                }
-
-                @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    ScreenManager.getInstance().changeScreensAndPause(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER2);
-                }
-            });
-            layout.row().padTop(5);
-            layout.add(ch2).expandX();
-        }
 
 
 

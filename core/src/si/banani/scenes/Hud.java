@@ -61,6 +61,14 @@ public class Hud {
 
     private OrthographicCamera givenCamera;
 
+    public boolean isDialogRunning() {
+        return dialogRunning;
+    }
+
+    public void setDialogRunning(boolean dialogRunning) {
+        this.dialogRunning = dialogRunning;
+    }
+
     public Hud(SpriteBatch batch){
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
         this.stage = new Stage(viewport, batch);

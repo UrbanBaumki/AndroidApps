@@ -105,7 +105,7 @@ public class WorldContactListener implements ContactListener {
             EndPoint end = (EndPoint) b.getUserData();
             Play.nextMap = end.getChapter();
             Play.nextLevel = end.getLevel();
-            Play.chapFinished = end.isFinished();
+            Play.chapFinished = true;
         }else if(a.getUserData() instanceof Player && (b.getUserData() instanceof RockEnemy && b.isSensor() || b.getUserData() instanceof ZombieEnemy && b.isSensor())){
          //"VIDNI" SENZOR ZA ROCK ENEMY in PLAYER KONTAKT
             ((BasicPlayer)b.getUserData()).setTarget((Player)a.getUserData());

@@ -288,9 +288,15 @@ public class Play extends BaseScreen {
         handler.setCombinedMatrix(mapManager.getCurrentCamera());
 
 
+        if(switchToCutscene){
+            switchToCutscene = false;
+            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.CUTSCENE, batch, cutsceneNumber);
+            return;
+        }
         if(nextMap != null && !switchToCutscene){
             mapManager.setFinished(chapFinished);
             chapFinished = false;
+            //Serializer.getInstance().getChapterDescriptor().getChapter(mapManager.getCurrentMapType().toString()).setFinished(chapFinished ? 1: 0);
             Serializer.getInstance().saveGame();
             mapManager.loadMap(nextMap, nextLevel);
             nextMap = null;
@@ -386,15 +392,7 @@ public class Play extends BaseScreen {
 
         //debuger
        box2DDebugRenderer.render(mapManager.getCurrentWorld(), camera.combined);
-        if(switchToCutscene){
-            switchToCutscene = false;
-            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.CUTSCENE, batch, cutsceneNumber);
-            return;
-        }else if(switchToDialogScreen){
-            switchToDialogScreen = false;
-            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.DIALOG, batch, cutsceneNumber, nextMap);
-            return;
-        }
+
 
     }
     public static void setRunning(boolean b){ running = b; }

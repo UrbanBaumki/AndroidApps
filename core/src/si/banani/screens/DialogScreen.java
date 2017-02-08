@@ -2,6 +2,7 @@ package si.banani.screens;
 
 import com.badlogic.gdx.Gdx;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -25,7 +26,6 @@ import si.banani.maps.MapFactory;
 public class DialogScreen extends BaseScreen {
 
     private BitmapFont font;
-    private String full;
     private float timeDisplayed,pauseTime, endPauseTime;
     boolean finished;
     private Table displayTable;
@@ -33,14 +33,12 @@ public class DialogScreen extends BaseScreen {
     private Label displayLabel;
     private int textNum;
     Array<String> dialogs ;
-    private MapFactory.MapType mapToChange;
 
-    public DialogScreen(SpriteBatch spriteBatch, int textNum, MapFactory.MapType mapType){
+
+    public DialogScreen(SpriteBatch spriteBatch, int textNum){
         super(spriteBatch);
 
         this.textNum = textNum;
-        mapToChange = mapType;
-
         dialogs = new Array<String>();
 
         this.viewport = new FitViewport(LearningGdx.V_WIDTH , LearningGdx.V_HEIGHT , new OrthographicCamera());
@@ -54,14 +52,19 @@ public class DialogScreen extends BaseScreen {
         displayTable.row().pad(15f);
 
 
-        font = new BitmapFont(Gdx.files.internal("allura.fnt"));
-        full = "Ljubila ga je kljub storjenim napakam, kljub temu, da je zopet opit sedel za volan in ju jezno odpeljal proti domu." +
-                "Ljubila ga je z vsem srcem, ceprav je postal agresiven in zacel glasen prepir." +
-                "Nikdar ga ni nehala ljubiti, cetudi je zdaj peljal proti nevarnemu ovinku z mocno preveliko hitrostjo.";
 
-        dialogs.add(full);
-        full = "Bla bla bla bla bla bla bla.....";
-        dialogs.add(full);
+        //Get text
+        FileHandle file = Gdx.files.internal("bin/intro.txt");
+        String introText = file.readString();
+
+        FileHandle file2 = Gdx.files.internal("bin/ending.txt");
+        String outroText = file2.readString();
+
+        font = new BitmapFont(Gdx.files.internal("allura.fnt"));
+
+
+        dialogs.add(introText);
+        dialogs.add(outroText);
 
 
         timeDisplayed = 0f;
@@ -80,7 +83,7 @@ public class DialogScreen extends BaseScreen {
 
     @Override
     public void show() {
-        Gdx.app.log("Dialog zaslon", "show");
+
     }
     private String getCurrentString(float dt){
 
@@ -104,7 +107,8 @@ public class DialogScreen extends BaseScreen {
         if(finished){
             finished = false;
             timeDisplayed = 0;
-            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.PLAY, batch, mapToChange);
+
+            ScreenManager.getInstance().changeScreensAndDispose(ScreenEnums.PLAY, batch, MapFactory.MapType.CHAPTER1);
         }
 
         updateLabelString( getCurrentString(delta) );

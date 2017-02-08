@@ -18,7 +18,7 @@ public class EnemyManager {
 
     public static ArrayList<BasicPlayer> removables = new ArrayList<BasicPlayer>();
 
-    private float activateOffset = 200 / LearningGdx.PPM;
+    private float activateOffset = 400 / LearningGdx.PPM;
 
     private static Array<BasicPlayer> forTransfer = new Array<BasicPlayer>();
     private static EnemyManager enemyManager;

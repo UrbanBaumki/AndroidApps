@@ -135,9 +135,9 @@
   <object id="88" x="3264" y="1269.33" width="127.5" height="10.6667"/>
  </objectgroup>
  <objectgroup name="Dialogs">
-  <object id="41" x="3031.33" y="1177.4" width="7" height="96.3333">
+  <object id="41" x="206.663" y="1376.07" width="7" height="96.3333">
    <properties>
-    <property name="Chapter" value="11"/>
+    <property name="Chapter" value="51"/>
    </properties>
   </object>
  </objectgroup>

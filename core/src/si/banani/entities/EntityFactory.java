@@ -1,6 +1,9 @@
 package si.banani.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -20,6 +23,10 @@ public class EntityFactory {
     private static Hud hud;
     private static OrthographicCamera camera;
     private static World world;
+
+    public static Hud getHud() {
+        return hud;
+    }
 
     public static enum EntityType{
         PLAYER,
@@ -62,7 +69,7 @@ public class EntityFactory {
                 p = new RockEnemy(world, (int)rect.getX(), (int)rect.getY(), 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f);
                 break;
             case ZOMBIE:
-                p = new ZombieEnemy(world, (int)rect.getX(), (int)rect.getY(), 16, 10, BodyDef.BodyType.DynamicBody, TextureManager.getRegionByName("rockEnemy").split(44,37)[0], 1/4f);
+                p = new ZombieEnemy(world, (int)rect.getX(), (int)rect.getY(), 16, 10, BodyDef.BodyType.DynamicBody, new TextureRegion(new Texture(Gdx.files.internal("textures/props/zombie.png"))).split(20,48)[0], 1/4f);
                 break;
             default:
 

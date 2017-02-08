@@ -28,6 +28,7 @@ import si.banani.learning.LearningGdx;
 import si.banani.maps.MapFactory;
 import si.banani.scene.Scene;
 import si.banani.textures.TextureManager;
+import si.banani.tiles.BlockerBlock;
 import si.banani.tiles.Box;
 import si.banani.tiles.CheckPoint;
 import si.banani.tiles.CutscenePoint;
@@ -107,6 +108,9 @@ public class WorldCreator {
                     Switch s = new Switch(world, rect, tr, 1/10f, d, switchType);
                     Scene.addObjectToScene( s );
                     this.switches.add(s);
+                    break;
+                case BLOCKER:
+                    Scene.addObjectToScene(new BlockerBlock(world, rect));
                     break;
                 case DOORS:
                     Door door = new Door(world, rect, TextureManager.getRegionByName("doors").split(32, 64)[0], 0f);

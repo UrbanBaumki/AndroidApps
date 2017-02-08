@@ -30,7 +30,7 @@ import si.banani.world.WorldCreator;
 
 public class LoneMap extends Map {
 
-    private static String _mapPath [] = {"maps/ch1/ch1_lvl1.tmx"};
+    private static String _mapPath [] = { "maps/ch1/ch1_lvl1.tmx"};
 
     public LoneMap(World world, int level) {
         super(MapFactory.MapType.CHAPTER1, _mapPath[level], world);

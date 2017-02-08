@@ -23,5 +23,6 @@ public enum Tiles {
     WATER,
     PLATFORM,
     CUTSCENE,
-    GHOSTBRIDGE
+    GHOSTBRIDGE,
+    BLOCKER
 }

@@ -29,7 +29,7 @@ import si.banani.world.WorldCreator;
 
 public class DrownMap extends Map {
 
-    private static String _mapPath [] = {"maps/ch5/ch5_lvl1.tmx", "maps/ch5/ch5_lvl2.tmx"};
+    private static String _mapPath [] = {"maps/ch5/ch5_lvl1.tmx", "maps/ch5/ch5_lvl2.tmx", "maps/ch5/ch5_lvl3.tmx"};
 
     public DrownMap(World world, int level){
         super(MapFactory.MapType.CHAPTER5, _mapPath[level], world);
@@ -64,6 +64,7 @@ public class DrownMap extends Map {
         worldCreator.createTileFixtures("Potions", Tiles.POTION);
         worldCreator.createTileFixtures("Checkpoints", Tiles.CHECKPOINT);
         worldCreator.createTileFixtures("Cutscene", Tiles.CUTSCENE);
+        worldCreator.createTileFixtures("Blocker", Tiles.BLOCKER);
 
         worldCreator.createTileFixtures("Start", Tiles.START);
         worldCreator.createTileFixtures("End", Tiles.END);
@@ -88,6 +89,11 @@ public class DrownMap extends Map {
         world.step(1/60f, 6, 2);
         overlaper.update();
 
+        if(EntityFactory.getHud().isDialogRunning())
+
+            Scene.unblock(false);
+        else
+            Scene.unblock(true);
         WaterHandler.getInstance().update();
 
         mapRenderer.setView(camera);

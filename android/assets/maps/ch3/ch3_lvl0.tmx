@@ -19,7 +19,7 @@
   <object id="1" x="92" y="79"/>
  </objectgroup>
  <objectgroup name="Cutscene">
-  <object id="2" x="1" y="1" width="317" height="3214">
+  <object id="2" x="1" y="75" width="317" height="3140">
    <properties>
     <property name="Cutscene" value="1"/>
     <property name="DialogScreen" value="true"/>
